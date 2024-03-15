@@ -1,25 +1,156 @@
 ---
-title: "Clase 2"
+title: "Clase 2: Exploración y Geoprocesamiento de Vectores"
 format: html
 editor: visual
 ---
 
-El contenido de esta clase se basara mayoritariamente en el libro `Community Ecology Analytical Methods Using R and Excel` by `Mark Gardener`
-
-Los índices de diversidad biológica son medidas cuantitativas que se utilizan para evaluar la diversidad de especies en un área determinada. Estos índices se utilizan comúnmente en la ecología y la conservación para medir la riqueza de especies, la evenness (equidad) de la distribución de especies y la distancia entre especies. Algunos ejemplos comunes de índices de diversidad biológica incluyen:
-
--   Índice de Shannon: mide la diversidad de especies en un área y también tiene en cuenta la evenness de la distribución de especies.
-
--   Índice de Simpson: mide la diversidad de especies en un área y también tiene en cuenta la riqueza de especies.
-
--   Índice de Berger-Parker: mide la diversidad de especies en un área y se basa en la riqueza de especies y en la proporción de individuos de la especie más abundante.
-
--   Índice de Margalef: mide la diversidad de especies en un área y se basa en la riqueza de especies y en la diferencia entre la riqueza de especies y el número de especies comunes.
-
--   Índice de Jaccard: mide la similitud entre dos conjuntos de especies y se basa en la proporción de especies comunes entre los conjuntos.
+En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.
 
 ::: panel-tabset
-## Diversidad: Riqueza de especies.
+
+Para empezar, es necesario instalar los paquetes `sf` y `ggplot2`.
+
+```{r}
+require(sf)
+require(ggplot2)
+```
+
+## Creación de Vectores
+
+Comenzaremos aprendiendo cómo crear un vector de puntos utilizando una base de datos que contiene coordenadas de latitud y longitud.
+
+- Cargar base de datos
+
+```{r}
+csv_data    <- read.csv("data/Adelges_tsugae.csv")
+
+```
+
+- CConversión de un Dataframe a un Vector
+La función `st_as_sf` del paquete `sf` nos permite transformar un dataframe en un vector espacial. Para ello, es necesario especificar qué columnas contienen nuestras coordenadas de latitud y longitud, así como conocer el sistema de proyección utilizado para dichas coordenadas en el campo.
+
+```{r}
+points_sf   <- st_as_sf(csv_data, 
+                        coords = c("Longitude", "Latitude"),
+                        crs = 4326)
+```
+
+## Introducción a los archivos .shp
+
+Los archivos shapefile `(.shp)` son un formato estándar para representar datos geoespaciales en sistemas de información geográfica (SIG). Estos archivos están compuestos por varios componentes, incluyendo un archivo principal `(.shp)` que contiene la geometría de los objetos espaciales, un archivo de índice `(.shx)` que almacena el índice espacial para acelerar las consultas, y un archivo de atributos (.dbf) que guarda los atributos asociados a las geometrías.
+
+- Breve descripción de cómo cargarlos en R con la función `st_read()`:
+
+En R, para cargar archivos shapefile, utilizamos la función `st_read()` del paquete sf. Esta función permite leer los archivos `.shp` y crear un objeto espacial en formato sf que contiene la geometría y los atributos del shapefile. Al llamar a st_read(), simplemente proporcionamos la ruta al archivo .shp como argumento, y la función se encarga de cargar todos los componentes necesarios.
+
+```{r}
+polygon_sf  <- st_read("data/counties/COUNTIES_ARC.shp")
+```
+
+## Identificar proyeccion de capa
+
+Identificar la proyección de una capa geoespacial implica determinar el sistema de coordenadas utilizado para representar los datos en el espacio. Este sistema define cómo se relacionan las coordenadas de latitud y longitud con la ubicación en la superficie terrestre. La proyección puede ser expresada mediante códigos EPSG (European Petroleum Survey Group) o PROJ (PROJection), entre otros sistemas de referencia espacial.
+
+Para identificar la proyección de una capa en R, podemos utilizar la función `st_crs()` del paquete `sf`. Esta función devuelve información sobre la proyección de un objeto espacial, incluyendo el código EPSG o PROJ utilizado.
+
+```{r}
+pts_crs <- st_crs(points_sf)
+pts_crs
+```
+
+## Reproyectar el sistema de coordenadas
+
+Reproyectar el sistema de coordenadas de una capa shapefile implica cambiar su proyección a otra definida. Esto puede ser necesario para integrar datos de diferentes fuentes o para realizar análisis en un sistema de coordenadas específico.
+
+En R, podemos reproyectar una capa shapefile utilizando la función `st_transform()` del paquete `sf`. Esta función toma como argumento el objeto espacial que queremos reproyectar y la especificación del nuevo sistema de coordenadas, ya sea mediante su código EPSG o PROJ.
+
+```{r}
+polygon_sf  <- st_transform(polygon_sf, crs = pts_crs)
+```
+
+- Cómo determinar si dos capas tienen la misma proyección
+
+```{r}
+st_crs(polygon_sf) == st_crs(points_sf)
+```
+
+- Integridad y la calidad de los datos espaciales
+
+La función st_is_valid() comprueba si el objeto espacial dado cumple con las reglas geométricas, como la ausencia de solapamientos, la correcta orientación de los polígonos, la integridad de las geometrías, entre otras. Si el objeto es válido, la función devolverá TRUE; de lo contrario, devolverá FALSE junto con un mensaje que indica el tipo de problema geométrico encontrado.
+
+Esta función es útil para garantizar la integridad y la calidad de los datos espaciales, especialmente antes de realizar análisis espaciales o visualizaciones que dependen de la correcta representación de las geometrías.
+
+```{r}
+Valid <- st_is_valid(polygon_sf)
+head(Valid)
+```
+
+
+- Corregir problemas geométricos en objetos espaciales
+
+La función `st_make_valid()` en R se utiliza para corregir problemas geométricos en objetos espaciales, como polígonos, que podrían causar que no sean válidos según las reglas de la geometría espacial. Estos problemas podrían incluir intersecciones de límites, huecos no válidos, geometrías superpuestas, entre otros.
+
+```{r}
+polygon_sf_valid <- st_make_valid(polygon_sf)
+```
+
+## Proceso de Recorte de Capa Espacial
+
+El código `clip_result <- st_crop(points_sf, polygon_sf)` ejecuta un proceso de recorte sobre una capa espacial representada por `points_sf`, utilizando como máscara otra capa espacial representada por `polygon_sf`.
+
+Este proceso de recorte tiene como resultado un nuevo objeto espacial, `clip_result`, que contiene únicamente las geometrías de `points_sf` que están dentro del área definida por `polygon_sf`. 
+
+Este proceso es útil para filtrar datos espaciales y limitar su extensión geográfica a un área específica definida por otra capa espacial.
+
+```{r}
+clip_result <- st_crop(points_sf, polygon_sf)
+
+# clip_result <- st_intersection(polygon_sf, points_sf)
+
+```
+
+## Visualización de Capas Espaciales
+
+El código a continuación se encarga de visualizar dos capas espaciales en un mismo gráfico utilizando `ggplot2`. La función `geom_sf()` se utiliza para representar las geometrías espaciales de cada capa.
+
+La primera capa, representada por `polygon_sf_valid`, se muestra con un relleno de color azul claro y un borde oscuro.
+
+La segunda capa, representada por `clip_result`, se muestra con un relleno rojo y una transparencia del 50%.
+
+El tema del gráfico se establece en el estilo clásico mediante `theme_classic()`. 
+
+Este código proporciona una forma rápida y efectiva de visualizar múltiples capas espaciales en un solo gráfico para su análisis y exploración.
+
+```{r}
+ggplot() +
+  geom_sf(data = polygon_sf_valid, 
+          fill = "lightblue", color = "darkblue") +
+  geom_sf(data = clip_result, 
+          fill = "red", alpha = 0.5) + 
+  theme_classic()
+```
+
+
+# Creación de Buffer Espacial
+
+La creación de un buffer espacial implica generar una zona alrededor de una geometría específica a una distancia determinada.
+
+La función `st_buffer()` del paquete `sf` se utiliza para crear buffers alrededor de geometrías espaciales. En este ejemplo, se crea un buffer alrededor de las geometrías de clip_result con una distancia de 1000 unidades, que podría ser en metros, kilómetros, grados, etc, dependiendo del sistema de coordenadas utilizado.
+
+```{r}
+buffer_result <- st_buffer(clip_result, dist = 1000)
+```
+
+- Visualización del Buffer
+
+```{r}
+ggplot() +
+  geom_sf(data = polygon_sf_valid,
+          fill = "lightblue", color = "darkblue") +
+  geom_sf(data = buffer_result, 
+          fill = "red", alpha = 0.5) + 
+  theme_classic()
+```
 
 
 :::

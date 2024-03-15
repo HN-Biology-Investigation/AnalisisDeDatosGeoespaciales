@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clase 2</title>
+<title>Clase 2: Exploración y Geoprocesamiento de Vectores</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -45,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase 2</h1>
+<h1 class="title">Clase 2: Exploración y Geoprocesamiento de Vectores</h1>
 </div>
 
 
@@ -60,20 +94,173 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>El contenido de esta clase se basara mayoritariamente en el libro <code>Community Ecology Analytical Methods Using R and Excel</code> by <code>Mark Gardener</code></p>
-<p>Los índices de diversidad biológica son medidas cuantitativas que se utilizan para evaluar la diversidad de especies en un área determinada. Estos índices se utilizan comúnmente en la ecología y la conservación para medir la riqueza de especies, la evenness (equidad) de la distribución de especies y la distancia entre especies. Algunos ejemplos comunes de índices de diversidad biológica incluyen:</p>
-<ul>
-<li><p>Índice de Shannon: mide la diversidad de especies en un área y también tiene en cuenta la evenness de la distribución de especies.</p></li>
-<li><p>Índice de Simpson: mide la diversidad de especies en un área y también tiene en cuenta la riqueza de especies.</p></li>
-<li><p>Índice de Berger-Parker: mide la diversidad de especies en un área y se basa en la riqueza de especies y en la proporción de individuos de la especie más abundante.</p></li>
-<li><p>Índice de Margalef: mide la diversidad de especies en un área y se basa en la riqueza de especies y en la diferencia entre la riqueza de especies y el número de especies comunes.</p></li>
-<li><p>Índice de Jaccard: mide la similitud entre dos conjuntos de especies y se basa en la proporción de especies comunes entre los conjuntos.</p></li>
-</ul>
+<p>En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Diversidad: Riqueza de especies.</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Creación de Vectores</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Introducción a los archivos .shp</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Identificar proyeccion de capa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Reproyectar el sistema de coordenadas</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Proceso de Recorte de Capa Espacial</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Visualización de Capas Espaciales</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-
+<p>Comenzaremos aprendiendo cómo crear un vector de puntos utilizando una base de datos que contiene coordenadas de latitud y longitud.</p>
+<ul>
+<li>Cargar base de datos</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>csv_data    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/Adelges_tsugae.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>CConversión de un Dataframe a un Vector La función <code>st_as_sf</code> del paquete <code>sf</code> nos permite transformar un dataframe en un vector espacial. Para ello, es necesario especificar qué columnas contienen nuestras coordenadas de latitud y longitud, así como conocer el sistema de proyección utilizado para dichas coordenadas en el campo.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>points_sf   <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(csv_data, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Longitude"</span>, <span class="st">"Latitude"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">crs =</span> <span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Los archivos shapefile <code>(.shp)</code> son un formato estándar para representar datos geoespaciales en sistemas de información geográfica (SIG). Estos archivos están compuestos por varios componentes, incluyendo un archivo principal <code>(.shp)</code> que contiene la geometría de los objetos espaciales, un archivo de índice <code>(.shx)</code> que almacena el índice espacial para acelerar las consultas, y un archivo de atributos (.dbf) que guarda los atributos asociados a las geometrías.</p>
+<ul>
+<li>Breve descripción de cómo cargarlos en R con la función <code>st_read()</code>:</li>
+</ul>
+<p>En R, para cargar archivos shapefile, utilizamos la función <code>st_read()</code> del paquete sf. Esta función permite leer los archivos <code>.shp</code> y crear un objeto espacial en formato sf que contiene la geometría y los atributos del shapefile. Al llamar a st_read(), simplemente proporcionamos la ruta al archivo .shp como argumento, y la función se encarga de cargar todos los componentes necesarios.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>polygon_sf  <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/counties/COUNTIES_ARC.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `COUNTIES_ARC' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\counties\COUNTIES_ARC.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 359 features and 3 fields
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: 33861.26 ymin: 777514.3 xmax: 330846.1 ymax: 959747.4
+Projected CRS: NAD83 / Massachusetts Mainland</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Identificar la proyección de una capa geoespacial implica determinar el sistema de coordenadas utilizado para representar los datos en el espacio. Este sistema define cómo se relacionan las coordenadas de latitud y longitud con la ubicación en la superficie terrestre. La proyección puede ser expresada mediante códigos EPSG (European Petroleum Survey Group) o PROJ (PROJection), entre otros sistemas de referencia espacial.</p>
+<p>Para identificar la proyección de una capa en R, podemos utilizar la función <code>st_crs()</code> del paquete <code>sf</code>. Esta función devuelve información sobre la proyección de un objeto espacial, incluyendo el código EPSG o PROJ utilizado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pts_crs <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(points_sf)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pts_crs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: EPSG:4326 
+  wkt:
+GEOGCRS["WGS 84",
+    ENSEMBLE["World Geodetic System 1984 ensemble",
+        MEMBER["World Geodetic System 1984 (Transit)"],
+        MEMBER["World Geodetic System 1984 (G730)"],
+        MEMBER["World Geodetic System 1984 (G873)"],
+        MEMBER["World Geodetic System 1984 (G1150)"],
+        MEMBER["World Geodetic System 1984 (G1674)"],
+        MEMBER["World Geodetic System 1984 (G1762)"],
+        MEMBER["World Geodetic System 1984 (G2139)"],
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]],
+        ENSEMBLEACCURACY[2.0]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["geodetic latitude (Lat)",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["geodetic longitude (Lon)",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    USAGE[
+        SCOPE["Horizontal component of 3D system."],
+        AREA["World."],
+        BBOX[-90,-180,90,180]],
+    ID["EPSG",4326]]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>Reproyectar el sistema de coordenadas de una capa shapefile implica cambiar su proyección a otra definida. Esto puede ser necesario para integrar datos de diferentes fuentes o para realizar análisis en un sistema de coordenadas específico.</p>
+<p>En R, podemos reproyectar una capa shapefile utilizando la función <code>st_transform()</code> del paquete <code>sf</code>. Esta función toma como argumento el objeto espacial que queremos reproyectar y la especificación del nuevo sistema de coordenadas, ya sea mediante su código EPSG o PROJ.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>polygon_sf  <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(polygon_sf, <span class="at">crs =</span> pts_crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Cómo determinar si dos capas tienen la misma proyección</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(polygon_sf) <span class="sc">==</span> <span class="fu">st_crs</span>(points_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<ul>
+<li>Integridad y la calidad de los datos espaciales</li>
+</ul>
+<p>La función st_is_valid() comprueba si el objeto espacial dado cumple con las reglas geométricas, como la ausencia de solapamientos, la correcta orientación de los polígonos, la integridad de las geometrías, entre otras. Si el objeto es válido, la función devolverá TRUE; de lo contrario, devolverá FALSE junto con un mensaje que indica el tipo de problema geométrico encontrado.</p>
+<p>Esta función es útil para garantizar la integridad y la calidad de los datos espaciales, especialmente antes de realizar análisis espaciales o visualizaciones que dependen de la correcta representación de las geometrías.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Valid <span class="ot">&lt;-</span> <span class="fu">st_is_valid</span>(polygon_sf)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+</div>
+</div>
+<ul>
+<li>Corregir problemas geométricos en objetos espaciales</li>
+</ul>
+<p>La función <code>st_make_valid()</code> en R se utiliza para corregir problemas geométricos en objetos espaciales, como polígonos, que podrían causar que no sean válidos según las reglas de la geometría espacial. Estos problemas podrían incluir intersecciones de límites, huecos no válidos, geometrías superpuestas, entre otros.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>polygon_sf_valid <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(polygon_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<p>El código <code>clip_result &lt;- st_crop(points_sf, polygon_sf)</code> ejecuta un proceso de recorte sobre una capa espacial representada por <code>points_sf</code>, utilizando como máscara otra capa espacial representada por <code>polygon_sf</code>.</p>
+<p>Este proceso de recorte tiene como resultado un nuevo objeto espacial, <code>clip_result</code>, que contiene únicamente las geometrías de <code>points_sf</code> que están dentro del área definida por <code>polygon_sf</code>.</p>
+<p>Este proceso es útil para filtrar datos espaciales y limitar su extensión geográfica a un área específica definida por otra capa espacial.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>clip_result <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(points_sf, polygon_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: attribute variables are assumed to be spatially constant throughout
+all geometries</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clip_result &lt;- st_intersection(polygon_sf, points_sf)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<p>El código a continuación se encarga de visualizar dos capas espaciales en un mismo gráfico utilizando <code>ggplot2</code>. La función <code>geom_sf()</code> se utiliza para representar las geometrías espaciales de cada capa.</p>
+<p>La primera capa, representada por <code>polygon_sf_valid</code>, se muestra con un relleno de color azul claro y un borde oscuro.</p>
+<p>La segunda capa, representada por <code>clip_result</code>, se muestra con un relleno rojo y una transparencia del 50%.</p>
+<p>El tema del gráfico se establece en el estilo clásico mediante <code>theme_classic()</code>.</p>
+<p>Este código proporciona una forma rápida y efectiva de visualizar múltiples capas espaciales en un solo gráfico para su análisis y exploración.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> polygon_sf_valid, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> clip_result, </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Clase2_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="creación-de-buffer-espacial" class="level1">
+<h1>Creación de Buffer Espacial</h1>
+<p>La creación de un buffer espacial implica generar una zona alrededor de una geometría específica a una distancia determinada.</p>
+<p>La función <code>st_buffer()</code> del paquete <code>sf</code> se utiliza para crear buffers alrededor de geometrías espaciales. En este ejemplo, se crea un buffer alrededor de las geometrías de clip_result con una distancia de 1000 unidades, que podría ser en metros, kilómetros, grados, etc, dependiendo del sistema de coordenadas utilizado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>buffer_result <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(clip_result, <span class="at">dist =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Visualización del Buffer</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> polygon_sf_valid,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> buffer_result, </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Clase2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
 </div>
 </div>
 </div>
