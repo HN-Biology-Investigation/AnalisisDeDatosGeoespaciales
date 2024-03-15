@@ -1,0 +1,27 @@
+---
+title: "Clase 2"
+format: html
+editor: visual
+---
+
+El contenido de esta clase se basara mayoritariamente en el libro `Community Ecology Analytical Methods Using R and Excel` by `Mark Gardener`
+
+Los índices de diversidad biológica son medidas cuantitativas que se utilizan para evaluar la diversidad de especies en un área determinada. Estos índices se utilizan comúnmente en la ecología y la conservación para medir la riqueza de especies, la evenness (equidad) de la distribución de especies y la distancia entre especies. Algunos ejemplos comunes de índices de diversidad biológica incluyen:
+
+-   Índice de Shannon: mide la diversidad de especies en un área y también tiene en cuenta la evenness de la distribución de especies.
+
+-   Índice de Simpson: mide la diversidad de especies en un área y también tiene en cuenta la riqueza de especies.
+
+-   Índice de Berger-Parker: mide la diversidad de especies en un área y se basa en la riqueza de especies y en la proporción de individuos de la especie más abundante.
+
+-   Índice de Margalef: mide la diversidad de especies en un área y se basa en la riqueza de especies y en la diferencia entre la riqueza de especies y el número de especies comunes.
+
+-   Índice de Jaccard: mide la similitud entre dos conjuntos de especies y se basa en la proporción de especies comunes entre los conjuntos.
+
+::: panel-tabset
+## Diversidad: Riqueza de especies.
+
+
+:::
+
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

@@ -1,0 +1,40 @@
+---
+title: "Asignaciones"
+author: "David Murillo"
+format: html
+theme: cerulean
+---
+
+A continuación, encontrará una serie de ejercicios que le ayudarán a complementar lo visto en las asignaciones. Estos ejercicios deben ser entregados al final del curso y se le recompensará con horas en el certificado que se le entregará una vez finalizado el curso, todo esto a su propio ritmo. Si tiene alguna consulta, no dude en preguntarnos a través de nuestras redes sociales o correo electrónico (admi@hnbiology.org o david.murillo@hnbiology.org).
+
+::: panel-tabset
+
+## Asignación 1
+
+
+## Asignación 2
+
+
+## Asignación 3
+
+
+## Asignación 4
+
+## Asignación 5
+
+
+## Asignación 6
+
+
+## Asignación 7
+
+
+## Asignación 8
+
+
+
+
+:::
+
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)

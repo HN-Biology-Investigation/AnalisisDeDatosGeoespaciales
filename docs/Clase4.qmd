@@ -1,0 +1,27 @@
+---
+title: "Clase 4: Pruebas no-parametricas"
+format: html
+editor: visual
+---
+
+Las pruebas no paramétricas son un conjunto de técnicas de prueba estadística que se utilizan para evaluar hipótesis sobre una población cuando no se tienen suficientes datos para suponer una distribución particular de los datos. A diferencia de las pruebas paramétricas, que asumen una distribución particular de los datos (como la distribución normal), las pruebas no paramétricas no requieren ninguna suposición sobre la distribución de los datos.
+
+Algunas pruebas no paramétricas comunes incluyen:
+
+-   Prueba de Wilcoxon: se utiliza para comparar dos grupos de datos ordenados y se utiliza a menudo cuando los datos no siguen una distribución normal.
+
+-   Prueba de Kruskal-Wallis: se utiliza para comparar más de dos grupos de datos ordenados y se utiliza a menudo cuando los datos no siguen una distribución normal.
+
+-   Prueba de Mann-Whitney: se utiliza para comparar dos grupos de datos no ordenados y se utiliza a menudo cuando los datos no siguen una distribución normal.
+
+-   Prueba de chi-cuadrado: se utiliza para comparar una distribución observada de datos con una distribución esperada y se utiliza a menudo para comparar datos categóricos.
+
+Es importante tener en cuenta que las pruebas no paramétricas suelen ser menos robustas (es decir, tienen menor capacidad para detectar diferencias significativas) que las pruebas paramétricas, por lo que es importante elegir la prueba adecuada para su conjunto de datos y objetivo de investigación.
+
+## Pruebas no parametricas
+
+::: panel-tabset
+
+:::
+
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

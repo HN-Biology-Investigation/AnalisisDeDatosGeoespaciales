@@ -1,0 +1,13 @@
+---
+title: "Clase 3: Regulación de Poblaciones y Estimadores de abundancia"
+format: html
+editor: visual
+---
+
+::: panel-tabset
+## Distribucion Normal
+
+
+:::
+
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

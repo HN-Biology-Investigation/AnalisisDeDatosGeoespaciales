@@ -1,0 +1,14 @@
+---
+title: "Clase 5: Modelos lineales"
+format: html
+editor: visual
+---
+
+Los modelos lineales son un tipo de modelo estadístico utilizado para predecir el valor de una variable de interés (la variable dependiente) a partir de uno o más variables predictivas (las variables independientes). Los modelos lineales se basan en la suposición de que la relación entre la variable dependiente y las variables independientes es lineal.
+
+::: panel-tabset
+## Informacion de los datos
+
+:::
+
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
