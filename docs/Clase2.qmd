@@ -7,7 +7,6 @@ editor: visual
 En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.
 
 ::: panel-tabset
-
 Para empezar, es necesario instalar los paquetes `sf` y `ggplot2`.
 
 ```{r}
@@ -19,15 +18,14 @@ require(ggplot2)
 
 Comenzaremos aprendiendo cómo crear un vector de puntos utilizando una base de datos que contiene coordenadas de latitud y longitud.
 
-- Cargar base de datos
+-   Cargar base de datos
 
 ```{r}
 csv_data    <- read.csv("data/Adelges_tsugae.csv")
 
 ```
 
-- CConversión de un Dataframe a un Vector
-La función `st_as_sf` del paquete `sf` nos permite transformar un dataframe en un vector espacial. Para ello, es necesario especificar qué columnas contienen nuestras coordenadas de latitud y longitud, así como conocer el sistema de proyección utilizado para dichas coordenadas en el campo.
+-   CConversión de un Dataframe a un Vector La función `st_as_sf` del paquete `sf` nos permite transformar un dataframe en un vector espacial. Para ello, es necesario especificar qué columnas contienen nuestras coordenadas de latitud y longitud, así como conocer el sistema de proyección utilizado para dichas coordenadas en el campo.
 
 ```{r}
 points_sf   <- st_as_sf(csv_data, 
@@ -39,7 +37,7 @@ points_sf   <- st_as_sf(csv_data,
 
 Los archivos shapefile `(.shp)` son un formato estándar para representar datos geoespaciales en sistemas de información geográfica (SIG). Estos archivos están compuestos por varios componentes, incluyendo un archivo principal `(.shp)` que contiene la geometría de los objetos espaciales, un archivo de índice `(.shx)` que almacena el índice espacial para acelerar las consultas, y un archivo de atributos (.dbf) que guarda los atributos asociados a las geometrías.
 
-- Breve descripción de cómo cargarlos en R con la función `st_read()`:
+-   Breve descripción de cómo cargarlos en R con la función `st_read()`:
 
 En R, para cargar archivos shapefile, utilizamos la función `st_read()` del paquete sf. Esta función permite leer los archivos `.shp` y crear un objeto espacial en formato sf que contiene la geometría y los atributos del shapefile. Al llamar a st_read(), simplemente proporcionamos la ruta al archivo .shp como argumento, y la función se encarga de cargar todos los componentes necesarios.
 
@@ -68,13 +66,13 @@ En R, podemos reproyectar una capa shapefile utilizando la función `st_transfor
 polygon_sf  <- st_transform(polygon_sf, crs = pts_crs)
 ```
 
-- Cómo determinar si dos capas tienen la misma proyección
+-   Cómo determinar si dos capas tienen la misma proyección
 
 ```{r}
 st_crs(polygon_sf) == st_crs(points_sf)
 ```
 
-- Integridad y la calidad de los datos espaciales
+-   Integridad y la calidad de los datos espaciales
 
 La función st_is_valid() comprueba si el objeto espacial dado cumple con las reglas geométricas, como la ausencia de solapamientos, la correcta orientación de los polígonos, la integridad de las geometrías, entre otras. Si el objeto es válido, la función devolverá TRUE; de lo contrario, devolverá FALSE junto con un mensaje que indica el tipo de problema geométrico encontrado.
 
@@ -85,8 +83,7 @@ Valid <- st_is_valid(polygon_sf)
 head(Valid)
 ```
 
-
-- Corregir problemas geométricos en objetos espaciales
+-   Corregir problemas geométricos en objetos espaciales
 
 La función `st_make_valid()` en R se utiliza para corregir problemas geométricos en objetos espaciales, como polígonos, que podrían causar que no sean válidos según las reglas de la geometría espacial. Estos problemas podrían incluir intersecciones de límites, huecos no válidos, geometrías superpuestas, entre otros.
 
@@ -98,7 +95,7 @@ polygon_sf_valid <- st_make_valid(polygon_sf)
 
 El código `clip_result <- st_crop(points_sf, polygon_sf)` ejecuta un proceso de recorte sobre una capa espacial representada por `points_sf`, utilizando como máscara otra capa espacial representada por `polygon_sf`.
 
-Este proceso de recorte tiene como resultado un nuevo objeto espacial, `clip_result`, que contiene únicamente las geometrías de `points_sf` que están dentro del área definida por `polygon_sf`. 
+Este proceso de recorte tiene como resultado un nuevo objeto espacial, `clip_result`, que contiene únicamente las geometrías de `points_sf` que están dentro del área definida por `polygon_sf`.
 
 Este proceso es útil para filtrar datos espaciales y limitar su extensión geográfica a un área específica definida por otra capa espacial.
 
@@ -117,7 +114,7 @@ La primera capa, representada por `polygon_sf_valid`, se muestra con un relleno 
 
 La segunda capa, representada por `clip_result`, se muestra con un relleno rojo y una transparencia del 50%.
 
-El tema del gráfico se establece en el estilo clásico mediante `theme_classic()`. 
+El tema del gráfico se establece en el estilo clásico mediante `theme_classic()`.
 
 Este código proporciona una forma rápida y efectiva de visualizar múltiples capas espaciales en un solo gráfico para su análisis y exploración.
 
@@ -130,7 +127,6 @@ ggplot() +
   theme_classic()
 ```
 
-
 # Creación de Buffer Espacial
 
 La creación de un buffer espacial implica generar una zona alrededor de una geometría específica a una distancia determinada.
@@ -141,7 +137,7 @@ La función `st_buffer()` del paquete `sf` se utiliza para crear buffers alreded
 buffer_result <- st_buffer(clip_result, dist = 1000)
 ```
 
-- Visualización del Buffer
+-   Visualización del Buffer
 
 ```{r}
 ggplot() +
@@ -151,8 +147,6 @@ ggplot() +
           fill = "red", alpha = 0.5) + 
   theme_classic()
 ```
-
-
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

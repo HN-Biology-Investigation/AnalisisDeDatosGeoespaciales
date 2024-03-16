@@ -1,12 +1,147 @@
 ---
-title: "Clase 3: Regulación de Poblaciones y Estimadores de abundancia"
+title: "Clase 3: Exploración y Geoprocesamiento de rasters"
 format: html
 editor: visual
 ---
 
-::: panel-tabset
-## Distribucion Normal
+En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.
 
+::: panel-tabset
+Para empezar, es necesario instalar los paquetes `tidyverse`, `terra` y `sf`.
+
+```{r}
+require(tidyverse)
+require(terra)
+require(sf)
+```
+
+
+## Introducción a los archivos raster
+
+Los archivos raster son una forma común de representar datos espaciales en forma de cuadrículas regulares o "grillas", donde cada celda o píxel contiene un valor que representa alguna característica o atributo en una ubicación específica de la superficie terrestre. Estos archivos son ampliamente utilizados en diversos campos, como la cartografía, la teledetección, la climatología y la ecología, entre otros. Permiten almacenar información detallada sobre la distribución y variabilidad de diferentes fenómenos geográficos, como la temperatura, la precipitación, la elevación del terreno, la cobertura del suelo y la distribución de la vegetación. 
+
+-   Breve descripción de cómo cargarlos en R con la función `rast`:
+
+En R, el paquete terra proporciona herramientas para trabajar con archivos raster. Estos archivos pueden contener información de una sola banda (por ejemplo, imágenes satelitales en blanco y negro) o múltiples bandas (por ejemplo, imágenes multiespectrales). Además, los archivos raster pueden tener diferentes resoluciones espaciales y proyecciones cartográficas.
+
+```{r}
+
+MassRater <- rast("data/MASS_NLCD_WGS84/MASS_NLCD_WGS84/MASS_NLCD_WGS84.tif")
+
+plot(MassRater)
+```
+
+## Identificar proyeccion de capa
+
+Identificar la proyección de una capa geoespacial implica determinar el sistema de coordenadas utilizado para representar los datos en el espacio. Este sistema define cómo se relacionan las coordenadas de latitud y longitud con la ubicación en la superficie terrestre. La proyección puede ser expresada mediante códigos EPSG (European Petroleum Survey Group) o PROJ (PROJection), entre otros sistemas de referencia espacial.
+
+Para identificar la proyección de una capa en R, podemos utilizar la función `st_crs()` del paquete `sf`. Esta función devuelve información sobre la proyección de un objeto espacial, incluyendo el código EPSG o PROJ utilizado.
+
+```{r}
+Raster_crs <- st_crs(MassRater)
+Raster_crs
+```
+
+## Recorte de capa raster
+
+- Cargar archivo shapefile
+
+```{r}
+MassCounties <- st_read("data/counties/COUNTYNC_POLY.shp")
+
+```
+
+- Visualizar capa MassCounties
+
+```{r}
+plot(MassCounties)
+```
+
+- Otra forma de visualizar
+
+```{r}
+plot(MassCounties["SHAPE_AREA"])
+```
+
+- Filtar un vector
+
+Ahora utilizaremos la funcion `filter` del paquete `tidyverse` para filtrar un County de Massachusetts que nosotros queramos
+
+Primero necesitamos saber, que county filtrar
+
+```{r}
+table(MassCounties$COUNTY)
+```
+
+Una vez seleccionado el County de nuestra preferencia, haremos el filtrado.
+
+```{r}
+hampshire_county <- MassCounties %>% 
+  filter(COUNTY == "HAMPSHIRE")
+```
+
+
+## Reproyectar el sistema de coordenadas de un raster
+
+Para reproyectar un raster con el paquete terra, es fundamental especificar la proyección cartográfica deseada utilizando la información wkt. Esta información se obtiene utilizando la función `st_crs()` aplicada al objeto espacial correspondiente, en este caso hampshire_county, seguida de `$wkt`.
+
+```{r}
+Mass_nad83 <- project(MassRater, st_crs(hampshire_county)$wkt)
+```
+
+-   Determinar si dos capas tienen la misma proyección
+
+```{r}
+st_crs(hampshire_county) == st_crs(Mass_nad83)
+```
+
+## Proceso de Recorte de Capa Raster
+
+El proceso de recorte de una capa raster implica seleccionar y extraer una región específica de interés de un raster más grande. En R, esto se puede lograr de dos maneras principales: usando la función `crop()` o la función `mask()` del paquete raster. La función `crop()` recorta el raster original a los límites del área de interés definida por otro raster o por coordenadas específicas. Por otro lado, la función `mask(`)` mantiene los valores del raster original solo dentro de los límites del área de interés, mientras que los valores fuera de esta área se establecen como `NA`. 
+
+```{r}
+Hampshire_nlcd <- crop(Mass_nad83, hampshire_county)
+plot(Hampshire_nlcd) 
+```
+
+- Alternativa
+
+```{r}
+Hampshire_nlcd2 <- mask(Mass_nad83, hampshire_county)
+plot(Hampshire_nlcd2)
+```
+
+
+## Extraer valores de un raster a pasrtir de puntos
+
+
+- Cargar archivo con puntos y trasnformalo a shapefile
+
+```{r}
+csv_data    <- read.csv("data/Adelges_tsugae.csv")
+
+points_sf   <- st_as_sf(csv_data, 
+                        coords = c("Longitude", "Latitude"),
+                        crs = 4326)
+```
+
+- Asegurarnos que los archivos presenten misma proyeccion 
+
+```{r}
+points_nad83_sf <- st_transform(points_sf, crs = st_crs(hampshire_county))
+```
+
+- Hacer un corte para puntos in Hamsphire
+
+```{r}
+points_nad83_sf <- st_intersection(points_nad83_sf, hampshire_county)
+
+library(ggthemes)
+ggplot()+
+  geom_sf(data= hampshire_county)+
+  geom_sf(data= points_nad83_sf) +
+  theme_map()
+```
 
 :::
 
