@@ -94,9 +94,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.</p>
+<p>En la Clase 3, nos enfocaremos en la exploración y geoprocesamiento de datos raster. Exploraremos cómo trabajar con este tipo de datos, comprendiendo su estructura y aplicando diversas técnicas de procesamiento geoespacial para realizar análisis.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Introducción a los archivos raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Identificar proyeccion de capa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Recorte de capa raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Reproyectar el sistema de coordenadas de un raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Proceso de Recorte de Capa Raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Extraer valores de un raster a pasrtir de puntos</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Introducción a los archivos raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Identificar proyección de capa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Recorte de capa raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Reproyectar el sistema de coordenadas de un raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Proceso de Recorte de Capa Raster</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Extraer valores de un raster a pasrtir de puntos</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Los archivos raster son una forma común de representar datos espaciales en forma de cuadrículas regulares o “grillas”, donde cada celda o píxel contiene un valor que representa alguna característica o atributo en una ubicación específica de la superficie terrestre. Estos archivos son ampliamente utilizados en diversos campos, como la cartografía, la teledetección, la climatología y la ecología, entre otros. Permiten almacenar información detallada sobre la distribución y variabilidad de diferentes fenómenos geográficos, como la temperatura, la precipitación, la elevación del terreno, la cobertura del suelo y la distribución de la vegetación.</p>
@@ -104,6 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Breve descripción de cómo cargarlos en R con la función <code>rast</code>:</li>
 </ul>
 <p>En R, el paquete terra proporciona herramientas para trabajar con archivos raster. Estos archivos pueden contener información de una sola banda (por ejemplo, imágenes satelitales en blanco y negro) o múltiples bandas (por ejemplo, imágenes multiespectrales). Además, los archivos raster pueden tener diferentes resoluciones espaciales y proyecciones cartográficas.</p>
+<p><a href="https://www.mrlc.gov/data/legends/national-land-cover-database-class-legend-and-description">Información de la capa</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>MassRater <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/MASS_NLCD_WGS84/MASS_NLCD_WGS84/MASS_NLCD_WGS84.tif"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -188,7 +189,7 @@ Projected CRS: NAD83 / Massachusetts Mainland</code></pre>
 </div>
 </div>
 <ul>
-<li>Filtar un vector</li>
+<li>Filtrar un vector</li>
 </ul>
 <p>Ahora utilizaremos la funcion <code>filter</code> del paquete <code>tidyverse</code> para filtrar un County de Massachusetts que nosotros queramos</p>
 <p>Primero necesitamos saber, que county filtrar</p>
@@ -261,13 +262,13 @@ BARNSTABLE  BERKSHIRE    BRISTOL      DUKES      ESSEX   FRANKLIN    HAMPDEN
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">crs =</span> <span class="dv">4326</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Asegurarnos que los archivos presenten misma proyeccion</li>
+<li>Asegurarnos que los archivos presenten misma proyección</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>points_nad83_sf <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(points_sf, <span class="at">crs =</span> <span class="fu">st_crs</span>(hampshire_county))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Hacer un corte para puntos in Hamsphire</li>
+<li>Hacer un corte para puntos in Hampshire</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>points_nad83_sf <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(points_nad83_sf, hampshire_county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -285,6 +286,25 @@ all geometries</code></pre>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_map</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Clase3_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Ahora extraemos los valores</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Hampshire_values <span class="ot">&lt;-</span> <span class="fu">extract</span>(Hampshire_nlcd, points_nad83_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Hampshire_values[,<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 41.00000 43.00000 41.84988 42.47528 43.00000 31.28001 41.94432 42.00000
+ [9] 41.00000 41.00000 41.00000 43.00000 41.00000 43.12236 43.00000 24.38103
+[17] 22.20267 38.32005 42.21017 23.82874 42.98621 46.56610 43.00000 41.03788
+[25] 41.03788 41.02852 42.00136 42.00136 21.00437 62.26759 41.00000 42.21204
+[33] 43.00000 41.73743 41.00000 41.00000 41.41514 41.00000 41.00000 42.04618
+[41] 41.00000 42.00000 42.09738 43.00000 21.35432 42.46862 42.43725 43.74512
+[49] 41.72083 87.71263 78.16874 42.78635 28.19022 26.43601 33.33006 41.00000
+[57] 21.00000</code></pre>
 </div>
 </div>
 </div>

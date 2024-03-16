@@ -4,10 +4,11 @@ format: html
 editor: visual
 ---
 
-En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.
+En la Clase 3, nos enfocaremos en la exploración y geoprocesamiento de datos raster. Exploraremos cómo trabajar con este tipo de datos, comprendiendo su estructura y aplicando diversas técnicas de procesamiento geoespacial para realizar análisis. 
 
 ::: panel-tabset
-Para empezar, es necesario instalar los paquetes `tidyverse`, `terra` y `sf`.
+
+Para empezar, es necesario cargar los paquetes `tidyverse`, `terra` y `sf`.
 
 ```{r}
 require(tidyverse)
@@ -24,6 +25,8 @@ Los archivos raster son una forma común de representar datos espaciales en form
 
 En R, el paquete terra proporciona herramientas para trabajar con archivos raster. Estos archivos pueden contener información de una sola banda (por ejemplo, imágenes satelitales en blanco y negro) o múltiples bandas (por ejemplo, imágenes multiespectrales). Además, los archivos raster pueden tener diferentes resoluciones espaciales y proyecciones cartográficas.
 
+[Información de la capa](https://www.mrlc.gov/data/legends/national-land-cover-database-class-legend-and-description)
+
 ```{r}
 
 MassRater <- rast("data/MASS_NLCD_WGS84/MASS_NLCD_WGS84/MASS_NLCD_WGS84.tif")
@@ -31,7 +34,7 @@ MassRater <- rast("data/MASS_NLCD_WGS84/MASS_NLCD_WGS84/MASS_NLCD_WGS84.tif")
 plot(MassRater)
 ```
 
-## Identificar proyeccion de capa
+## Identificar proyección de capa
 
 Identificar la proyección de una capa geoespacial implica determinar el sistema de coordenadas utilizado para representar los datos en el espacio. Este sistema define cómo se relacionan las coordenadas de latitud y longitud con la ubicación en la superficie terrestre. La proyección puede ser expresada mediante códigos EPSG (European Petroleum Survey Group) o PROJ (PROJection), entre otros sistemas de referencia espacial.
 
@@ -63,7 +66,7 @@ plot(MassCounties)
 plot(MassCounties["SHAPE_AREA"])
 ```
 
-- Filtar un vector
+- Filtrar un vector
 
 Ahora utilizaremos la funcion `filter` del paquete `tidyverse` para filtrar un County de Massachusetts que nosotros queramos
 
@@ -89,7 +92,7 @@ Para reproyectar un raster con el paquete terra, es fundamental especificar la p
 Mass_nad83 <- project(MassRater, st_crs(hampshire_county)$wkt)
 ```
 
--   Determinar si dos capas tienen la misma proyección
+- Determinar si dos capas tienen la misma proyección
 
 ```{r}
 st_crs(hampshire_county) == st_crs(Mass_nad83)
@@ -125,13 +128,13 @@ points_sf   <- st_as_sf(csv_data,
                         crs = 4326)
 ```
 
-- Asegurarnos que los archivos presenten misma proyeccion 
+- Asegurarnos que los archivos presenten misma proyección 
 
 ```{r}
 points_nad83_sf <- st_transform(points_sf, crs = st_crs(hampshire_county))
 ```
 
-- Hacer un corte para puntos in Hamsphire
+- Hacer un corte para puntos in Hampshire
 
 ```{r}
 points_nad83_sf <- st_intersection(points_nad83_sf, hampshire_county)
@@ -141,6 +144,16 @@ ggplot()+
   geom_sf(data= hampshire_county)+
   geom_sf(data= points_nad83_sf) +
   theme_map()
+```
+
+- Ahora extraemos los valores
+
+```{r}
+Hampshire_values <- extract(Hampshire_nlcd, points_nad83_sf)
+```
+
+```{r}
+Hampshire_values[,2]
 ```
 
 :::
