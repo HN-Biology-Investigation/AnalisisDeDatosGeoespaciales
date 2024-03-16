@@ -1,5 +1,5 @@
 ---
-title: "Curso de Análisis Estadístico para Estudios Ecológicos"
+title: "Curso de Análisis de datos geoespaciales"
 autor: "David Murillo - HN Biology Investigation"
 format:
   html:
@@ -7,35 +7,23 @@ format:
     html-math-method: katex
     css: styles.css
 ---
-aaa
 
-Bienvenidos a este curso diseñado para profesionales, estudiantes y personas interesadas en la Ecología. En este curso, exploraremos las técnicas estadísticas utilizadas en el análisis de datos ecológicos y cómo aplicarlas para evaluar la significación de las diferencias entre grupos, identificar patrones y tendencias en los datos y explorar las relaciones entre las variables. A través de ejemplos y ejercicios prácticos, aprenderás a utilizar diferentes métodos estadísticos y a analizar y visualizar los datos de manera efectiva. Si tienes un interés en la Ecología y quieres aprender a utilizar las herramientas estadísticas para analizar tus datos, ¡este curso es para ti!
+¡Bienvenidos al curso de Análisis de Datos Geoespaciales! Este curso está diseñado para profesionales, estudiantes y entusiastas interesados en el análisis de datos geoespaciales. Durante este curso, exploraremos las técnicas estadísticas utilizadas en el análisis de datos geoespaciales y cómo aplicarlas para evaluar diferencias entre grupos, detectar patrones y tendencias, así como explorar relaciones entre variables. A través de ejemplos y ejercicios prácticos, adquirirás habilidades para utilizar diversos métodos estadísticos y analizar datos geoespaciales de manera efectiva. 
 
-### Contenido
+## Contenido
 
 
 [Asignaciones](Asiganciones.html)
 
 [Clase 1: Comandos basicos en R y uso de scripts](Clase1.html)
 
-[Clase 2: Analisis de Diversidad](Clase2.html)
+[Clase 2: Exploración y Geoprocesamiento de Vectores](Clase2.html)
 
-[Clase 3: Analisis de Variaza y Prueba Correlacion](Clase3.html)
+[Clase 3: Exploración y Geoprocesamiento de rasters](Clase3.html)
 
-[Clase 4: Pruebas no parametricas](Clase4.html)
+[Clase 4: Uso de lanscapemetrics](Clase4.html)
 
-[Clase 5: Modelos lineales](Clase5.html)
-
-[Clase 6: Modelos lineales Generalizados: Poisson](Clase6.html)
-
-[Clase 7: Modelos lineales Generalizados: Binomial](Clase7.html)
-
-[Clase 8: NMDS, PCA y PERMANOVA](Clase8.html)
-
-[Clase 9: Anosim, MRPP, SIMPER e Indicador de especies](Clase9.html)
-
-[Clase 10: Repaso, Preguntas y respuestas](Clase10.html)
-
+[Clase 5: Uso de leaflet y elaboración de mapas](Clase5.html)
 
 *No dude en consultarnos ante cualquier inconveniente que surja durante el curso. Puede contactarnos a través de admi@hnbiology.org.*
 
