@@ -1,13 +1,48 @@
 ---
-title: "Clase 5: Modelos lineales"
+title: "Clase 5: Uso de leaflet y elaboración de mapas"
 format: html
 editor: visual
 ---
 
-Los modelos lineales son un tipo de modelo estadístico utilizado para predecir el valor de una variable de interés (la variable dependiente) a partir de uno o más variables predictivas (las variables independientes). Los modelos lineales se basan en la suposición de que la relación entre la variable dependiente y las variables independientes es lineal.
 
 ::: panel-tabset
-## Informacion de los datos
+
+## Cargar paquetes
+
+```{r}
+library(sf)
+library(tidyverse)
+library(leaflet)
+library(mapedit)
+```
+
+## Crear vector desde leaflet
+
+```{r}
+
+my_map <- leaflet() %>% 
+  addTiles()
+
+```
+
+
+```{r}
+drawn_features <- editMap(my_map)
+```
+```{r}
+drawn_features_sf <- drawn_features$finished
+
+# 4. Plot your output and submit to Moodle!
+plot(drawn_features_sf[2],
+     main = "Bowker Auditorium")
+
+ggplot2::ggplot(data = drawn_features_sf)+
+  geom_sf(alpha= 0.5)+
+  labs(title = "Bowker Auditorium")+
+  theme_classic()
+
+```
+
 
 :::
 
