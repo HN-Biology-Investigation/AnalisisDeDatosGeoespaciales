@@ -1,26 +1,60 @@
 ---
-title: "Clase 4: Pruebas no-parametricas"
+title: "Clase 4: Uso de landscapemetrics"
 format: html
 editor: visual
 ---
 
-Las pruebas no paramétricas son un conjunto de técnicas de prueba estadística que se utilizan para evaluar hipótesis sobre una población cuando no se tienen suficientes datos para suponer una distribución particular de los datos. A diferencia de las pruebas paramétricas, que asumen una distribución particular de los datos (como la distribución normal), las pruebas no paramétricas no requieren ninguna suposición sobre la distribución de los datos.
+```{r}
+library(tidyverse)
+library(landscapemetrics)
+library(terra)
+library(sf)
+library(ggthemes)
+```
 
-Algunas pruebas no paramétricas comunes incluyen:
-
--   Prueba de Wilcoxon: se utiliza para comparar dos grupos de datos ordenados y se utiliza a menudo cuando los datos no siguen una distribución normal.
-
--   Prueba de Kruskal-Wallis: se utiliza para comparar más de dos grupos de datos ordenados y se utiliza a menudo cuando los datos no siguen una distribución normal.
-
--   Prueba de Mann-Whitney: se utiliza para comparar dos grupos de datos no ordenados y se utiliza a menudo cuando los datos no siguen una distribución normal.
-
--   Prueba de chi-cuadrado: se utiliza para comparar una distribución observada de datos con una distribución esperada y se utiliza a menudo para comparar datos categóricos.
-
-Es importante tener en cuenta que las pruebas no paramétricas suelen ser menos robustas (es decir, tienen menor capacidad para detectar diferencias significativas) que las pruebas paramétricas, por lo que es importante elegir la prueba adecuada para su conjunto de datos y objetivo de investigación.
-
-## Pruebas no parametricas
 
 ::: panel-tabset
+
+## Cargar base de datos y raster
+
+- Cargar vector
+
+```{r}
+PuntosConteo <- st_read("data/Point_counts.gpkg")
+plot(PuntosConteo["Site"])
+```
+
+- Cargar Rater
+
+```{r}
+CoberturaYoro <- rast("data/export.classification.tif")
+plot(CoberturaYoro)
+```
+
+- Revisar proyeccion de capas
+
+```{r}
+st_crs(PuntosConteo) ==  st_crs(CoberturaYoro)
+```
+- Hacer que ambas capas presenten la misma cobertura
+
+```{r}
+PuntosNueva <- st_transform(PuntosConteo, crs = st_crs(CoberturaYoro))
+
+st_crs(PuntosNueva) ==  st_crs(CoberturaYoro)
+```
+- Visualizar ambas capas
+
+```{r}
+Yoro_df <- as.data.frame(CoberturaYoro, xy = TRUE)
+PuntosConteo_df <- as.data.frame(PuntosNueva)
+
+ggplot()+
+  geom_raster(data= Yoro_df, aes(x=x, y=y, fill= export.classification))+
+  geom_point(data = PuntosConteo_df, aes(x= LONG, y= LAT)) +
+  theme_map()
+```
+
 
 :::
 
