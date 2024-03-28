@@ -42,6 +42,7 @@ plot(CoberturaYoro)
 plot(PuntosConteo["Site"], add= TRUE)
 ```
 
+- Visualizar con ggplot2
 
 ```{r}
 Yoro_df <- as.data.frame(CoberturaYoro, xy = TRUE)
@@ -81,6 +82,61 @@ YoroPaisaje <- calculate_lsm(landscape = CoberturaYoro, what = metric_explore1)
 
 ```{r}
 YoroPaisaje
+```
+
+## Ejercicio 
+
+Tomando en cuenta que:
+
+1 = Zona Urbana
+2 = Cafe sombra
+3 = Cafe sol
+4 = Grama
+5 = Bosque
+6 = Suelo desnudo
+
+
+- Crear buffer de ~535 metros en cada punto de conteo
+
+```{r}
+
+Buffer500 <- st_buffer(PuntosConteo, 0.005)
+
+plot(Buffer500["Type"])
+```
+
+
+- Preparar un buffer de x sitio
+
+```{r}
+
+Buffer_site3 <- Buffer500 %>% 
+  filter(Site == "3")
+  
+plot(Buffer_site3)
+
+Site3_land <- mask(CoberturaYoro, Buffer_site3)
+plot(Site3_land)
+```
+
+
+- Estimat el area de cada cobertura
+
+```{r}
+check_landscape(Site3_land)
+
+# View(landscapemetrics::lsm_abbreviations_names)
+
+AreaGrados <- calculate_lsm(landscape = Site3_land, what = "lsm_c_ca")
+
+AreaGrados %>% 
+  mutate(Porc = value/sum(value) * 100) 
+
+
+```
+
+```{r}
+plot(crop(CoberturaYoro, Buffer_site3))
 ```
 
 
