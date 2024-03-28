@@ -4,55 +4,83 @@ format: html
 editor: visual
 ---
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(landscapemetrics)
 library(terra)
 library(sf)
 library(ggthemes)
+library(ggspatial)
 ```
-
 
 ::: panel-tabset
 
 ## Cargar base de datos y raster
 
-- Cargar vector
+-   Cargar vector
 
 ```{r}
 PuntosConteo <- st_read("data/Point_counts.gpkg")
-plot(PuntosConteo["Site"])
 ```
 
-- Cargar Rater
+-   Cargar Rater
 
 ```{r}
-CoberturaYoro <- rast("data/export.classification.tif")
-plot(CoberturaYoro)
+CoberturaYoro <- rast("data/ClasificacionYoro.tif")
 ```
 
-- Revisar proyeccion de capas
+-   Revisar proyeccion de capas
 
 ```{r}
 st_crs(PuntosConteo) ==  st_crs(CoberturaYoro)
 ```
-- Hacer que ambas capas presenten la misma cobertura
+
+-   Visualizar ambas capas
 
 ```{r}
-PuntosNueva <- st_transform(PuntosConteo, crs = st_crs(CoberturaYoro))
-
-st_crs(PuntosNueva) ==  st_crs(CoberturaYoro)
+plot(CoberturaYoro)
+plot(PuntosConteo["Site"], add= TRUE)
 ```
-- Visualizar ambas capas
+
 
 ```{r}
 Yoro_df <- as.data.frame(CoberturaYoro, xy = TRUE)
-PuntosConteo_df <- as.data.frame(PuntosNueva)
+
 
 ggplot()+
-  geom_raster(data= Yoro_df, aes(x=x, y=y, fill= export.classification))+
-  geom_point(data = PuntosConteo_df, aes(x= LONG, y= LAT)) +
+  geom_raster(data= Yoro_df, aes(x=x, y=y, fill= ClasificacionYoro))+
+  geom_sf(data= PuntosConteo) +
   theme_map()
+
+```
+
+## Uso de landscape metrics
+
+[LandscapeMetrics](https://r-spatialecology.github.io/landscapemetrics/)
+
+landscapemetrics is a R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal et al. 2023), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
+
+- Primero seleccionaremos las metricas de paisaje a estimar
+
+```{r}
+head(landscapemetrics::lsm_abbreviations_names)
+
+metric_explore1 <- c('lsm_c_ca')
+```
+
+- Estimamos nuestras metricas aplicadas a la capa raster
+
+```{r}
+
+check_landscape(CoberturaYoro)
+
+YoroPaisaje <- calculate_lsm(landscape = CoberturaYoro, what = metric_explore1)
+
+```
+
+
+```{r}
+YoroPaisaje
 ```
 
 
