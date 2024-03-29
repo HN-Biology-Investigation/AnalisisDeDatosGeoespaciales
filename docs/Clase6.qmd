@@ -83,7 +83,7 @@ mapview::mapview(Peru_S )
 
 ## Ejemplo 3
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 require(pacman)
 pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
                raster, reticulate,  maptools,maps,maptiles,gridExtra,
