@@ -14,16 +14,105 @@ require(pacman)
 
 pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
                terra, reticulate,  maptools,maps,
-               ggplot2, ggspatial,rgeos)
+               ggplot2, ggspatial,rgeos, raster)
 ```
 
 ## Ejemplo 1
 
+
+```{r}
+world <- ne_countries(scale= "small", returnclass = "sf") 
+world.SA     <- subset(world, continent=="South America") 
+```
+
+```{r}
+world_points <- st_centroid(world.SA)  
+
+world_points <- cbind(world.SA, st_coordinates(st_centroid(world.SA$geometry))) 
+
+```
+
+
+```{r}
+Sur_America  <- subset(world_points, continent == "South America")
+Peru_S       <- subset(Sur_America, iso_a3 == "PER") 
+```
+
+```{r}
+Peru <- raster::getData('GADM', country='Peru', level=3) %>%            
+  st_as_sf()          
+
+Cusco <- subset(Peru, NAME_1 == "Cusco")
+```
+
+```{r}
+Marco_Per = st_as_sfc(st_bbox(Peru_S ))
+```
+
+
+```{r}
+Mapa1 <- ggplot() +
+  geom_sf(data = Sur_America , aes(fill= admin ), lwd=1, 
+          color="black",alpha = 0.2, linetype = 1)+
+  geom_sf(data = Marco_Per, fill = NA, color = 'red', size = 1)+
+  geom_text(data= Sur_America,aes(x=X, y=Y, label=admin), size = 3,
+            color = "black", fontface = "bold", check_overlap = FALSE)+
+  labs(title = "Mapa de America del Sur", 
+       subtitle="Mapa de Ubicacion",x="Longitud",
+       y="Latitud",tag="A)")+ 
+  theme_bw() +
+  annotation_scale() +
+  annotation_north_arrow(location="tl",which_north="true",
+                         style=north_arrow_nautical ())+
+  theme(panel.grid.major = element_line(color = gray(.5),
+                                        linetype = "dashed", size = 0.5))+
+  labs(color="Species",fill = "Sur America") 
+
+Mapa1
+```
+
+
 ## Ejemplo 2
+
+```{r}
+library(mapview)
+library(mapedit)
+
+mapview::mapview(Peru_S )
+```
 
 ## Ejemplo 3
 
+```{r}
+require(pacman)
+pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
+               raster, reticulate,  maptools,maps,maptiles,gridExtra,
+               ggplot2, ggspatial,rgeos, tmap,grid, rgbif, ggmap,
+               rgrass7, sp, mapr, rgdal, RColorBrewer,ggrepel, leaflet)
+```
+
+
+```{r}
+# Creamos una data frame a sf
+punto1    <- st_point(c(-55.833147651973036,-15.408246576309264))
+lugar     <- data.frame(name= c("Valle Forestal Véu de Noiva"))
+Coor      <- st_sfc(punto1,  crs = "+proj=longlat +datum=WGS84 +no_defs")
+Sites     <- st_sf(lugar, Coor)
+sites1    <- data.frame(longitude = c(55.833147651973036),
+                    latitude = c(-15.408246576309264),
+                    name= c("Valle Forestal Véu de Noiva"))
+```
+
+
+```{r}
+leaflet(Sites) %>% addTiles() %>% addCircles()%>%
+addProviderTiles(providers$Esri.WorldImagery, group = "Satellite")
+```
+
+
+
 ## Ejemplo 4
+
 
 ## Ejemplo 5
 
