@@ -9,7 +9,7 @@ editor: visual
 
 ## Cargar paquetes
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 require(pacman)
 
 pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
