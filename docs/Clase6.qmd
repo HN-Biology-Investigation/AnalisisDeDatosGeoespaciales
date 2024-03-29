@@ -1,0 +1,33 @@
+---
+title: "Clase 6: Elaboracion de mapas"
+format: html
+editor: visual
+---
+
+
+::: panel-tabset
+
+## Cargar paquetes
+
+```{r}
+require(pacman)
+
+pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
+               terra, reticulate,  maptools,maps,
+               ggplot2, ggspatial,rgeos)
+```
+
+## Ejemplo 1
+
+## Ejemplo 2
+
+## Ejemplo 3
+
+## Ejemplo 4
+
+## Ejemplo 5
+
+
+:::
+
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
