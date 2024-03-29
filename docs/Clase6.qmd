@@ -113,6 +113,87 @@ addProviderTiles(providers$Esri.WorldImagery, group = "Satellite")
 
 ## Ejemplo 4
 
+```{r}
+mexico         <- getData('GADM', country='Mexico', level=1) %>%st_as_sf() 
+mexico_Alt     <- getData("alt", country='Mexico', mask=TRUE)
+Chiapas        <- subset(mexico, NAME_1 == "Chiapas")
+Chiapas_alt    <- crop(mexico_Alt, Chiapas)
+Chiapas_alt    <- Chiapas_alt <- mask(Chiapas_alt, Chiapas)
+plot(Chiapas_alt)
+dem.p          <-  rasterToPoints(Chiapas_alt)
+df             <-  data.frame(dem.p)
+colnames(df) = c("lon", "lat", "alt")
+```
+
+
+```{r}
+# Aspecto del DEM
+aps    = terrain(Chiapas_alt, opt = "aspect", unit= "degrees")
+aps_df = as.data.frame(aps, xy=T)
+
+A <-ggplot()+
+  geom_sf(data= mexico, fill="white")+
+  geom_sf(data= Chiapas, fill="black")+
+  theme_void()+
+  annotate(geom = "text", x = -95, y = 30, label = "México", fontface = "italic", color = "black", size = 3)+
+  annotation_north_arrow(location="tr",which_north="true",style=north_arrow_fancy_orienteering ())+
+  ggspatial::annotation_scale(location = "bl",bar_cols = c("grey60", "white"), text_family = "ArcherPro Book")
+```
+
+
+```{r}
+B <- ggplot()+
+  geom_sf(data= Chiapas, fill="white")+
+  theme_void()+
+  annotate(geom = "text", x = -92.5, y = 16.5, label = "Chiapas", fontface = "italic", color = "black", size = 3)+
+  annotation_north_arrow(location="tr",which_north="true",style=north_arrow_fancy_orienteering ())+
+  ggspatial::annotation_scale(location = "bl",bar_cols = c("grey60", "white"), text_family = "ArcherPro Book")
+```
+
+
+```{r}
+C <-ggplot()+
+  geom_raster(data = aps_df, aes(x=x, y=y, fill = aspect) )+
+  scale_fill_gradientn(colours = RColorBrewer::brewer.pal(n = 8, name = "Greys"), 
+              na.value = 'white', limits = c(0, 360), breaks = seq(0, 360, 50)) +
+  theme_bw()+
+  labs(title = 'Ubicación geográfica de Chiapas, México', fill = 'DEM',  
+       x = 'Longitud', y = 'Latitud', caption = "Gorky Florez") +
+  theme(panel.background = element_rect(fill = NA),
+        legend.position = c(0.15,0.15),
+        legend.text = element_text(size=8,face=1),
+        legend.title = element_text(color = "black", size = 11))
+```
+
+
+```{r}
+D <- ggplot()+
+  geom_raster(data = df, aes(lon,lat, fill = alt) )+
+  scale_fill_gradientn(colors = terrain.colors(10), name="DEM")+
+  theme_bw()+
+  labs(title = 'Ubicación geográfica de Chiapas, México', fill = 'DEM',  
+       x = 'Longitud', y = 'Latitud', caption = "Gorky Florez") +
+  theme(panel.background = element_rect(fill = NA),
+        legend.position = c(0.15,0.15),
+        legend.text = element_text(size=8,face=1),
+        legend.title = element_text(color = "black", size = 11))
+```
+
+
+```{r}
+
+library(cowplot)
+map_Union <-ggdraw() + draw_plot(C) + 
+  draw_plot(B, x = 0.70, y = 0.08, width = .25, height = .25)+
+  draw_plot(A, x = 0.70, y = 0.70, width = .25, height = .25)
+
+map_Union1 <-ggdraw() + draw_plot(D) + 
+  draw_plot(B, x = 0.70, y = 0.08, width = .25, height = .25)+
+  draw_plot(A, x = 0.70, y = 0.70, width = .25, height = .25)
+
+map_Union1
+```
+
 
 ## Ejemplo 5
 
