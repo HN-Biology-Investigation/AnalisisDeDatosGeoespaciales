@@ -25,7 +25,9 @@ format:
 
 [Clase 5: Uso de leaflet y elaboración de mapas](Clase5.html)
 
-[Clase 6: Elaboración de mapas](Clase6.html)
+[Clase 6: Elaboración de mapas dinamicos y SMD](Clase6Parte1.html)
+
+[Practica: Elaboración de mapas](Clase6.html)
 
 *No dude en consultarnos ante cualquier inconveniente que surja durante el curso. Puede contactarnos a través de admi@hnbiology.org.*
 
