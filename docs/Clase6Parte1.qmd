@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Clase 6: Uso de gganimate y SDM"
 format: html
 editor: visual
 ---
