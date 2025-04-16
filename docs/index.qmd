@@ -15,19 +15,33 @@ format:
 
 [Asignaciones](Asiganciones.html)
 
-[Clase 1: Comandos basicos en R y uso de scripts](Clase1.html)
+[Clase 0: Comandos básicos en R y uso de scripts](Clase1.html)
 
-[Clase 2: Exploración y Geoprocesamiento de Vectores](Clase2.html)
+[Clase 1: Manejo y geoprocesamiento de datos vectoriales](Clase2.html)
 
-[Clase 3: Exploración y Geoprocesamiento de rasters](Clase3.html)
+[Clase 2: Manejo y análisis de datos raster](Clase3.html)
 
-[Clase 4: Uso de lanscapemetrics](Clase4.html)
+- [Clase Extra: Elaboración de mapas](Clase6.html)
 
-[Clase 5: Uso de leaflet y elaboración de mapas](Clase5.html)
+[Clase 3: Introducción al análisis de paisaje con landscapemetrics](Clase4.html)
 
-[Clase 6: Elaboración de mapas dinamicos y SMD](Clase6Parte1.html)
+[Clase 4: NDVI y análisis de vegetación usando imágenes satelitales]()
 
-[Practica: Elaboración de mapas](Clase6.html)
+- [Clase Extra: Mapas interactivos con leaflet](Clase5.html)
+
+[Clase 5: Modelos de distribución potencial de especies (SDMs)](Clase6Parte1.html)
+
+[Clase 6: Conectividad ecológica y conectividad genética]()
+
+[Clase 7: Vulnerabilidad del recurso hídrico]()
+
+[Clase 8: Análisis de integración ecológica]()
+
+[Clase 9: Análisis de rango de hogar (home range)]()
+
+[Clase 10: Análisis Espaciotemporal de Cambios en el Paisaje]()
+
+
 
 *No dude en consultarnos ante cualquier inconveniente que surja durante el curso. Puede contactarnos a través de admi@hnbiology.org.*
 
