@@ -25,7 +25,7 @@ format:
 
 [Clase 3: Introducción al análisis de paisaje con landscapemetrics](Clase4.html)
 
-[Clase 4: NDVI y análisis de vegetación usando imágenes satelitales]()
+[Clase 4: NDVI y análisis de vegetación usando imágenes satelitales](NDVI.html)
 
 - [Clase Extra: Mapas interactivos con leaflet](Clase5.html)
 
