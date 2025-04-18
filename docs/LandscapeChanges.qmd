@@ -1,0 +1,7 @@
+---
+title: "Análisis Espaciotemporal de Cambios en el Paisaje"
+author: "David Murillo"
+format: html
+editor: visual
+---
+
