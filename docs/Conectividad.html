@@ -159,6 +159,106 @@ Attaching package: 'gdistance'</code></pre>
 </div>
 <p><a href="https://www.jstatsoft.org/article/view/v076i13">R Package gdistance: Distances and Routes on Geographical Grids</a></p>
 </section>
+<section id="iconnect" class="level1">
+<h1>Iconnect</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(devtools)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install_github("FMestre1/lconnect")</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lconnect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://doi.org/10.1016/j.ecolmodel.2023.110489">Iconnect</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>vec_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata/vec_projected.shp"</span>, <span class="at">package =</span> <span class="st">"lconnect"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#upload landscape</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>land <span class="ot">&lt;-</span> <span class="fu">upload_land</span>(vec_path, <span class="at">habitat =</span> <span class="dv">1</span>, <span class="at">max_dist =</span> <span class="dv">500</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(land)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "lconnect"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(land, <span class="at">main=</span><span class="st">"Landscape clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>land1 <span class="ot">&lt;-</span> <span class="fu">patch_imp</span>(land, <span class="at">metric=</span><span class="st">"IIC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 6.813017e-04 1.411045e-03 2.346336e-03 0.000000e+00 8.985938e-04
+ [6] 2.185222e+01 7.538679e+00 2.680224e-01 7.097993e-01 4.766515e-01
+[11] 7.021550e+01 0.000000e+00 0.000000e+00 1.015311e-02 2.602522e+00
+[16] 3.274158e-02 2.899414e-01 0.000000e+00 1.550874e+01 1.952726e-01
+[21] 2.812501e+00 1.299815e+01 8.579757e-01 1.422738e+01 0.000000e+00
+[26] 1.086860e-02 4.649738e-03 2.735448e-03 3.128328e-02 0.000000e+00
+[31] 2.618870e-02 0.000000e+00 0.000000e+00 1.420967e-01 0.000000e+00
+[36] 0.000000e+00</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(land1, <span class="at">main=</span><span class="st">"Patch prioritization (%)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="grainscape" class="level1">
+<h1>Grainscape</h1>
+<p><a href="https://doi.org/10.1111/2041-210X.13350">The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grainscape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'grainscape'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:raster':
+
+    distance</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:terra':
+
+    distance</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tiny <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">raster</span>(<span class="fu">system.file</span>(<span class="st">"extdata/tiny.asc"</span>, <span class="at">package =</span> <span class="st">"grainscape"</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a resistance surface from a raster using an is-becomes reclassification</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>tinyCost <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">reclassify</span>(tiny, <span class="at">rcl =</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">12</span>)))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Produce a patch-based MPG where patches are resistance features=1</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>tinyPatchMPG <span class="ot">&lt;-</span> <span class="fu">MPG</span>(<span class="at">cost =</span> tinyCost, <span class="at">patch =</span> tinyCost <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract a representative subset of 5 grains of connectivity</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>tinyPatchGOC <span class="ot">&lt;-</span> <span class="fu">GOC</span>(tinyPatchMPG, <span class="at">nThresh =</span> <span class="dv">5</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Quick visualization of a corridor</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>corridorStartEnd <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>), <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">90</span>))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>tinyPatchCorridor <span class="ot">&lt;-</span> <span class="fu">corridor</span>(tinyPatchGOC, <span class="at">whichThresh =</span> <span class="dv">3</span>, <span class="at">coords =</span> corridorStartEnd)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>())</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="do">## More control over a corridor visualization</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>voronoi, <span class="at">col =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>linksSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lty =</span> <span class="st">"dashed"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>nodesSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>shortestLinksSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lty =</span> <span class="st">"solid"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>shortestNodesSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">"darkred"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"Corridor shortest path length:"</span>,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>              <span class="fu">round</span>(tinyPatchCorridor<span class="sc">@</span>corridorLength, <span class="dv">2</span>),</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>              <span class="st">"resistance units"</span>), <span class="at">side =</span> <span class="dv">1</span>)</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 
 </main>
 <!-- /main column -->

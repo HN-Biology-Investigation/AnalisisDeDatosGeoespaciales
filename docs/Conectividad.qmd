@@ -13,3 +13,74 @@ library(gdistance)
 ```
 
 [R Package gdistance: Distances and Routes on Geographical Grids](https://www.jstatsoft.org/article/view/v076i13) 
+
+# Iconnect
+
+```{r}
+# library(devtools)
+# install_github("FMestre1/lconnect")
+library(lconnect)
+```
+
+[Iconnect](https://doi.org/10.1016/j.ecolmodel.2023.110489)
+
+```{r}
+#Load data
+vec_path <- system.file("extdata/vec_projected.shp", package = "lconnect")
+```
+
+```{r}
+#upload landscape
+land <- upload_land(vec_path, habitat = 1, max_dist = 500)
+class(land)
+
+```
+
+
+```{r}
+plot(land, main="Landscape clusters")
+```
+
+```{r}
+land1 <- patch_imp(land, metric="IIC")
+```
+
+```{r}
+plot(land1, main="Patch prioritization (%)")
+```
+
+# Grainscape
+
+[The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks](https://doi.org/10.1111/2041-210X.13350)
+
+
+```{r}
+library(grainscape)
+
+tiny <- raster::raster(system.file("extdata/tiny.asc", package = "grainscape"))
+
+## Create a resistance surface from a raster using an is-becomes reclassification
+tinyCost <- raster::reclassify(tiny, rcl = cbind(c(1, 2, 3, 4), c(1, 5, 10, 12)))
+## Produce a patch-based MPG where patches are resistance features=1
+tinyPatchMPG <- MPG(cost = tinyCost, patch = tinyCost == 1)
+## Extract a representative subset of 5 grains of connectivity
+tinyPatchGOC <- GOC(tinyPatchMPG, nThresh = 5)
+## Quick visualization of a corridor
+corridorStartEnd <- rbind(c(10, 10), c(90, 90))
+tinyPatchCorridor <- corridor(tinyPatchGOC, whichThresh = 3, coords = corridorStartEnd)
+if (interactive())
+  plot(tinyPatchCorridor)
+
+## More control over a corridor visualization
+if (interactive()) {
+  plot(tinyPatchCorridor@voronoi, col = "lightgrey", lwd = 2)
+  plot(tinyPatchCorridor@linksSP, col = "darkred", lty = "dashed", add = TRUE)
+  plot(tinyPatchCorridor@nodesSP, col = "darkred", pch = 21, bg = "white", add = TRUE)
+  plot(tinyPatchCorridor@shortestLinksSP, col = "darkred", lty = "solid", lwd = 2, add = TRUE)
+  plot(tinyPatchCorridor@shortestNodesSP, col = "darkred", pch = 21, bg = "darkred", add = TRUE)
+  mtext(paste("Corridor shortest path length:",
+              round(tinyPatchCorridor@corridorLength, 2),
+              "resistance units"), side = 1)
+}
+```
+
