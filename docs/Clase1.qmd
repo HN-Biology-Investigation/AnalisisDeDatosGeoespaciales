@@ -1,5 +1,5 @@
 ---
-title: "Clase 1 Introduccion al Curso y uso de R"
+title: "Clase 0: Comandos básicos en R y uso de scripts"
 format:
   html:
     toc: false
@@ -7,11 +7,11 @@ format:
     css: styles.css
 ---
 
-Bienvenidos a la clase 1
+
 
 ::: panel-tabset
 
-## Instalacion de R y RStudio
+## Instalación de R y RStudio
 
 Para descargar e instalar R utilice el siguiente enlace [R base](https://cran.r-project.org/bin/windows/base/)
 
@@ -19,7 +19,7 @@ Para descargar e instalar RStudio utilice el siguiente enlace [RStudio](https://
 
 Asegurece de que R base y R studio esten bien instalados antes de comenzar con el curso
 
-## Operaciones Basicas
+## Operaciones Básicas
 
 - Adición (suma)
 
@@ -143,7 +143,7 @@ En este ejemplo la `variabley` solo tiene la observación `y`. Si quermos más o
 Seccion <- c("1A", "1B", "3A", "2B", "2A", "3A")
 ```
 
-## Cracion de tablas
+## Creación de tablas
 
 Ya que aprendimos como crear variables numéricas y categóricas, ahora podemos crear tablas. Para crear una tabla en R debemos de asegurar que nuestras variables presenten la misma cantidad de observaciones.
 
@@ -176,7 +176,7 @@ knitr::kable(Tabla1)
 
 
 
-## Exploracion de datos
+## Exploración de datos
 
 Primero podemos hacer exploración rápido de nuestra primera tabla utilizando el comando `summary()` 
 
@@ -240,7 +240,7 @@ Observe que el nombre de la base de datos es `bird.sta`, el formato es `.csv` y 
 
 
 
-## Estadistica descriptiva
+## Estadística descriptiva
 
 Para los siguientes ejemplos utilizaremos la base de datos `penguins` del paquete `palmerpenguins`
 
