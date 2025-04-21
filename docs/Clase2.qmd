@@ -1,18 +1,36 @@
 ---
-title: "Clase 2: Exploración y Geoprocesamiento de Vectores"
+title: "Clase 1: Manejo y geoprocesamiento de datos vectoriales"
 format: html
 editor: visual
 ---
 
-En la segunda clase exploraremos cómo trabajar con datos vectoriales, comprendiendo su estructura y funcionalidades. Desde la edición básica hasta técnicas de análisis espacial.
+En esta primera clase exploraremos los conceptos fundamentales relacionados con los datos vectoriales en los Sistemas de Información Geográfica (SIG). Los datos vectoriales son uno de los principales tipos de datos espaciales utilizados para representar la realidad geográfica de manera precisa y estructurada. Los datos vectoriales representan entidades geográficas utilizando geometrías definidas por coordenadas.
+
+Existen tres tipos principales de datos vectoriales: 
+
+- Puntos: Representan ubicaciones específicas en el espacio, como la posición de un árbol, una estación de muestreo o un nido de ave.
+
+- Líneas: Representan entidades lineales como ríos, caminos, senderos o límites de parcelas.
+
+- Polígonos: Representan superficies cerradas como lagos, áreas protegidas, fincas o tipos de cobertura vegetal.
 
 ::: panel-tabset
-Para empezar, es necesario instalar los paquetes `sf` y `ggplot2`.
+
+Para comenzar, es fundamental instalar los paquetes `sf` y `ggplot2`, los cuales nos permitirán trabajar con datos espaciales y visualizarlos de manera eficiente en R.
 
 ```{r}
 require(sf)
 require(ggplot2)
 ```
+
+`sf` puede representar todos los tipos comunes de geometría vectorial (los datos ráster no son compatibles con `sf`): puntos, líneas, polígonos y sus respectivas versiones múltiples (que agrupan varios elementos del mismo tipo en una sola entidad). `sf` también admite colecciones de geometrías, que pueden contener múltiples tipos de geometría en un solo objeto.
+
+`sf` reemplaza en gran medida al ecosistema `sp`, que incluye los paquetes `sp`, `rgdal` para la lectura/escritura de datos y `rgeos` para operaciones espaciales. El paquete está bien documentado, como se puede ver en su [sitio web](https://r-spatial.github.io/sf/index.html) y en las 6 viñetas disponibles, que pueden cargarse de la siguiente manera:
+
+```{r, eval=FALSE}
+vignette("sf1")
+```
+
 
 ## Creación de Vectores
 
@@ -25,7 +43,7 @@ csv_data    <- read.csv("data/Adelges_tsugae.csv")
 
 ```
 
--   CConversión de un Dataframe a un Vector La función `st_as_sf` del paquete `sf` nos permite transformar un dataframe en un vector espacial. Para ello, es necesario especificar qué columnas contienen nuestras coordenadas de latitud y longitud, así como conocer el sistema de proyección utilizado para dichas coordenadas en el campo.
+-   Conversión de un Dataframe a un Vector La función `st_as_sf` del paquete `sf` nos permite transformar un dataframe en un vector espacial. Para ello, es necesario especificar qué columnas contienen nuestras coordenadas de latitud y longitud, así como conocer el sistema de proyección utilizado para dichas coordenadas en el campo.
 
 ```{r}
 points_sf   <- st_as_sf(csv_data, 
@@ -35,9 +53,17 @@ points_sf   <- st_as_sf(csv_data,
 
 ## Introducción a los archivos .shp
 
-Los archivos shapefile `(.shp)` son un formato estándar para representar datos geoespaciales en sistemas de información geográfica (SIG). Estos archivos están compuestos por varios componentes, incluyendo un archivo principal `(.shp)` que contiene la geometría de los objetos espaciales, un archivo de índice `(.shx)` que almacena el índice espacial para acelerar las consultas, y un archivo de atributos (.dbf) que guarda los atributos asociados a las geometrías.
+Los archivos shapefile (.shp) son uno de los formatos más utilizados para almacenar y compartir datos geoespaciales en Sistemas de Información Geográfica (SIG). Aunque comúnmente se les conoce por su extensión principal .shp, en realidad un shapefile está compuesto por un conjunto de archivos que trabajan en conjunto:
 
--   Breve descripción de cómo cargarlos en R con la función `st_read()`:
+- .shp: contiene la geometría de los objetos espaciales (puntos, líneas o polígonos).
+
+- .shx: es un archivo de índice que permite acceder rápidamente a las geometrías, mejorando la eficiencia de las consultas espaciales.
+
+- .dbf: almacena la tabla de atributos asociada, donde se guardan los datos no espaciales (como nombres, categorías o medidas) vinculados a cada entidad geográfica.
+
+Estos componentes funcionan como una unidad, por lo que deben mantenerse juntos en el mismo directorio para que el archivo shapefile sea legible y funcional en cualquier software SIG.
+
+Breve descripción de cómo cargarlos en R con la función `st_read()`:
 
 En R, para cargar archivos shapefile, utilizamos la función `st_read()` del paquete sf. Esta función permite leer los archivos `.shp` y crear un objeto espacial en formato sf que contiene la geometría y los atributos del shapefile. Al llamar a st_read(), simplemente proporcionamos la ruta al archivo .shp como argumento, y la función se encarga de cargar todos los componentes necesarios.
 
@@ -66,7 +92,7 @@ En R, podemos reproyectar una capa shapefile utilizando la función `st_transfor
 polygon_sf  <- st_transform(polygon_sf, crs = pts_crs)
 ```
 
--   Cómo determinar si dos capas tienen la misma proyección
+-   Cómo comprobar si dos capas tienen la misma proyección geográfica
 
 ```{r}
 st_crs(polygon_sf) == st_crs(points_sf)
@@ -127,7 +153,7 @@ ggplot() +
   theme_classic()
 ```
 
-# Creación de Buffer Espacial
+## Creación de Buffer Espacial
 
 La creación de un buffer espacial implica generar una zona alrededor de una geometría específica a una distancia determinada.
 
@@ -147,6 +173,66 @@ ggplot() +
           fill = "red", alpha = 0.5) + 
   theme_classic()
 ```
+
+
+## Subconjunto Espacial 
+
+El subconjunto espacial (o spatial subsetting) es el proceso de seleccionar y extraer datos geográficos basándose en su relación espacial con otros objetos. Esto incluye operaciones como:
+
+- Filtrar features que intersectan con una zona de interés.
+
+- Seleccionar puntos dentro de un polígono.
+
+- Recortar (clip) datos usando un límite geográfico.
+
+```{r, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+
+Counties <- read_sf("data/counties/COUNTIES_POLY.shp")
+plot(Counties["COUNTY"])
+
+table(Counties$COUNTY)
+```
+
+```{r}
+HAMPSHIRE <- Counties %>% 
+  filter(COUNTY == "HAMPSHIRE")
+
+
+plot(HAMPSHIRE)
+```
+## Relaciones de Distancia
+
+```{r}
+Ham_centroid <- Counties %>%
+  filter(COUNTY %in% c("HAMPSHIRE", "BERKSHIRE", "WORCESTER")) %>%
+  st_centroid()
+
+plot(Ham_centroid["COUNTY"])
+
+st_distance(Ham_centroid)
+```
+
+## Crea un mapa base usando Leaflet
+
+```{r}
+library(leaflet)
+library(mapedit)
+```
+
+```{r, eval=FALSE}
+my_map <- leaflet() %>% 
+  addTiles()
+
+drawn_features <- editMap(my_map)
+
+drawn_features_sf <- drawn_features$finished
+
+plot(drawn_features_sf[2],
+     main = "Titulo")
+```
+
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
