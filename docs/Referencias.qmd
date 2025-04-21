@@ -1,0 +1,14 @@
+---
+title: "Referencias"
+author: "David Murillo"
+format: html
+editor: visual
+---
+
+[Geocomputation with R](https://r.geocompx.org/)
+
+[sf](https://r-spatial.github.io/sf/index.html)
+
+[terra](https://rspatial.github.io/terra/)
+
+[landscapemetrics](https://r-spatialecology.github.io/landscapemetrics/)
