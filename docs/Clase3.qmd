@@ -1,12 +1,19 @@
 ---
-title: "Clase 3: Exploración y Geoprocesamiento de rasters"
+title: "Clase 2: Manejo y manipulación de objetos ráster"
 format: html
 editor: visual
 ---
 
-En la Clase 3, nos enfocaremos en la exploración y geoprocesamiento de datos raster. Exploraremos cómo trabajar con este tipo de datos, comprendiendo su estructura y aplicando diversas técnicas de procesamiento geoespacial para realizar análisis.
+En esta clase, nos enfocaremos en la exploración y geoprocesamiento de datos raster. Exploraremos cómo trabajar con este tipo de datos, comprendiendo su estructura y aplicando diversas técnicas de procesamiento geoespacial para realizar análisis.
 
 ::: panel-tabset
+
+## Introducción a los archivos raster
+
+Los archivos raster son una forma común de representar datos espaciales en forma de cuadrículas regulares o "grillas", donde cada celda o píxel contiene un valor que representa alguna característica o atributo en una ubicación específica de la superficie terrestre. Estos archivos son ampliamente utilizados en diversos campos, como la cartografía, la teledetección, la climatología y la ecología, entre otros. Permiten almacenar información detallada sobre la distribución y variabilidad de diferentes fenómenos geográficos, como la temperatura, la precipitación, la elevación del terreno, la cobertura del suelo y la distribución de la vegetación.
+
+El paquete [terra](https://rspatial.github.io/terra/) es una herramienta fundamental en R para el procesamiento y análisis de datos raster. 
+
 Para empezar, es necesario cargar los paquetes `tidyverse`, `terra` y `sf`.
 
 ```{r}
@@ -15,11 +22,7 @@ require(terra)
 require(sf)
 ```
 
-## Introducción a los archivos raster
-
-Los archivos raster son una forma común de representar datos espaciales en forma de cuadrículas regulares o "grillas", donde cada celda o píxel contiene un valor que representa alguna característica o atributo en una ubicación específica de la superficie terrestre. Estos archivos son ampliamente utilizados en diversos campos, como la cartografía, la teledetección, la climatología y la ecología, entre otros. Permiten almacenar información detallada sobre la distribución y variabilidad de diferentes fenómenos geográficos, como la temperatura, la precipitación, la elevación del terreno, la cobertura del suelo y la distribución de la vegetación.
-
--   Breve descripción de cómo cargarlos en R con la función `rast`:
+Breve descripción de cómo cargarlos en R con la función `rast`:
 
 En R, el paquete terra proporciona herramientas para trabajar con archivos raster. Estos archivos pueden contener información de una sola banda (por ejemplo, imágenes satelitales en blanco y negro) o múltiples bandas (por ejemplo, imágenes multiespectrales). Además, los archivos raster pueden tener diferentes resoluciones espaciales y proyecciones cartográficas.
 
@@ -52,19 +55,19 @@ MassCounties <- st_read("data/counties/COUNTYNC_POLY.shp")
 
 ```
 
--   Visualizar capa MassCounties
+- Visualizar capa MassCounties
 
 ```{r}
 plot(MassCounties)
 ```
 
--   Otra forma de visualizar
+- Otra forma de visualizar
 
 ```{r}
 plot(MassCounties["SHAPE_AREA"])
 ```
 
--   Filtrar un vector
+- Filtrar un vector
 
 Ahora utilizaremos la funcion `filter` del paquete `tidyverse` para filtrar un County de Massachusetts que nosotros queramos
 
@@ -81,7 +84,7 @@ hampshire_county <- MassCounties %>%
   filter(COUNTY == "HAMPSHIRE")
 ```
 
-## Reproyectar el sistema de coordenadas de un raster
+- Reproyectar el sistema de coordenadas de un raster
 
 Para reproyectar un raster con el paquete terra, es fundamental especificar la proyección cartográfica deseada utilizando la información wkt. Esta información se obtiene utilizando la función `st_crs()` aplicada al objeto espacial correspondiente, en este caso hampshire_county, seguida de `$wkt`.
 
@@ -89,13 +92,13 @@ Para reproyectar un raster con el paquete terra, es fundamental especificar la p
 Mass_nad83 <- project(MassRater, st_crs(hampshire_county)$wkt)
 ```
 
--   Determinar si dos capas tienen la misma proyección
+- Determinar si dos capas tienen la misma proyección
 
 ```{r}
 st_crs(hampshire_county) == st_crs(Mass_nad83)
 ```
 
-## Proceso de Recorte de Capa Raster
+- Proceso de Recorte de Capa Raster
 
 El proceso de recorte de una capa raster implica seleccionar y extraer una región específica de interés de un raster más grande. En R, esto se puede lograr de dos maneras principales: usando la función `crop()` o la función `mask()` del paquete raster. La función `crop()` recorta el raster original a los límites del área de interés definida por otro raster o por coordenadas específicas. Por otro lado, la función `mask(`)`mantiene los valores del raster original solo dentro de los límites del área de interés, mientras que los valores fuera de esta área se establecen como`NA\`.
 
@@ -104,16 +107,23 @@ Hampshire_nlcd <- crop(Mass_nad83, hampshire_county)
 plot(Hampshire_nlcd) 
 ```
 
--   Alternativa
+- Alternativa
 
 ```{r}
 Hampshire_nlcd2 <- mask(Mass_nad83, hampshire_county)
 plot(Hampshire_nlcd2)
 ```
+- Alternativa mejorada
 
-## Extraer valores de un raster a pasrtir de puntos
+```{r}
+Hampshire_nlcd3 <- crop(Hampshire_nlcd2, hampshire_county)
+plot(Hampshire_nlcd3)
+```
 
--   Cargar archivo con puntos y trasnformalo a shapefile
+
+## Extraer valores de un raster a partir de puntos
+
+- Cargar archivo con puntos y transformarlo a shapefile
 
 ```{r}
 csv_data    <- read.csv("data/Adelges_tsugae.csv")
@@ -123,13 +133,13 @@ points_sf   <- st_as_sf(csv_data,
                         crs = 4326)
 ```
 
--   Asegurarnos que los archivos presenten misma proyección
+- Asegurarnos que los archivos presenten misma proyección
 
 ```{r}
 points_nad83_sf <- st_transform(points_sf, crs = st_crs(hampshire_county))
 ```
 
--   Hacer un corte para puntos in Hampshire
+- Hacer un corte para puntos in Hampshire
 
 ```{r}
 points_nad83_sf <- st_intersection(points_nad83_sf, hampshire_county)
@@ -141,7 +151,7 @@ ggplot()+
   theme_map()
 ```
 
--   Ahora extraemos los valores
+- Ahora extraemos los valores
 
 ```{r}
 Hampshire_values <- extract(Hampshire_nlcd, points_nad83_sf)
@@ -150,6 +160,7 @@ Hampshire_values <- extract(Hampshire_nlcd, points_nad83_sf)
 ```{r}
 Hampshire_values[,2]
 ```
+
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

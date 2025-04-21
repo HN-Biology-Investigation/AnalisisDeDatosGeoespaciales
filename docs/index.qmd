@@ -19,7 +19,7 @@ format:
 
 [Clase 1: Manejo y geoprocesamiento de datos vectoriales](Clase2.html)
 
-[Clase 2: Manejo y análisis de datos raster](Clase3.html)
+[Clase 2: Manejo y manipulación de objetos ráster](Clase3.html)
 
 - [Clase Extra: Elaboración de mapas](Clase6.html)
 
