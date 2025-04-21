@@ -14,7 +14,6 @@ library(ggspatial)
 ```
 
 ::: panel-tabset
-
 ## Cargar base de datos y raster
 
 -   Cargar vector
@@ -42,7 +41,7 @@ plot(CoberturaYoro)
 plot(PuntosConteo["Site"], add= TRUE)
 ```
 
-- Visualizar con ggplot2
+-   Visualizar con ggplot2
 
 ```{r}
 Yoro_df <- as.data.frame(CoberturaYoro, xy = TRUE)
@@ -61,7 +60,7 @@ ggplot()+
 
 landscapemetrics is a R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal et al. 2023), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
 
-- Primero seleccionaremos las metricas de paisaje a estimar
+-   Primero seleccionaremos las metricas de paisaje a estimar
 
 ```{r}
 head(landscapemetrics::lsm_abbreviations_names)
@@ -69,7 +68,7 @@ head(landscapemetrics::lsm_abbreviations_names)
 metric_explore1 <- c('lsm_c_ca')
 ```
 
-- Estimamos nuestras metricas aplicadas a la capa raster
+-   Estimamos nuestras metricas aplicadas a la capa raster
 
 ```{r}
 
@@ -79,24 +78,17 @@ YoroPaisaje <- calculate_lsm(landscape = CoberturaYoro, what = metric_explore1)
 
 ```
 
-
 ```{r}
 YoroPaisaje
 ```
 
-## Ejercicio 
+## Ejercicio
 
 Tomando en cuenta que:
 
-1 = Zona Urbana
-2 = Cafe sombra
-3 = Cafe sol
-4 = Grama
-5 = Bosque
-6 = Suelo desnudo
+1 = Zona Urbana 2 = Cafe sombra 3 = Cafe sol 4 = Grama 5 = Bosque 6 = Suelo desnudo
 
-
-- Crear buffer de ~535 metros en cada punto de conteo
+-   Crear buffer de \~535 metros en cada punto de conteo
 
 ```{r}
 
@@ -105,8 +97,7 @@ Buffer500 <- st_buffer(PuntosConteo, 0.005)
 plot(Buffer500["Type"])
 ```
 
-
-- Preparar un buffer de x sitio
+-   Preparar un buffer de x sitio
 
 ```{r}
 
@@ -119,8 +110,7 @@ Site3_land <- mask(CoberturaYoro, Buffer_site3)
 plot(Site3_land)
 ```
 
-
-- Estimat el area de cada cobertura
+-   Estimat el area de cada cobertura
 
 ```{r}
 check_landscape(Site3_land)
@@ -138,8 +128,6 @@ AreaGrados %>%
 ```{r}
 plot(crop(CoberturaYoro, Buffer_site3))
 ```
-
-
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
