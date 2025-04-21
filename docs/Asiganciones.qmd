@@ -5,17 +5,24 @@ format: html
 theme: cerulean
 ---
 
-A continuación, encontrará una serie de ejercicios que le ayudarán a complementar lo visto en las asignaciones. Estos ejercicios deben ser entregados al final del curso y se le recompensará con horas en el certificado que se le entregará una vez finalizado el curso, todo esto a su propio ritmo. Si tiene alguna consulta, no dude en preguntarnos a través de nuestras redes sociales o correo electrónico (admi@hnbiology.org o david.murillo@hnbiology.org).
+A continuación, encontrará una serie de ejercicios que le ayudarán a complementar lo visto en las asignaciones. Estos ejercicios deben ser entregados al final del curso y se le recompensará con horas en el certificado que se le entregará una vez finalizado el curso, todo esto a su propio ritmo. 
+
+Si tiene alguna consulta, no dude en preguntarnos a través de nuestras redes sociales o correo electrónico (admi@hnbiology.org o david.murillo@hnbiology.org).
 
 ::: panel-tabset
 
 ## Asignación 1
 
+Ejecutar el codigo de la Clase 0: **Comandos básicos en R y uso de scripts**
+
 
 ## Asignación 2
 
+Haciendo uso de los archivos del curso, localice un archivo vectorial y practique los ejercicios realizados en clase.
 
 ## Asignación 3
+
+Haciendo uso de los archivos del curso, localice un archivo raster y practique los ejercicios realizados en clase.
 
 
 ## Asignación 4
