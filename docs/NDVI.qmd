@@ -9,8 +9,8 @@ editor: visual
 
 ```{r}
 library(terra)
+library(RStoolbox)
 ```
-
 
 # Cargar bandas
 
@@ -27,6 +27,8 @@ b4 <- rast("data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B4.TIF")
 b5 <- rast("data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B5.TIF")
 ```
 
+
+
 # Calcular NDVI
 
 ```{r}
@@ -34,10 +36,6 @@ ndvi <- (b5 - b4) / (b5 + b4)
 plot(ndvi)
 ```
 
-< 0.0	Agua, nubes o nieve
- 0.0 - 0.1	Suelo desnudo, rocas, áreas urbanas
- 0.1 - 0.2	Vegetación muy escasa o estresada
- 0.2 - 0.5	Vegetación moderada (pastos, cultivos)
-> 0.5	Vegetación densa y saludable (bosques, selvas)
+\< 0.0 Agua, nubes o nieve 0.0 - 0.1 Suelo desnudo, rocas, áreas urbanas 0.1 - 0.2 Vegetación muy escasa o estresada 0.2 - 0.5 Vegetación moderada (pastos, cultivos) \> 0.5 Vegetación densa y saludable (bosques, selvas)
 
-![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
+![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
