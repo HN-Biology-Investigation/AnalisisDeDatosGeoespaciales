@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Murillo">
 
-<title>NDVI</title>
+<title>Clase 4: NDVI y análisis de vegetación usando imágenes satelitales</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">NDVI</h1>
+<h1 class="title">Clase 4: NDVI y análisis de vegetación usando imágenes satelitales</h1>
 </div>
 
 
@@ -103,8 +103,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="cargar-paquetes" class="level1">
-<h1>Cargar paquetes</h1>
+<p>En esta clase exploraremos el uso de imágenes satelitales para el análisis de la vegetación y otros elementos del paisaje utilizando índices de vegetación y otros índices espectrales derivados de bandas específicas.</p>
+<p>Uno de los índices más comunes en el análisis de la vegetación es el NDVI (Índice de Vegetación de Diferencia Normalizada), que permite evaluar la cantidad de vegetación verde en un área dada. Sin embargo, existen otros índices como el EVI y el SAVI que mejoran la sensibilidad en ciertos contextos, como áreas de vegetación densa o zonas áridas. Además, el NDWI se utiliza para monitorear la presencia de agua en paisajes terrestres, y el NBR es útil para analizar bosques y detectar áreas quemadas o dañadas por incendios.</p>
+<p>A lo largo de esta clase, aprenderemos cómo calcular estos índices utilizando imágenes satelitales en R, procesando las bandas disponibles para obtener métricas que nos proporcionen información sobre la vegetación y otros aspectos del paisaje.</p>
+<p><a href="https://doi.org/10.1155/2017/1353691">Significant Remote Sensing Vegetation Indices: A Review of Developments and Applications</a> ::: panel-tabset</p>
+<section id="cargar-paquetes" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-paquetes">Cargar paquetes</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -112,8 +116,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="cargar-bandas" class="level1">
-<h1>Cargar bandas</h1>
+<section id="cargar-bandas" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-bandas">Cargar bandas</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>b2 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B2.TIF"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -124,11 +128,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>b4 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B4.TIF"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>b5 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B5.TIF"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>b5 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B5.TIF"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>b7 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B7.TIF"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="calcular-ndvi" class="level1">
-<h1>Calcular NDVI</h1>
+<section id="ndvi-índice-de-vegetación-de-diferencia-normalizada" class="level2">
+<h2 class="anchored" data-anchor-id="ndvi-índice-de-vegetación-de-diferencia-normalizada">NDVI (Índice de Vegetación de Diferencia Normalizada)</h2>
+<p>El <a href="https://www.usgs.gov/landsat-missions/landsat-normalized-difference-vegetation-index">NDVI</a> es uno de los índices más utilizados para evaluar la salud y la densidad de la vegetación. Utiliza la diferencia entre la banda del infrarrojo cercano (B5) y la banda roja (B4), ya que la vegetación refleja fuertemente la luz infrarroja cercana y absorbe la luz roja para la fotosíntesis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> (b5 <span class="sc">-</span> b4) <span class="sc">/</span> (b5 <span class="sc">+</span> b4)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ndvi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -140,7 +147,123 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>&lt; 0.0 Agua, nubes o nieve 0.0 - 0.1 Suelo desnudo, rocas, áreas urbanas 0.1 - 0.2 Vegetación muy escasa o estresada 0.2 - 0.5 Vegetación moderada (pastos, cultivos) &gt; 0.5 Vegetación densa y saludable (bosques, selvas)</p>
+<p>Interpretación:</p>
+<ul>
+<li><p>&lt; 0.0: Agua, nubes o nieve.</p></li>
+<li><p>0.0 - 0.1: Suelo desnudo, rocas, áreas urbanas.</p></li>
+<li><p>0.1 - 0.2: Vegetación muy escasa o estresada.</p></li>
+<li><p>0.2 - 0.5: Vegetación moderada (pastos, cultivos).</p></li>
+<li><blockquote class="blockquote">
+<p>0.5: Vegetación densa y saludable (bosques, selvas).</p>
+</blockquote></li>
+</ul>
+<p>Usos:</p>
+<p>Monitoreo de la salud de los ecosistemas.</p>
+<p>Evaluación de la cobertura vegetal y la productividad primaria.</p>
+<p>Detección de cambios en el uso del suelo, como deforestación o expansión urbana.</p>
+</section>
+<section id="evi-índice-de-vegetación-de-diferencia-normalizada-modificado" class="level2">
+<h2 class="anchored" data-anchor-id="evi-índice-de-vegetación-de-diferencia-normalizada-modificado">EVI (Índice de Vegetación de Diferencia Normalizada Modificado)</h2>
+<p>El <a href="https://www.usgs.gov/landsat-missions/landsat-enhanced-vegetation-index">EVI</a> es una versión mejorada del NDVI que fue diseñado para mejorar la sensibilidad de las áreas densamente vegetadas y para reducir los efectos de la saturación que pueden ocurrir en áreas con alta cobertura vegetal. Además, utiliza la banda azul (B2) como un coeficiente para minimizar los efectos de la atmósfera.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fl">2.5</span> <span class="sc">*</span> ((b5 <span class="sc">-</span> b4) <span class="sc">/</span> (b5 <span class="sc">+</span> (<span class="dv">6</span> <span class="sc">*</span> b4) <span class="sc">-</span> (<span class="fl">7.5</span> <span class="sc">*</span> b2) <span class="sc">+</span> <span class="dv">10000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+|---------|---------|---------|---------|
+=========================================
+                                          </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(evi)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"EVI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="NDVI_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interpretación:</p>
+<p>Valores más altos de EVI indican una vegetación más saludable y densa.</p>
+<p>Es más eficaz que el NDVI en áreas con vegetación densa y también es menos susceptible a las variaciones atmosféricas y el suelo.</p>
+<p>Usos:</p>
+<p>Evaluación de la salud de los ecosistemas, especialmente en bosques tropicales y áreas densamente vegetadas.</p>
+<p>Monitoreo de la dinámica de la vegetación a gran escala, como la agricultura y los bosques.</p>
+</section>
+<section id="calcular-savi-índice-de-vegetación-ajustado-por-suelo" class="level2">
+<h2 class="anchored" data-anchor-id="calcular-savi-índice-de-vegetación-ajustado-por-suelo">Calcular SAVI (Índice de Vegetación Ajustado por Suelo)</h2>
+<p>El <a href="https://www.usgs.gov/landsat-missions/landsat-soil-adjusted-vegetation-index#:~:text=Landsat%20Surface%20Reflectance%2Dderived%20SAVI,accommodate%20most%20land%20cover%20types.&amp;text=In%20Landsat%204%2D7%2C%20SAVI,0.5">SAVI</a> es un índice de vegetación similar al NDVI, pero está diseñado para reducir el efecto de suelos desnudos, especialmente en áreas donde la cobertura vegetal es baja. El parámetro L es un factor de corrección, generalmente asignado a 0.5, para ajustar el índice en terrenos donde la vegetación es escasa.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>savi <span class="ot">&lt;-</span> ((b5 <span class="sc">-</span> b4) <span class="sc">/</span> (b5 <span class="sc">+</span> b4 <span class="sc">+</span> <span class="fl">0.5</span>)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(savi)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"SAVI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="NDVI_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interpretación:</p>
+<p>Valores bajos de SAVI: Suelo desnudo, zonas áridas, o áreas urbanas con poca vegetación.</p>
+<p>Valores más altos de SAVI: Indican una mayor cobertura vegetal, especialmente en áreas con vegetación baja o moderada.</p>
+<p>Usos:</p>
+<p>Análisis de áreas áridas o semiáridas con poca vegetación.</p>
+<p>Monitoreo de vegetación en tierras agrícolas o áreas de pastoreo donde el suelo es visible.</p>
+</section>
+<section id="calcular-ndwi-índice-de-agua-normalizado" class="level2">
+<h2 class="anchored" data-anchor-id="calcular-ndwi-índice-de-agua-normalizado">Calcular NDWI (Índice de Agua Normalizado)</h2>
+<p>El <a href="https://www.usgs.gov/centers/eros/science/usgs-eros-archive-vegetation-monitoring-eviirs-global-ndwi#:~:text=Explore%20Search,Mask%20GeoTIFF">NDWI</a> es un índice utilizado para monitorear la presencia de agua, identificando cuerpos de agua (ríos, lagos, embalses) y áreas húmedas en la superficie terrestre. Utiliza la banda verde (B3) y la banda infrarroja cercana (B5) para detectar la cantidad de agua en la superficie.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ndwi <span class="ot">&lt;-</span> (b3 <span class="sc">-</span> b5) <span class="sc">/</span> (b3 <span class="sc">+</span> b5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+|---------|---------|---------|---------|
+=========================================
+                                          </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ndwi)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"NDWI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="NDVI_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interpretación:</p>
+<p>Valores altos de NDWI: Indican la presencia de agua o áreas húmedas (lagos, ríos, humedales).</p>
+<p>Valores bajos de NDWI: Suelo o áreas áridas con poca o ninguna presencia de agua.</p>
+<p>Usos:</p>
+<p>Monitoreo de cuerpos de agua y zonas húmedas.</p>
+<p>Detección de inundaciones, cambios en los cuerpos de agua o estudios sobre la calidad del agua.</p>
+<p>Análisis de la vegetación ribereña.</p>
+</section>
+<section id="calcular-nbr-índice-de-diferencia-normalizada-de-la-vegetación-para-bosques" class="level2">
+<h2 class="anchored" data-anchor-id="calcular-nbr-índice-de-diferencia-normalizada-de-la-vegetación-para-bosques">Calcular NBR (Índice de Diferencia Normalizada de la Vegetación para Bosques)</h2>
+<p>El <a href="https://www.usgs.gov/landsat-missions/landsat-normalized-burn-ratio#:~:text=NBR%20is%20used%20to%20identify,SWIR%20values%20in%20traditional%20fashion.&amp;text=In%20Landsat%204%2D7%2C%20NBR,Band%205%20+%20Band%207">NBR</a> es un índice similar al NDVI, pero enfocado en bosques y áreas forestales. Utiliza la banda infrarroja cercana (B5) y la banda roja (B4) para evaluar la salud de la vegetación forestal, y es particularmente útil para detectar incendios forestales, deforestación y la regeneración de la vegetación.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nbr <span class="ot">&lt;-</span> (b5 <span class="sc">-</span> b7) <span class="sc">/</span> (b5 <span class="sc">+</span> b7)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nbr)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"NBR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="NDVI_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interpretación:</p>
+<p>Valores más altos de NBR: Vegetación saludable en bosques.</p>
+<p>Valores bajos de NBR: Áreas de vegetación quemada o afectada por incendios, deforestación o estrés.</p>
+<p>Usos:</p>
+<p>Monitoreo de la salud de los bosques.</p>
+<p>Detección de incendios forestales y cambios en la cobertura forestal.</p>
+<p>Estudio de la regeneración post-incendio y el impacto de eventos naturales en bosques.</p>
+<p>:::</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>

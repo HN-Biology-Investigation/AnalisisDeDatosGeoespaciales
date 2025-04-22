@@ -4,7 +4,6 @@ format: html
 editor: visual
 ---
 
-
 ::: panel-tabset
 
 ## Cargar paquetes
@@ -25,10 +24,10 @@ my_map <- leaflet() %>%
 
 ```
 
-
 ```{r}
 drawn_features <- editMap(my_map)
 ```
+
 ```{r}
 drawn_features_sf <- drawn_features$finished
 
@@ -42,8 +41,6 @@ ggplot2::ggplot(data = drawn_features_sf)+
   theme_classic()
 
 ```
-
-
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
