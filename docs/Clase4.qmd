@@ -1,8 +1,22 @@
 ---
-title: "Clase 4: Uso de landscapemetrics"
+title: "Clase 3: Introducción al análisis de paisaje con landscapemetrics"
 format: html
 editor: visual
 ---
+
+## Introducción
+
+El análisis del paisaje es una herramienta fundamental en ecología espacial y conservación, ya que permite cuantificar la estructura, composición y configuración del hábitat en una región determinada. Este tipo de análisis ayuda a responder preguntas clave sobre los patrones y procesos ecológicos, como la fragmentación del hábitat, la conectividad del paisaje, y la relación entre la biodiversidad y la cobertura del suelo.
+
+El paquete [landscapemetrics]( https://doi.org/10.1111/ecog.04617) de R ha emergido como una herramienta flexible para realizar análisis cuantitativos del paisaje utilizando mapas de uso o cobertura del suelo. Este paquete permite calcular una amplia variedad de métricas a nivel de parche, clase y paisaje completo, siguiendo las definiciones del marco teórico propuesto por FRAGSTATS, pero integrado dentro del ecosistema R, lo cual facilita su combinación con otros paquetes para análisis estadísticos, visualización y modelado espacial.
+
+Entre las métricas más comunes se incluyen la proporción de área cubierta por cada clase (pland), el índice de agregación (AI), la densidad de bordes (ED), y muchas otras que describen la forma, tamaño, aislamiento y disposición espacial de los parches del paisaje.
+
+Este análisis es particularmente útil en estudios de ecología del paisaje, conservación biológica, planificación territorial, y evaluación de impactos ambientales. El uso de landscapemetrics permite automatizar y reproducir los análisis, facilitando así la comparación entre paisajes, la evaluación temporal de cambios y la integración de datos con modelos ecológicos.
+
+::: panel-tabset
+
+## Cargar paquetes
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -13,35 +27,36 @@ library(ggthemes)
 library(ggspatial)
 ```
 
-::: panel-tabset
+
+
 ## Cargar base de datos y raster
 
--   Cargar vector
+- Cargar vector
 
 ```{r}
 PuntosConteo <- st_read("data/Point_counts.gpkg")
 ```
 
--   Cargar Rater
+- Cargar Rater
 
 ```{r}
 CoberturaYoro <- rast("data/ClasificacionYoro.tif")
 ```
 
--   Revisar proyeccion de capas
+- Revisar proyección de capas
 
 ```{r}
 st_crs(PuntosConteo) ==  st_crs(CoberturaYoro)
 ```
 
--   Visualizar ambas capas
+- Visualizar ambas capas
 
 ```{r}
 plot(CoberturaYoro)
 plot(PuntosConteo["Site"], add= TRUE)
 ```
 
--   Visualizar con ggplot2
+- Visualizar con ggplot2
 
 ```{r}
 Yoro_df <- as.data.frame(CoberturaYoro, xy = TRUE)
@@ -54,41 +69,82 @@ ggplot()+
 
 ```
 
-## Uso de landscape metrics
+## Uso de landscapemetrics
 
-[LandscapeMetrics](https://r-spatialecology.github.io/landscapemetrics/)
 
-landscapemetrics is a R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal et al. 2023), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
-
--   Primero seleccionaremos las metricas de paisaje a estimar
+- Primero, seleccionaremos las métricas de paisaje a estimar.
 
 ```{r}
 head(landscapemetrics::lsm_abbreviations_names)
+```
+¿Qué es lsm_abbreviations_names?
 
+Es un data frame incluido en el paquete landscapemetrics que contiene un listado completo de todas las métricas de paisaje disponibles, junto con su:
+
+- Abreviación (por ejemplo, pland, area, np)
+
+- Nombre completo
+
+- Nivel de análisis (parche, clase o paisaje)
+
+- Categoría (área, forma, fragmentación, etc.)
+
+¿Para qué sirve?
+
+Este objeto es útil para explorar y seleccionar las métricas que se pueden calcular. Si no estás seguro de qué métricas están disponibles o cómo se llaman, este listado te permite consultarlas todas en un solo lugar.
+
+```{r}
 metric_explore1 <- c('lsm_c_ca')
 ```
 
--   Estimamos nuestras metricas aplicadas a la capa raster
+Creamos un vector de métricas llamado metric_explore1, que contiene la métrica lsm_c_ca.
+
+lsm_c_ca significa "Class-level Total Class Area" (Área total por clase).
+
+Esta métrica calcula el área total ocupada por cada clase de cobertura dentro del paisaje, expresada en unidades de superficie (por defecto, en píxeles o unidades de la capa ráster).
+
+- Estimamos nuestras métricas aplicadas a la capa ráster
 
 ```{r}
-
 check_landscape(CoberturaYoro)
+```
 
+`check_landscape` verifica que el objeto CoberturaYoro sea un paisaje válido para el paquete landscapemetrics.
+
+Evalúa si el ráster tiene valores adecuados (por ejemplo, sin NA no manejados, que las clases estén bien definidas, etc.).
+
+Es útil para detectar errores antes de calcular métricas.
+
+```{r}
 YoroPaisaje <- calculate_lsm(landscape = CoberturaYoro, what = metric_explore1)
 
 ```
+
+Este es el paso en el que se calculan las métricas del paisaje.
+
+landscape = CoberturaYoro indica la capa ráster de cobertura del suelo sobre la que se aplicarán las métricas.
+
+what = metric_explore1 especifica la métrica o métricas que deseamos calcular (en este caso, solo lsm_c_ca).
+
+El resultado se guarda en el objeto YoroPaisaje, que será un data frame con los valores calculados de la métrica para cada clase presente en la capa ráster.
+
 
 ```{r}
 YoroPaisaje
 ```
 
-## Ejercicio
+## Ejercicio 1
 
 Tomando en cuenta que:
 
-1 = Zona Urbana 2 = Cafe sombra 3 = Cafe sol 4 = Grama 5 = Bosque 6 = Suelo desnudo
+1 = Zona urbana
+2 = Café sombra
+3 = Café sol
+4 = Grama
+5 = Bosque
+6 = Suelo desnudo
 
--   Crear buffer de \~535 metros en cada punto de conteo
+- Crear buffer de \~535 metros en cada punto de conteo
 
 ```{r}
 
@@ -97,7 +153,7 @@ Buffer500 <- st_buffer(PuntosConteo, 0.005)
 plot(Buffer500["Type"])
 ```
 
--   Preparar un buffer de x sitio
+- Crear un corte del ráster para cada buffer por sitio
 
 ```{r}
 
@@ -107,15 +163,16 @@ Buffer_site3 <- Buffer500 %>%
 plot(Buffer_site3)
 
 Site3_land <- mask(CoberturaYoro, Buffer_site3)
+
+Site3_land <- crop(Site3_land, Buffer_site3)
+
 plot(Site3_land)
 ```
 
--   Estimat el area de cada cobertura
+- Estimar el área de cada cobertura
 
 ```{r}
 check_landscape(Site3_land)
-
-# View(landscapemetrics::lsm_abbreviations_names)
 
 AreaGrados <- calculate_lsm(landscape = Site3_land, what = "lsm_c_ca")
 
@@ -125,9 +182,126 @@ AreaGrados %>%
 
 ```
 
+
+## Calcular las métricas de fragmentación
+
+Existen varias métricas relacionadas con la fragmentación. 
+Algunas métricas comunes son:
+
+Densidad de parches (pd): El número de parches por unidad de área. Valores más altos indican mayor fragmentación.
+
+Densidad de bordes (ed): La longitud total de los bordes por unidad de área. Es una medida común de fragmentación, ya que más bordes implican más separación entre hábitats.
+
+Índice del parche más grande (lpi): El tamaño del parche más grande como un porcentaje del área total del paisaje. Ayuda a identificar si existe un parche dominante.
+
 ```{r}
-plot(crop(CoberturaYoro, Buffer_site3))
+
+metricas <- calculate_lsm(landscape = Site3_land, 
+                          what = c("lsm_c_pd", "lsm_c_ed", "lsm_c_lpi"))
+
+
+
+head(metricas)
 ```
+## Caso de estudio
+
+Evaluar si la cobertura boscosa o de café influye en la ocupación de alguna especie de aves presente en nuestra base de datos "PuntosConteo".
+
+Función para realizar recortes por sitio:
+
+La función recibirá el Buffer500 (con todos los buffers) y el ráster (CoberturaYoro), luego realizará un recorte para cada sitio especificado en la columna Site y lo guardará o devolverá como un resultado.
+
+```{r}
+recortar_por_sitios <- function(buffer_data, raster_data) {
+
+  lista_recortes <- list()
+  
+  sitios_unicos <- unique(buffer_data$Site)
+  
+  for (sitio in sitios_unicos) {
+    
+    buffer_site <- buffer_data %>% filter(Site == sitio)
+    
+    raster_site_masked <- mask(raster_data, buffer_site)
+    
+    raster_site_cropped <- crop(raster_site_masked, buffer_site)
+    
+    lista_recortes[[sitio]] <- raster_site_cropped
+  }
+  
+  return(lista_recortes)
+}
+
+Buffer <- st_buffer(PuntosConteo, 0.005)
+
+resultados_recortes <- recortar_por_sitios(Buffer, CoberturaYoro)
+
+plot(resultados_recortes[[3]])
+
+```
+
+Para calcular el porcentaje de área de cada uno de los rásteres recortados en la lista utilizando landscapemetrics, debemos hacerlo de la siguiente manera:
+
+Iterar sobre la lista de rásteres recortados.
+
+Aplicar la función calculate_lsm() para calcular las métricas de paisaje (en este caso, la métrica lsm_c_ca para el área del parche).
+
+Extraer la métrica de área y calcular el porcentaje del área ocupada por cada clase.
+
+```{r}
+calcular_area_porcentaje <- function(resultados_recortes) {
+  
+  resultados_area <- data.frame()
+  
+  for (sitio in 1:length(resultados_recortes)) {
+    
+    raster_site <- resultados_recortes[[sitio]]
+    
+    if (is.null(raster_site)) {
+      next  
+    }
+    
+    metricas <- calculate_lsm(landscape = raster_site, what = "lsm_c_ca")
+    
+    if (is.data.frame(metricas)) {
+      
+      metricas$sitio <- sitio
+      
+      resultados_area <- rbind(resultados_area, metricas)
+    } else {
+      warning(paste("El cálculo de métricas para el sitio", sitio, "no retornó un data.frame"))
+    }
+  }
+  
+  return(resultados_area)
+}
+
+
+resultados_area_porcentaje <- calcular_area_porcentaje(resultados_recortes)
+
+head(resultados_area_porcentaje)
+```
+
+```{r}
+Paisaje <- resultados_area_porcentaje %>% 
+  group_by(sitio) %>% 
+  pivot_wider(names_from = c(metric, class), values_from = value) %>% 
+  ungroup()
+
+str(Paisaje)
+
+
+```
+
+```{r}
+Aves_paisaje <- cbind(PuntosConteo, Paisaje)
+```
+
+```{r}
+Modelo1 <- glm(SETVIR ~ ca_5, family = "poisson", data = Aves_paisaje)
+summary(Modelo1)
+```
+
 :::
 
-![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)

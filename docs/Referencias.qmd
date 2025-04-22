@@ -5,9 +5,12 @@ format: html
 editor: visual
 ---
 
+
 [Geocomputation with R](https://r.geocompx.org/)
 
 [sf](https://r-spatial.github.io/sf/index.html)
+
+[Proyeccion de coordenadas](https://epsg.io/)
 
 [terra](https://rspatial.github.io/terra/)
 
