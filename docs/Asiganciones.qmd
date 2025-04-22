@@ -27,6 +27,8 @@ Haciendo uso de los archivos del curso, localice un archivo raster y practique l
 
 ## Asignación 4
 
+Realizar un modelo para evaluar la asociación de la fragmentación del bosque y la ocupación de alguna especie de ave.
+
 ## Asignación 5
 
 
