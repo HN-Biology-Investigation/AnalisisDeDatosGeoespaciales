@@ -71,7 +71,7 @@ Los Modelos de Distribución de Especies (Species Distribution Models o SDMs) so
 
 ## Obtener Datos Climáticos (WorldClim)
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(geodata)
 library(terra)
@@ -141,7 +141,7 @@ sdrf <- modelling(algorithm = 'RF',
 
 ## Visualizar los Resultados del Modelo SDM
 
-```{r}
+```{r, eval=FALSE}
 plot(sdrf)
 ```
 
