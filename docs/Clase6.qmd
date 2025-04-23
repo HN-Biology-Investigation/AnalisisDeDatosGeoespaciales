@@ -330,7 +330,6 @@ map_Union1 <-ggdraw() + draw_plot(D) +
 map_Union1
 ```
 
-
 ## Mapa animado
 
 ```{r, warning=FALSE, message=FALSE}
@@ -383,12 +382,10 @@ gg  <- ggplot()+
   theme(plot.subtitle = element_text(face= "italic", size = 12))
 ```
 
-
 ```{r, eval=FALSE}
 
 gganimate::animate(gg + ease_aes('cubic-in-out'), fps = 7, width = 600, height = 600, renderer = gifski_renderer())
 ```
-
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

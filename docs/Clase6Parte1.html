@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clase 6: Uso de gganimate y SDM</title>
+<title>Clase 5: Modelos de distribución potencial de especies (SDMs)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase 6: Uso de gganimate y SDM</h1>
+<h1 class="title">Clase 5: Modelos de distribución potencial de especies (SDMs)</h1>
 </div>
 
 
@@ -92,30 +92,184 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
 
+
+<p>Los Modelos de Distribución de Especies (Species Distribution Models o SDMs) son herramientas estadísticas y computacionales que nos permiten predecir la distribución geográfica de una especie a partir de datos de ocurrencia (presencia o presencia/ausencia) y variables ambientales (como clima, topografía, vegetación, etc.).</p>
+<p><a href="https://doi.org/10.1111/ecog.05877">Species distribution models rarely predict the biology of real populations</a></p>
+<p><strong>Glosario de términos</strong></p>
+<ul>
+<li><p>Abundancia: Número de individuos de una especie presentes en un sitio.</p></li>
+<li><p>AUC: Área bajo la curva ROC (característica operativa del receptor). Es una medida de la capacidad de discriminación del modelo independiente de umbrales. Varía entre 0 y 1, donde un valor de 0.5 indica un modelo que no predice mejor que el azar la presencia o ausencia.</p></li>
+<li><p>Calibración: Se refiere con frecuencia a la validación interna de los SDMs durante su construcción (ver validación cruzada). Con datos independientes, el “desempeño de calibración” se refiere al grado de correlación entre las predicciones del SDM y la probabilidad de ocurrencia cuantificada en encuestas independientes, por ejemplo, si los sitios con una probabilidad predicha de 0.60 tienen un 60% de probabilidad de estar ocupados, y si esto es el doble de probable que en sitios con una probabilidad predicha de 0.30 (Vaughan y Ormerod 2005).</p></li>
+<li><p>SDM: Se utiliza aquí para referirse tanto a los Modelos de Distribución de Especies (SDMs) como a los Modelos de Nicho Ecológico (ENMs), ambos de naturaleza correlacional.</p></li>
+<li><p>Predicción de SDM: Salida del SDM para cada celda en la región de estudio. Dependiendo del algoritmo del modelo, esta salida puede representar probabilidad de ocurrencia o idoneidad del hábitat, aunque en muchos casos se transforma o interpreta como idoneidad relativa del hábitat.</p></li>
+<li><p>Error de comisión: Predecir la presencia de una especie en un lugar donde en realidad está ausente (falso positivo).</p></li>
+<li><p>Validación cruzada: Evaluación de la capacidad del SDM para predecir presencias y ausencias utilizando una porción retenida de los datos de localidad usados para construir el modelo.</p></li>
+<li><p>Capacidad de discriminación: Habilidad del SDM para distinguir correctamente las presencias y ausencias observadas de una especie en la región de estudio.</p></li>
+<li><p>Limitación por dispersión: Ausencia de individuos en ciertos lugares debido a barreras fisiológicas o físicas al movimiento, o por tiempo insuficiente para colonizar.</p></li>
+<li><p>Distancia al centroide del nicho (según Lira-Noriega y Manthey 2014): Medida calculada extrayendo las condiciones ambientales subyacentes en todos los sitios dentro del rango geográfico predicho por el SDM; se estima el centroide multivariado de este espacio ambiental y se calcula la distancia geométrica entre una localidad de interés y este centroide en el espacio ambiental. Nota: en otros estudios, los datos ambientales se extraen inicialmente de observaciones de la especie u otras estimaciones del rango (es decir, no basado en predicciones de SDM).</p></li>
+<li><p>Nicho ecológico: Tiene muchas definiciones; ver Chase y Leopold (2003) para una revisión, y Soberón (2007) para una discusión en el contexto de los SDMs. Muchos parámetros en esta revisión se refieren al nicho demográfico: condiciones ambientales que permiten un crecimiento poblacional intrínseco no negativo.</p></li>
+<li><p>Tasa finita de crecimiento (lambda): Tasa de crecimiento per cápita de una población, medida como la razón del tamaño poblacional entre dos intervalos de tiempo consecutivos.</p></li>
+<li><p>Diversidad genética: Diversidad de alelos y genotipos dentro de una población, representada por la riqueza alélica, diversidad de nucleótidos, heterocigosidad, coeficientes de endogamia y/o relaciones de parentesco.</p></li>
+<li><p>Idoneidad del hábitat: Capacidad y grado en que las condiciones ambientales pueden sostener poblaciones viables.</p></li>
+<li><p>Datos independientes: Mediciones del rango geográfico, ocurrencia, abundancia, aptitud promedio poblacional o diversidad genética recogidas independientemente de los registros de ocurrencia usados para construir SDMs. Idealmente, no incluyen sesgos espaciales u otros, y se recolectan en sitios que abarcan todo el rango de predicciones del SDM.</p></li>
+<li><p>Aptitud individual: Existen múltiples definiciones, unificadas por el objetivo de evaluar la capacidad relativa de un individuo para pasar sus genes a la siguiente generación.</p></li>
+<li><p>Tasa intrínseca de crecimiento (r): Máxima tasa de crecimiento per cápita para una población.</p></li>
+<li><p>Ocurrencia: Presencia de una especie dada en un sitio dado. Los conjuntos de datos de ocurrencia pueden incluir tanto presencias como ausencias.</p></li>
+<li><p>Errores de omisión: Predecir la ausencia de una especie en un lugar donde en realidad está presente (falso negativo).</p></li>
+<li><p>Aptitud promedio poblacional (λ): Aptitud promediada entre todos los individuos de una población.</p></li>
+<li><p>Posición en el rango: Posición de un sitio con respecto al centro o a los bordes de la distribución geográfica de una especie.</p></li>
+<li><p>ROC: Curva característica operativa del receptor. Se grafica la sensibilidad contra 1-especificidad para cada posible umbral de ocurrencia.</p></li>
+<li><p>SDM y ENM (modelo de distribución de especies y modelo de nicho ecológico): Términos utilizados para describir modelos correlacionales que asocian variables ambientales con ocurrencias conocidas de especies (revisado en Peterson 2011, Peterson y Soberón 2012). Aunque en teoría y en la práctica ideal, modelar la distribución no es lo mismo que modelar el nicho (Pulliam 2000, Peterson 2011, Peterson y Soberón 2012), los autores utilizan ambos términos al generar modelos para predecir los parámetros revisados aquí.</p></li>
+<li><p>Sensibilidad: Proporción de presencias observadas que fueron correctamente predichas como presentes por el SDM.</p></li>
+<li><p>Especificidad: Proporción de ausencias observadas que fueron correctamente predichas como ausentes por el SDM.</p></li>
+<li><p>Tasa de verdaderos positivos: Proporción de presencias observadas que fueron predichas como presentes por el SDM.</p></li>
+</ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Mapa animado</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Mapa distribucion potencial</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Flujo de trabajo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Aplicando metodologia estandarizada</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Obtener Datos Climáticos (WorldClim)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Cargar los Datos de Ocurrencias de la Especie</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Generar el Modelo de Distribución Potencial (SDM)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Visualizar los Resultados del Modelo SDM</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rnaturalearth, rnaturalearthdata, sf, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               raster, reticulate,  maptools,maps,maptiles,gridExtra,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               ggspatial,rgeos, tmap,grid, rgbif, ggmap,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               rgrass7, sp, mapr, rgdal, RColorBrewer,ggrepel, leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Honduras <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">"medium"</span>, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">returnclass =</span> <span class="st">"sf"</span>, </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">country =</span> <span class="st">"Honduras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: terra
+terra 1.7.71
+
+Attaching package: 'terra'
+
+The following object is masked from 'package:tidyr':
+
+    extract</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.11.2, GDAL 3.8.2, PROJ 9.3.1; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(rnaturalearth, rnaturalearthdata, sf, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>               raster,rgeos,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>               rgrass7, sp, mapr, rgdal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing package into 'C:/Users/David Murillo/AppData/Local/R/win-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rgeos' is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3:
+  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3/PACKAGES'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in p_install(package, character.only = TRUE, ...):</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+logical.return = TRUE, : there is no package called 'rgeos'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing package into 'C:/Users/David Murillo/AppData/Local/R/win-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rgrass7' is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3:
+  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3/PACKAGES'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in p_install(package, character.only = TRUE, ...):</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+logical.return = TRUE, : there is no package called 'rgrass7'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing package into 'C:/Users/David Murillo/AppData/Local/R/win-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'mapr' is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3:
+  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3/PACKAGES'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in p_install(package, character.only = TRUE, ...):</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+logical.return = TRUE, : there is no package called 'mapr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing package into 'C:/Users/David Murillo/AppData/Local/R/win-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rgdal' is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3:
+  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3/PACKAGES'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in p_install(package, character.only = TRUE, ...):</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+logical.return = TRUE, : there is no package called 'rgdal'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in pacman::p_load(rnaturalearth, rnaturalearthdata, sf, raster, : Failed to install/load:
+rgeos, rgrass7, mapr, rgdal</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="st">"data/"</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>HN_clim.current <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_country</span>(<span class="st">"HN"</span>, <span class="at">var =</span> <span class="st">"bio"</span>, <span class="at">path =</span> output_path)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>HN_clim.current_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(HN_clim.current, <span class="st">"Raster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SETCHR <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>SETCHR <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 Rows: 384 Columns: 50
@@ -130,37 +284,14 @@ STARTED
 Specify the column types or set `show_col_types = FALSE` to quiet this message.
 • `` -&gt; `...50`</code></pre>
 </div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SETCHR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 50
-  `GLOBAL UNIQUE IDENTIFIER`      `LAST EDITED DATE`  `TAXONOMIC ORDER` CATEGORY
-  &lt;chr&gt;                           &lt;dttm&gt;                          &lt;dbl&gt; &lt;chr&gt;   
-1 URN:CornellLabOfOrnithology:EB… 2022-09-09 18:23:02             33518 species 
-2 URN:CornellLabOfOrnithology:EB… 2022-09-09 18:23:02             33518 species 
-3 URN:CornellLabOfOrnithology:EB… 2022-09-09 18:23:02             33518 species 
-4 URN:CornellLabOfOrnithology:EB… 2019-10-03 16:27:22             33518 species 
-5 URN:CornellLabOfOrnithology:EB… 2020-05-13 18:35:57             33518 species 
-6 URN:CornellLabOfOrnithology:EB… 2020-10-18 10:06:35             33518 species 
-# ℹ 46 more variables: `TAXON CONCEPT ID` &lt;chr&gt;, `COMMON NAME` &lt;chr&gt;,
-#   `SCIENTIFIC NAME` &lt;chr&gt;, `SUBSPECIES COMMON NAME` &lt;lgl&gt;,
-#   `SUBSPECIES SCIENTIFIC NAME` &lt;lgl&gt;, `EXOTIC CODE` &lt;lgl&gt;,
-#   `OBSERVATION COUNT` &lt;chr&gt;, `BREEDING CODE` &lt;chr&gt;,
-#   `BREEDING CATEGORY` &lt;chr&gt;, `BEHAVIOR CODE` &lt;chr&gt;, `AGE/SEX` &lt;lgl&gt;,
-#   COUNTRY &lt;chr&gt;, `COUNTRY CODE` &lt;chr&gt;, STATE &lt;chr&gt;, `STATE CODE` &lt;chr&gt;,
-#   COUNTY &lt;lgl&gt;, `COUNTY CODE` &lt;lgl&gt;, `IBA CODE` &lt;lgl&gt;, `BCR CODE` &lt;lgl&gt;, …</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SETCHR1 <span class="ot">&lt;-</span> SETCHR <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Observaciones"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION COUNT</span><span class="st">`</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fecha"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION DATE</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Observaciones =</span> <span class="fu">as.numeric</span>(Observaciones)) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Observaciones <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Fecha)) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="st">"2018"</span> <span class="sc">|</span> Year <span class="sc">==</span> <span class="st">"2019"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>SETCHR1 <span class="ot">&lt;-</span> SETCHR <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Observaciones"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION COUNT</span><span class="st">`</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fecha"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION DATE</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Observaciones =</span> <span class="fu">as.numeric</span>(Observaciones)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Observaciones <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Fecha)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="st">"2018"</span> <span class="sc">|</span> Year <span class="sc">==</span> <span class="st">"2019"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `mutate()`.
 ℹ In argument: `Observaciones = as.numeric(Observaciones)`.
@@ -168,65 +299,22 @@ Caused by warning:
 ! NAs introduced by coercion</code></pre>
 </div>
 </div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SETCHR1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-   Year Fecha      Observaciones LONGITUDE LATITUDE
-  &lt;dbl&gt; &lt;date&gt;             &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1  2019 2019-09-06             1     -86.8     13.3
-2  2019 2019-09-06             1     -86.8     13.3
-3  2019 2019-09-06             1     -86.8     13.3
-4  2019 2019-09-19             1     -86.9     13.4
-5  2019 2019-09-19             1     -86.9     13.4
-6  2019 2019-10-19             2     -86.8     13.3</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gg  <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> Honduras)<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span>SETCHR1,  <span class="fu">aes</span>(<span class="at">x=</span>LONGITUDE, <span class="at">y=</span>LATITUDE,<span class="at">color=</span> Observaciones),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha=</span> <span class="fl">0.3</span>, <span class="at">size=</span> <span class="dv">1</span>, <span class="at">shape=</span> <span class="dv">15</span>)<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">transition_time</span>(<span class="at">time =</span> Fecha)<span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"orange"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">na.value =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">"Abundancia de"</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Setophaga chrysoparia"</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Abundancia"</span>)<span class="sc">+</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))<span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">face=</span> <span class="st">"italic"</span>, <span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>gganimate::animate(gg + ease_aes(‘cubic-in-out’), fps = 7, width = 600, height = 600, renderer = gifski_renderer())</p>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SSDM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'SSDM' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Welcome to the SSDM package, you can launch the graphical user interface by typing gui() in the console.</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="st">"data/"</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>HN_clim.current <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_country</span>(<span class="st">"HN"</span>, <span class="at">var =</span> <span class="st">"bio"</span>, <span class="at">path =</span> output_path)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>HN_clim.current_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(HN_clim.current, <span class="st">"Raster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sdrf <span class="ot">&lt;-</span> <span class="fu">modelling</span>(<span class="at">algorithm =</span> <span class="st">'RF'</span>, </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Env =</span> HN_clim.current_raster, </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Occurrences =</span> SETCHR1,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Xcol =</span> <span class="st">'LONGITUDE'</span>, </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Ycol =</span> <span class="st">'LATITUDE'</span>, </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metric =</span> <span class="st">'TSS'</span>, </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.metric =</span> <span class="st">'AUC'</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv =</span> <span class="st">"holdout"</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv.param =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">2</span>),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">thresh =</span> <span class="dv">1001</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.thresh =</span> <span class="fu">c</span>(<span class="fl">0.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SSDM)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>sdrf <span class="ot">&lt;-</span> <span class="fu">modelling</span>(<span class="at">algorithm =</span> <span class="st">'RF'</span>, </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Env =</span> HN_clim.current_raster, </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Occurrences =</span> SETCHR1,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Xcol =</span> <span class="st">'LONGITUDE'</span>, </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Ycol =</span> <span class="st">'LATITUDE'</span>, </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metric =</span> <span class="st">'TSS'</span>, </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.metric =</span> <span class="st">'AUC'</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv =</span> <span class="st">"holdout"</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv.param =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">2</span>),</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">thresh =</span> <span class="dv">1001</span>,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.thresh =</span> <span class="fu">c</span>(<span class="fl">0.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Data check ... 
 No presence column, presence-only data set is supposed.
@@ -239,10 +327,6 @@ Pseudo absence selection...
 
 Model evaluation...</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in .local(obj, ...): Argument 'metric' is deprecated and will be
-removed in future versions. Please consider using 'bin.thresh' instead.</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   done. 
 
@@ -253,12 +337,36 @@ Model axes contribution evaluation...
    done. </code></pre>
 </div>
 </div>
+<ul>
+<li><p>algorithm = ‘RF’: Especifica el algoritmo de Random Forest para modelar la distribución.</p></li>
+<li><p>Env = HN_clim.current_raster: Las capas climáticas obtenidas previamente.</p></li>
+<li><p>Occurrences = SETCHR1: Conjunto de datos de ocurrencia con las coordenadas de latitud y longitud.</p></li>
+<li><p>Xcol = ‘LONGITUDE’, Ycol = ‘LATITUDE’: Especifica las columnas que contienen las coordenadas.</p></li>
+<li><p>metric = ‘TSS’: Utiliza la métrica TSS para evaluar el modelo.</p></li>
+<li><p>select.metric = ‘AUC’: Selección de la métrica AUC para determinar el umbral.</p></li>
+<li><p>cv = “holdout”: Realiza una validación cruzada con partición holdout (70% entrenamiento, 30% validación).</p></li>
+<li><p>cv.param = c(0.7, 2): Especifica el porcentaje para el entrenamiento y el número de pliegues.</p></li>
+<li><p>thresh = 1001, select.thresh = c(0.75): Define el umbral para la selección de los modelos.</p></li>
+</ul>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdrf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdrf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p></p><div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div><p></p>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<section id="revisar-colialinidad-entre-variables" class="level2">
+<h2 class="anchored" data-anchor-id="revisar-colialinidad-entre-variables">Revisar colialinidad entre variables</h2>
+</section>
+<section id="sellecionar-modelo-mas-adecuado" class="level2">
+<h2 class="anchored" data-anchor-id="sellecionar-modelo-mas-adecuado">Sellecionar modelo mas adecuado</h2>
+</section>
 </div>
 </div>
 </div>
@@ -300,18 +408,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -343,11 +440,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -357,8 +493,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -370,7 +515,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -414,6 +682,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -439,6 +708,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -499,6 +794,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

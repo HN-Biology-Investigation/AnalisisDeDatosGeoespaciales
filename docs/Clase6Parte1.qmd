@@ -1,42 +1,98 @@
 ---
-title: "Clase 6: Uso de gganimate y SDM"
+title: "Clase 5: Modelos de distribución potencial de especies (SDMs)"
 format: html
 editor: visual
 ---
 
+
+Los Modelos de Distribución de Especies (Species Distribution Models o SDMs) son herramientas estadísticas y computacionales que nos permiten predecir la distribución geográfica de una especie a partir de datos de ocurrencia (presencia o presencia/ausencia) y variables ambientales (como clima, topografía, vegetación, etc.).
+
+[Species distribution models rarely predict the biology of real populations]( https://doi.org/10.1111/ecog.05877)
+
+**Glosario de términos**
+
+- Abundancia: Número de individuos de una especie presentes en un sitio.
+
+- AUC: Área bajo la curva ROC (característica operativa del receptor). Es una medida de la capacidad de discriminación del modelo independiente de umbrales. Varía entre 0 y 1, donde un valor de 0.5 indica un modelo que no predice mejor que el azar la presencia o ausencia.
+
+- Calibración: Se refiere con frecuencia a la validación interna de los SDMs durante su construcción (ver validación cruzada). Con datos independientes, el "desempeño de calibración" se refiere al grado de correlación entre las predicciones del SDM y la probabilidad de ocurrencia cuantificada en encuestas independientes, por ejemplo, si los sitios con una probabilidad predicha de 0.60 tienen un 60% de probabilidad de estar ocupados, y si esto es el doble de probable que en sitios con una probabilidad predicha de 0.30 (Vaughan y Ormerod 2005).
+
+- SDM: Se utiliza aquí para referirse tanto a los Modelos de Distribución de Especies (SDMs) como a los Modelos de Nicho Ecológico (ENMs), ambos de naturaleza correlacional.
+
+- Predicción de SDM: Salida del SDM para cada celda en la región de estudio. Dependiendo del algoritmo del modelo, esta salida puede representar probabilidad de ocurrencia o idoneidad del hábitat, aunque en muchos casos se transforma o interpreta como idoneidad relativa del hábitat.
+
+- Error de comisión: Predecir la presencia de una especie en un lugar donde en realidad está ausente (falso positivo).
+
+- Validación cruzada: Evaluación de la capacidad del SDM para predecir presencias y ausencias utilizando una porción retenida de los datos de localidad usados para construir el modelo.
+
+- Capacidad de discriminación: Habilidad del SDM para distinguir correctamente las presencias y ausencias observadas de una especie en la región de estudio.
+
+- Limitación por dispersión: Ausencia de individuos en ciertos lugares debido a barreras fisiológicas o físicas al movimiento, o por tiempo insuficiente para colonizar.
+
+- Distancia al centroide del nicho (según Lira-Noriega y Manthey 2014): Medida calculada extrayendo las condiciones ambientales subyacentes en todos los sitios dentro del rango geográfico predicho por el SDM; se estima el centroide multivariado de este espacio ambiental y se calcula la distancia geométrica entre una localidad de interés y este centroide en el espacio ambiental. Nota: en otros estudios, los datos ambientales se extraen inicialmente de observaciones de la especie u otras estimaciones del rango (es decir, no basado en predicciones de SDM).
+
+- Nicho ecológico: Tiene muchas definiciones; ver Chase y Leopold (2003) para una revisión, y Soberón (2007) para una discusión en el contexto de los SDMs. Muchos parámetros en esta revisión se refieren al nicho demográfico: condiciones ambientales que permiten un crecimiento poblacional intrínseco no negativo.
+
+- Tasa finita de crecimiento (lambda): Tasa de crecimiento per cápita de una población, medida como la razón del tamaño poblacional entre dos intervalos de tiempo consecutivos.
+
+- Diversidad genética: Diversidad de alelos y genotipos dentro de una población, representada por la riqueza alélica, diversidad de nucleótidos, heterocigosidad, coeficientes de endogamia y/o relaciones de parentesco.
+
+- Idoneidad del hábitat: Capacidad y grado en que las condiciones ambientales pueden sostener poblaciones viables.
+
+- Datos independientes: Mediciones del rango geográfico, ocurrencia, abundancia, aptitud promedio poblacional o diversidad genética recogidas independientemente de los registros de ocurrencia usados para construir SDMs. Idealmente, no incluyen sesgos espaciales u otros, y se recolectan en sitios que abarcan todo el rango de predicciones del SDM.
+
+- Aptitud individual: Existen múltiples definiciones, unificadas por el objetivo de evaluar la capacidad relativa de un individuo para pasar sus genes a la siguiente generación.
+
+- Tasa intrínseca de crecimiento (r): Máxima tasa de crecimiento per cápita para una población.
+
+- Ocurrencia: Presencia de una especie dada en un sitio dado. Los conjuntos de datos de ocurrencia pueden incluir tanto presencias como ausencias.
+
+- Errores de omisión: Predecir la ausencia de una especie en un lugar donde en realidad está presente (falso negativo).
+
+- Aptitud promedio poblacional (λ): Aptitud promediada entre todos los individuos de una población.
+
+- Posición en el rango: Posición de un sitio con respecto al centro o a los bordes de la distribución geográfica de una especie.
+
+- ROC: Curva característica operativa del receptor. Se grafica la sensibilidad contra 1-especificidad para cada posible umbral de ocurrencia.
+
+- SDM y ENM (modelo de distribución de especies y modelo de nicho ecológico): Términos utilizados para describir modelos correlacionales que asocian variables ambientales con ocurrencias conocidas de especies (revisado en Peterson 2011, Peterson y Soberón 2012). Aunque en teoría y en la práctica ideal, modelar la distribución no es lo mismo que modelar el nicho (Pulliam 2000, Peterson 2011, Peterson y Soberón 2012), los autores utilizan ambos términos al generar modelos para predecir los parámetros revisados aquí.
+
+- Sensibilidad: Proporción de presencias observadas que fueron correctamente predichas como presentes por el SDM.
+
+- Especificidad: Proporción de ausencias observadas que fueron correctamente predichas como ausentes por el SDM.
+
+- Tasa de verdaderos positivos: Proporción de presencias observadas que fueron predichas como presentes por el SDM.
+
 ::: panel-tabset
 
-## Mapa animado
+# Flujo de trabajo 
 
-```{r, warning=FALSE, message=FALSE}
+::: panel-tabset
 
-library(pacman)
-library(lubridate)
-library(gganimate)
-library(ggthemes)
-
-pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
-               raster, reticulate,  maptools,maps,maptiles,gridExtra,
-               ggspatial,rgeos, tmap,grid, rgbif, ggmap,
-               rgrass7, sp, mapr, rgdal, RColorBrewer,ggrepel, leaflet)
-```
+## Obtener Datos Climáticos (WorldClim)
 
 ```{r}
-Honduras <- ne_countries(scale = "medium", 
-                              returnclass = "sf", 
-                              country = "Honduras")
+library(tidyverse)
+library(geodata)
+library(terra)
+library(sf)
+
+pacman::p_load(rnaturalearth, rnaturalearthdata, sf, 
+               raster,rgeos,
+               rgrass7, sp, mapr, rgdal)
+
+output_path <- "data/"
+
+HN_clim.current <- geodata::worldclim_country("HN", var = "bio", path = output_path)
+
+HN_clim.current_raster <- as(HN_clim.current, "Raster")
 ```
 
+## Cargar los Datos de Ocurrencias de la Especie
 
 ```{r}
 SETCHR <- read_delim("data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt")
-```
-```{r}
-head(SETCHR)
-```
 
-
-```{r}
 SETCHR1 <- SETCHR %>%
   rename("Observaciones" = `OBSERVATION COUNT`,
          "Fecha" = `OBSERVATION DATE`) %>% 
@@ -47,45 +103,11 @@ SETCHR1 <- SETCHR %>%
   dplyr::select(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)
 ```
 
-```{r}
-head(SETCHR1)
-```
+## Generar el Modelo de Distribución Potencial (SDM)
 
-```{r}
-gg  <- ggplot()+
-  geom_sf(data= Honduras)+
-  geom_point(data =SETCHR1,  aes(x=LONGITUDE, y=LATITUDE,color= Observaciones),
-             alpha= 0.3, size= 1, shape= 15)+
-   transition_time(time = Fecha)+
-  scale_color_gradient(low = "orange", high = "red", na.value = NA)+
-  labs(title= "Abundancia de",
-       subtitle = "Setophaga chrysoparia",
-       color = "Abundancia")+
-  theme_void()+
-  theme(plot.title = element_text(size = 14))+
-  theme(plot.subtitle = element_text(face= "italic", size = 12))
-```
-
-
-gganimate::animate(gg + ease_aes('cubic-in-out'), 
-                   fps = 7, width = 600, height = 600, 
-                   renderer = gifski_renderer())
-
-## Mapa distribucion potencial
-
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(SSDM)
-```
 
-```{r}
-output_path <- "data/"
-
-HN_clim.current <- geodata::worldclim_country("HN", var = "bio", path = output_path)
-
-HN_clim.current_raster <- as(HN_clim.current, "Raster")
-```
-
-```{r}
 sdrf <- modelling(algorithm = 'RF', 
                   Env = HN_clim.current_raster, 
                   Occurrences = SETCHR1,
@@ -99,9 +121,38 @@ sdrf <- modelling(algorithm = 'RF',
                   select.thresh = c(0.75))
 ```
 
+- algorithm = 'RF': Especifica el algoritmo de Random Forest para modelar la distribución.
+
+- Env = HN_clim.current_raster: Las capas climáticas obtenidas previamente.
+
+- Occurrences = SETCHR1: Conjunto de datos de ocurrencia con las coordenadas de latitud y longitud.
+
+- Xcol = 'LONGITUDE', Ycol = 'LATITUDE': Especifica las columnas que contienen las coordenadas.
+
+- metric = 'TSS': Utiliza la métrica TSS para evaluar el modelo.
+
+- select.metric = 'AUC': Selección de la métrica AUC para determinar el umbral.
+
+- cv = "holdout": Realiza una validación cruzada con partición holdout (70% entrenamiento, 30% validación).
+
+- cv.param = c(0.7, 2): Especifica el porcentaje para el entrenamiento y el número de pliegues.
+
+- thresh = 1001, select.thresh = c(0.75): Define el umbral para la selección de los modelos.
+
+## Visualizar los Resultados del Modelo SDM
+
 ```{r}
 plot(sdrf)
 ```
+
+::: 
+
+# Aplicando metodologia estandarizada
+
+## Revisar colialinidad entre variables
+
+## Sellecionar modelo mas adecuado
+
 
 
 :::
