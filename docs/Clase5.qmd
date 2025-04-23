@@ -4,43 +4,143 @@ format: html
 editor: visual
 ---
 
+El paquete [leaflet](https://leafletjs.com/download.html) en R es una herramienta para crear mapas interactivos directamente desde R, sin necesidad de software GIS especializado. Se basa en la biblioteca JavaScript Leaflet.js, ampliamente usada en el desarrollo web, y permite a los usuarios combinar datos espaciales con funcionalidades interactivas como zoom, popups, capas personalizadas, leyendas, entre otros.
+
+Con leaflet, puedes:
+
+- Visualizar datos geográficos (puntos, líneas y polígonos).
+
+- Agregar capas base (OpenStreetMap, Esri, CartoDB, etc.).
+
+- Personalizar los elementos del mapa (color, tamaño, estilo).
+
+- Crear popups con información de los datos.
+
+- Incluir controles interactivos como leyendas, escala y minimapas.
+
+- Exportar o compartir mapas de manera sencilla.
+
+- Usar clústers para agrupar puntos.
+
+- Integrarlo con sf, sp o raster para datos espaciales.
+
 ::: panel-tabset
 
 ## Cargar paquetes
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(sf)
 library(tidyverse)
 library(leaflet)
 library(mapedit)
 ```
 
-## Crear vector desde leaflet
+
+## Agregar puntos 
 
 ```{r}
-
-my_map <- leaflet() %>% 
-  addTiles()
-
+Puntos <- st_read("data/Point_counts.gpkg")
 ```
 
 ```{r}
-drawn_features <- editMap(my_map)
+leaflet(Puntos) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    radius = 5,
+    color = "blue",
+    stroke = FALSE,
+    fillOpacity = 0.7,
+    popup = ~paste("Sitio:", Site, "<br>Hábitat:", habitat)
+  )
 ```
+
+## Mapa con capas base alternativas
 
 ```{r}
-drawn_features_sf <- drawn_features$finished
-
-# 4. Plot your output and submit to Moodle!
-plot(drawn_features_sf[2],
-     main = "Bowker Auditorium")
-
-ggplot2::ggplot(data = drawn_features_sf)+
-  geom_sf(alpha= 0.5)+
-  labs(title = "Bowker Auditorium")+
-  theme_classic()
+leaflet(Puntos) %>%
+  addProviderTiles(providers$CartoDB.Positron, group = "Claro") %>%
+  addProviderTiles(providers$Esri.WorldImagery, group = "Satélite") %>%
+  addProviderTiles(providers$OpenTopoMap, group = "Topográfico") %>%
+  addCircleMarkers(~LONG, ~LAT, popup = ~Site, group = "Puntos") %>%
+  addLayersControl(
+    baseGroups = c("Claro", "Satélite", "Topográfico"),
+    overlayGroups = "Puntos",
+    options = layersControlOptions(collapsed = FALSE)
+  )
 
 ```
+
+
+## Estilizar puntos por tipo de hábitat
+
+```{r}
+paleta <- colorFactor(palette = "Set1", domain = Puntos$habitat)
+
+leaflet(Puntos) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    radius = 5,
+    color = ~paleta(habitat),
+    fillOpacity = 0.8,
+    popup = ~paste("Hábitat:", habitat)
+  ) %>%
+  addLegend("bottomright", pal = paleta, values = ~habitat, title = "Hábitat")
+
+```
+
+## Agregar controles interactivos (escala, mini-mapa, leyenda)
+
+
+```{r}
+leaflet(Puntos) %>%
+  addTiles() %>%
+  addCircleMarkers(radius = 4) %>%
+  addMiniMap(toggleDisplay = TRUE) %>%
+  addScaleBar(position = "bottomleft")
+```
+
+## Puntos proporcionales a una variable (ej: coffee.)
+
+```{r}
+leaflet(Puntos) %>%
+  addTiles() %>%
+  addCircles(
+    lng = ~LONG, lat = ~LAT,
+    radius = ~coffee. * 10,
+    color = "brown",
+    popup = ~paste("Cobertura café (%):", coffee.)
+  )
+
+```
+
+## Mapas con clústeres para muchos puntos
+
+```{r}
+leaflet(Puntos) %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions(), popup = ~Site)
+```
+## Cómo usar un mapa en PowerPoint
+
+```{r}
+library(leaflet)
+library(htmlwidgets)
+
+mi_mapa <- leaflet(Puntos) %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions(), popup = ~Site)
+
+saveWidget(mi_mapa, file = "mi_mapa.html")
+```
+
+Cómo usarlo en PowerPoint:
+
+- Inserta un hipervínculo en una diapositiva a mi_mapa.html.
+
+- Cuando hagas clic en la presentación, el navegador abrirá el mapa interactivo.
+
+- Alternativamente, puedes insertar una captura de pantalla en la diapositiva y enlazarla al HTML.
+
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

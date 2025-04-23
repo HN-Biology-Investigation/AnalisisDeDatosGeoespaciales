@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -67,6 +67,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="Clase5_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Clase5_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Clase5_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="Clase5_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="Clase5_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="Clase5_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="Clase5_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="Clase5_files/libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="Clase5_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="Clase5_files/libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="Clase5_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="Clase5_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="Clase5_files/libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
+<script src="Clase5_files/libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+
+<script src="Clase5_files/libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
+<link href="Clase5_files/libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet">
+
+<script src="Clase5_files/libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
+
+<script src="Clase5_files/libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
+
+<link href="Clase5_files/libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet">
+
+<link href="Clase5_files/libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet">
+
+<script src="Clase5_files/libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+
+<script src="Clase5_files/libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+
+<script src="Clase5_files/libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+
 
 
 </head>
@@ -92,102 +132,178 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
 
+
+<p>El paquete <a href="https://leafletjs.com/download.html">leaflet</a> en R es una herramienta para crear mapas interactivos directamente desde R, sin necesidad de software GIS especializado. Se basa en la biblioteca JavaScript Leaflet.js, ampliamente usada en el desarrollo web, y permite a los usuarios combinar datos espaciales con funcionalidades interactivas como zoom, popups, capas personalizadas, leyendas, entre otros.</p>
+<p>Con leaflet, puedes:</p>
+<ul>
+<li><p>Visualizar datos geográficos (puntos, líneas y polígonos).</p></li>
+<li><p>Agregar capas base (OpenStreetMap, Esri, CartoDB, etc.).</p></li>
+<li><p>Personalizar los elementos del mapa (color, tamaño, estilo).</p></li>
+<li><p>Crear popups con información de los datos.</p></li>
+<li><p>Incluir controles interactivos como leyendas, escala y minimapas.</p></li>
+<li><p>Exportar o compartir mapas de manera sencilla.</p></li>
+<li><p>Usar clústers para agrupar puntos.</p></li>
+<li><p>Integrarlo con sf, sp o raster para datos espaciales.</p></li>
+</ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Cargar paquetes</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Crear vector desde leaflet</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Cargar paquetes</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Agregar puntos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Mapa con capas base alternativas</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Estilizar puntos por tipo de hábitat</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Agregar controles interactivos (escala, mini-mapa, leyenda)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Puntos proporcionales a una variable (ej: coffee.)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Mapas con clústeres para muchos puntos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false" href="">Cómo usar un mapa en PowerPoint</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Linking to GEOS 3.11.2, GDAL 3.7.2, PROJ 9.3.0; sf_use_s2() is TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapedit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapedit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_map <span class="ot">&lt;-</span> <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>drawn_features <span class="ot">&lt;-</span> <span class="fu">editMap</span>(my_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required namespace: leaflet.extras</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required namespace: miniUI</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: shiny</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Listening on http://127.0.0.1:3410</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: 
-drawn features lie outside standard longitude bounds (-180 to 180) which is likely to cause trouble later!!</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `select_()` was deprecated in dplyr 0.7.0.
-ℹ Please use `select()` instead.
-ℹ The deprecated feature was likely used in the mapedit package.
-  Please report the issue at &lt;https://github.com/r-spatial/mapedit/issues&gt;.</code></pre>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Puntos <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Point_counts.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `Point_counts' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Point_counts.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 44 features and 151 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -87.5241 ymin: 15.10251 xmax: -87.34818 ymax: 15.2321
+Projected CRS: WGS 84 / UTM zone 16N</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>drawn_features_sf <span class="ot">&lt;-</span> drawn_features<span class="sc">$</span>finished</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Plot your output and submit to Moodle!</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(drawn_features_sf[<span class="dv">2</span>],</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Bowker Auditorium"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"blue"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillOpacity =</span> <span class="fl">0.7</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">"Sitio:"</span>, Site, <span class="st">"&lt;br&gt;Hábitat:"</span>, habitat)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in st_is_longlat(x): bounding box has potentially an invalid value
-range for longlat data
-
-Warning in st_is_longlat(x): bounding box has potentially an invalid value
-range for longlat data</code></pre>
+<pre><code>Warning: sf layer is not long-lat data</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Clase5_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-1fc21d7273bf1cdf1551" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1fc21d7273bf1cdf1551">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[15.18725292,15.1741018,15.16796038,15.15627801,15.16171686,15.1549924,15.14629039,15.16748412,15.15699852,15.1527701,15.13795098,15.20274536,15.13383555,15.1286925,15.14403742,15.19202675,15.20469449,15.10250593,15.1067403,15.20360182,15.22879237,15.18199738,15.176538,15.1706534,15.16282135,15.16955595,15.16482789,15.18655563,15.18012428,15.17439541,15.17922071,15.15327562,15.23210088,15.22893721,15.20673405,15.19841359,15.1428181,15.12392613,15.12786898,15.13051255,15.13989097,15.10584385,15.10283022,15.15307168],[-87.4730349,-87.47996774000001,-87.39771025,-87.50635036,-87.43457352999999,-87.50195414,-87.50387502,-87.43743637,-87.48480745000001,-87.42137379,-87.43077661,-87.52034747,-87.47458915,-87.46237555,-87.45272496,-87.49534953,-87.49645595,-87.34889899,-87.34818419,-87.41701763,-87.44550713,-87.47422788999999,-87.47606537,-87.47576019,-87.44115961,-87.48454056999999,-87.50223292,-87.46586401,-87.47953339,-87.48336878000001,-87.49474855,-87.50238597000001,-87.43734877999999,-87.44089399000001,-87.52409962999999,-87.52337283,-87.50364082999999,-87.44424063,-87.44640416,-87.44244732,-87.4553671,-87.36694573,-87.36322953,-87.50433015999999],5,null,null,{"interactive":true,"className":"","stroke":false,"color":"blue","weight":5,"opacity":0.5,"fill":true,"fillColor":"blue","fillOpacity":0.7},null,null,["Sitio: 3 <br>Hábitat: AF","Sitio: 5 <br>Hábitat: AF","Sitio: 6 <br>Hábitat: AF","Sitio: 10 <br>Hábitat: AF","Sitio: 12 <br>Hábitat: AF","Sitio: 15 <br>Hábitat: AF","Sitio: 19 <br>Hábitat: AF","Sitio: 22 <br>Hábitat: AF","Sitio: 24 <br>Hábitat: AF","Sitio: 27 <br>Hábitat: AF","Sitio: 29 <br>Hábitat: AF","Sitio: 35 <br>Hábitat: AF","Sitio: 37 <br>Hábitat: AF","Sitio: 38 <br>Hábitat: AF","Sitio: 39 <br>Hábitat: AF","Sitio: 42 <br>Hábitat: AF","Sitio: 47 <br>Hábitat: AF","Sitio: 51 <br>Hábitat: AF","Sitio: 52 <br>Hábitat: AF","Sitio: 56 <br>Hábitat: AF","Sitio: 1 <br>Hábitat: SF","Sitio: 4 <br>Hábitat: SF","Sitio: 8 <br>Hábitat: SF","Sitio: 9 <br>Hábitat: SF","Sitio: 13 <br>Hábitat: SF","Sitio: 14 <br>Hábitat: SF","Sitio: 16 <br>Hábitat: SF","Sitio: 18 <br>Hábitat: SF","Sitio: 23 <br>Hábitat: SF","Sitio: 25 <br>Hábitat: SF","Sitio: 26 <br>Hábitat: SF","Sitio: 30 <br>Hábitat: SF","Sitio: 32 <br>Hábitat: SF","Sitio: 33 <br>Hábitat: SF","Sitio: 34 <br>Hábitat: SF","Sitio: 36 <br>Hábitat: SF","Sitio: 43 <br>Hábitat: SF","Sitio: 44 <br>Hábitat: SF","Sitio: 45 <br>Hábitat: PF","Sitio: 46 <br>Hábitat: PF","Sitio: 48 <br>Hábitat: SF","Sitio: 49 <br>Hábitat: PF","Sitio: 50 <br>Hábitat: PF","Sitio: 53 <br>Hábitat: SF"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[15.10250593,15.23210088],"lng":[-87.52409962999999,-87.34818419]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> drawn_features_sf)<span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">alpha=</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bowker Auditorium"</span>)<span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron, <span class="at">group =</span> <span class="st">"Claro"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery, <span class="at">group =</span> <span class="st">"Satélite"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>OpenTopoMap, <span class="at">group =</span> <span class="st">"Topográfico"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="sc">~</span>LONG, <span class="sc">~</span>LAT, <span class="at">popup =</span> <span class="sc">~</span>Site, <span class="at">group =</span> <span class="st">"Puntos"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLayersControl</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">baseGroups =</span> <span class="fu">c</span>(<span class="st">"Claro"</span>, <span class="st">"Satélite"</span>, <span class="st">"Topográfico"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlayGroups =</span> <span class="st">"Puntos"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">layersControlOptions</span>(<span class="at">collapsed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-b5e001653b6f1ab05786" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b5e001653b6f1ab05786">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,"Claro",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satélite",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",null,"Topográfico",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[15.18725292,15.1741018,15.16796038,15.15627801,15.16171686,15.1549924,15.14629039,15.16748412,15.15699852,15.1527701,15.13795098,15.20274536,15.13383555,15.1286925,15.14403742,15.19202675,15.20469449,15.10250593,15.1067403,15.20360182,15.22879237,15.18199738,15.176538,15.1706534,15.16282135,15.16955595,15.16482789,15.18655563,15.18012428,15.17439541,15.17922071,15.15327562,15.23210088,15.22893721,15.20673405,15.19841359,15.1428181,15.12392613,15.12786898,15.13051255,15.13989097,15.10584385,15.10283022,15.15307168],[-87.4730349,-87.47996774000001,-87.39771025,-87.50635036,-87.43457352999999,-87.50195414,-87.50387502,-87.43743637,-87.48480745000001,-87.42137379,-87.43077661,-87.52034747,-87.47458915,-87.46237555,-87.45272496,-87.49534953,-87.49645595,-87.34889899,-87.34818419,-87.41701763,-87.44550713,-87.47422788999999,-87.47606537,-87.47576019,-87.44115961,-87.48454056999999,-87.50223292,-87.46586401,-87.47953339,-87.48336878000001,-87.49474855,-87.50238597000001,-87.43734877999999,-87.44089399000001,-87.52409962999999,-87.52337283,-87.50364082999999,-87.44424063,-87.44640416,-87.44244732,-87.4553671,-87.36694573,-87.36322953,-87.50433015999999],10,null,"Puntos",{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,[3,5,6,10,12,15,19,22,24,27,29,35,37,38,39,42,47,51,52,56,1,4,8,9,13,14,16,18,23,25,26,30,32,33,34,36,43,44,45,46,48,49,50,53],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[["Claro","Satélite","Topográfico"],"Puntos",{"collapsed":false,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[15.10250593,15.23210088],"lng":[-87.52409962999999,-87.34818419]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>paleta <span class="ot">&lt;-</span> <span class="fu">colorFactor</span>(<span class="at">palette =</span> <span class="st">"Set1"</span>, <span class="at">domain =</span> Puntos<span class="sc">$</span>habitat)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="sc">~</span><span class="fu">paleta</span>(habitat),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillOpacity =</span> <span class="fl">0.8</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">"Hábitat:"</span>, habitat)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="st">"bottomright"</span>, <span class="at">pal =</span> paleta, <span class="at">values =</span> <span class="sc">~</span>habitat, <span class="at">title =</span> <span class="st">"Hábitat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in st_is_longlat(x): bounding box has potentially an invalid value
-range for longlat data</code></pre>
+<pre><code>Warning: sf layer is not long-lat data</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Clase5_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-6bf9d9bf6dca25f15868" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-6bf9d9bf6dca25f15868">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[15.18725292,15.1741018,15.16796038,15.15627801,15.16171686,15.1549924,15.14629039,15.16748412,15.15699852,15.1527701,15.13795098,15.20274536,15.13383555,15.1286925,15.14403742,15.19202675,15.20469449,15.10250593,15.1067403,15.20360182,15.22879237,15.18199738,15.176538,15.1706534,15.16282135,15.16955595,15.16482789,15.18655563,15.18012428,15.17439541,15.17922071,15.15327562,15.23210088,15.22893721,15.20673405,15.19841359,15.1428181,15.12392613,15.12786898,15.13051255,15.13989097,15.10584385,15.10283022,15.15307168],[-87.4730349,-87.47996774000001,-87.39771025,-87.50635036,-87.43457352999999,-87.50195414,-87.50387502,-87.43743637,-87.48480745000001,-87.42137379,-87.43077661,-87.52034747,-87.47458915,-87.46237555,-87.45272496,-87.49534953,-87.49645595,-87.34889899,-87.34818419,-87.41701763,-87.44550713,-87.47422788999999,-87.47606537,-87.47576019,-87.44115961,-87.48454056999999,-87.50223292,-87.46586401,-87.47953339,-87.48336878000001,-87.49474855,-87.50238597000001,-87.43734877999999,-87.44089399000001,-87.52409962999999,-87.52337283,-87.50364082999999,-87.44424063,-87.44640416,-87.44244732,-87.4553671,-87.36694573,-87.36322953,-87.50433015999999],5,null,null,{"interactive":true,"className":"","stroke":true,"color":["#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#377EB8","#377EB8","#4DAF4A","#377EB8","#377EB8","#4DAF4A"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#E41A1C","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#4DAF4A","#377EB8","#377EB8","#4DAF4A","#377EB8","#377EB8","#4DAF4A"],"fillOpacity":0.8},null,null,["Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: AF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: SF","Hábitat: PF","Hábitat: PF","Hábitat: SF","Hábitat: PF","Hábitat: PF","Hábitat: SF"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#E41A1C","#377EB8","#4DAF4A"],"labels":["AF","PF","SF"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomright","type":"factor","title":"Hábitat","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[15.10250593,15.23210088],"lng":[-87.52409962999999,-87.34818419]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">radius =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMiniMap</span>(<span class="at">toggleDisplay =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addScaleBar</span>(<span class="at">position =</span> <span class="st">"bottomleft"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: sf layer is not long-lat data</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-ce1be575651c8f4706c6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ce1be575651c8f4706c6">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[15.18725292,15.1741018,15.16796038,15.15627801,15.16171686,15.1549924,15.14629039,15.16748412,15.15699852,15.1527701,15.13795098,15.20274536,15.13383555,15.1286925,15.14403742,15.19202675,15.20469449,15.10250593,15.1067403,15.20360182,15.22879237,15.18199738,15.176538,15.1706534,15.16282135,15.16955595,15.16482789,15.18655563,15.18012428,15.17439541,15.17922071,15.15327562,15.23210088,15.22893721,15.20673405,15.19841359,15.1428181,15.12392613,15.12786898,15.13051255,15.13989097,15.10584385,15.10283022,15.15307168],[-87.4730349,-87.47996774000001,-87.39771025,-87.50635036,-87.43457352999999,-87.50195414,-87.50387502,-87.43743637,-87.48480745000001,-87.42137379,-87.43077661,-87.52034747,-87.47458915,-87.46237555,-87.45272496,-87.49534953,-87.49645595,-87.34889899,-87.34818419,-87.41701763,-87.44550713,-87.47422788999999,-87.47606537,-87.47576019,-87.44115961,-87.48454056999999,-87.50223292,-87.46586401,-87.47953339,-87.48336878000001,-87.49474855,-87.50238597000001,-87.43734877999999,-87.44089399000001,-87.52409962999999,-87.52337283,-87.50364082999999,-87.44424063,-87.44640416,-87.44244732,-87.4553671,-87.36694573,-87.36322953,-87.50433015999999],4,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,true,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]}],"limits":{"lat":[15.10250593,15.23210088],"lng":[-87.52409962999999,-87.34818419]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircles</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> <span class="sc">~</span>LONG, <span class="at">lat =</span> <span class="sc">~</span>LAT,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="sc">~</span>coffee. <span class="sc">*</span> <span class="dv">10</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"brown"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">"Cobertura café (%):"</span>, coffee.)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-1b93147ce139919bd39e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1b93147ce139919bd39e">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircles","args":[[15.18725292,15.1741018,15.16796038,15.15627801,15.16171686,15.1549924,15.14629039,15.16748412,15.15699852,15.1527701,15.13795098,15.20274536,15.13383555,15.1286925,15.14403742,15.19202675,15.20469449,15.10250593,15.1067403,15.20360182,15.22879237,15.18199738,15.176538,15.1706534,15.16282135,15.16955595,15.16482789,15.18655563,15.18012428,15.17439541,15.17922071,15.15327562,15.23210088,15.22893721,15.20673405,15.19841359,15.1428181,15.12392613,15.12786898,15.13051255,15.13989097,15.10584385,15.10283022,15.15307168],[-87.4730349,-87.47996774000001,-87.39771025,-87.50635036,-87.43457352999999,-87.50195414,-87.50387502,-87.43743637,-87.48480745000001,-87.42137379,-87.43077661,-87.52034747,-87.47458915,-87.46237555,-87.45272496,-87.49534953,-87.49645595,-87.34889899,-87.34818419,-87.41701763,-87.44550713,-87.47422788999999,-87.47606537,-87.47576019,-87.44115961,-87.48454056999999,-87.50223292,-87.46586401,-87.47953339,-87.48336878000001,-87.49474855,-87.50238597000001,-87.43734877999999,-87.44089399000001,-87.52409962999999,-87.52337283,-87.50364082999999,-87.44424063,-87.44640416,-87.44244732,-87.4553671,-87.36694573,-87.36322953,-87.50433015999999],[940,700,790,820,1000,870,870,900,970,1000,1000,1000,1000,1000,880,860,660,1000,1000,1000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,90,0,0,0,0,0,0],null,null,{"interactive":true,"className":"","stroke":true,"color":"brown","weight":5,"opacity":0.5,"fill":true,"fillColor":"brown","fillOpacity":0.2},["Cobertura café (%): 94","Cobertura café (%): 70","Cobertura café (%): 79","Cobertura café (%): 82","Cobertura café (%): 100","Cobertura café (%): 87","Cobertura café (%): 87","Cobertura café (%): 90","Cobertura café (%): 97","Cobertura café (%): 100","Cobertura café (%): 100","Cobertura café (%): 100","Cobertura café (%): 100","Cobertura café (%): 100","Cobertura café (%): 88","Cobertura café (%): 86","Cobertura café (%): 66","Cobertura café (%): 100","Cobertura café (%): 100","Cobertura café (%): 100","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 9","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0","Cobertura café (%): 0"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]}],"limits":{"lat":[15.10250593,15.23210088],"lng":[-87.52409962999999,-87.34818419]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="at">clusterOptions =</span> <span class="fu">markerClusterOptions</span>(), <span class="at">popup =</span> <span class="sc">~</span>Site)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: sf layer is not long-lat data</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-e5d75e68668c291ce930" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e5d75e68668c291ce930">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[15.18725292,15.1741018,15.16796038,15.15627801,15.16171686,15.1549924,15.14629039,15.16748412,15.15699852,15.1527701,15.13795098,15.20274536,15.13383555,15.1286925,15.14403742,15.19202675,15.20469449,15.10250593,15.1067403,15.20360182,15.22879237,15.18199738,15.176538,15.1706534,15.16282135,15.16955595,15.16482789,15.18655563,15.18012428,15.17439541,15.17922071,15.15327562,15.23210088,15.22893721,15.20673405,15.19841359,15.1428181,15.12392613,15.12786898,15.13051255,15.13989097,15.10584385,15.10283022,15.15307168],[-87.4730349,-87.47996774000001,-87.39771025,-87.50635036,-87.43457352999999,-87.50195414,-87.50387502,-87.43743637,-87.48480745000001,-87.42137379,-87.43077661,-87.52034747,-87.47458915,-87.46237555,-87.45272496,-87.49534953,-87.49645595,-87.34889899,-87.34818419,-87.41701763,-87.44550713,-87.47422788999999,-87.47606537,-87.47576019,-87.44115961,-87.48454056999999,-87.50223292,-87.46586401,-87.47953339,-87.48336878000001,-87.49474855,-87.50238597000001,-87.43734877999999,-87.44089399000001,-87.52409962999999,-87.52337283,-87.50364082999999,-87.44424063,-87.44640416,-87.44244732,-87.4553671,-87.36694573,-87.36322953,-87.50433015999999],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},[3,5,6,10,12,15,19,22,24,27,29,35,37,38,39,42,47,51,52,56,1,4,8,9,13,14,16,18,23,25,26,30,32,33,34,36,43,44,45,46,48,49,50,53],null,{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[15.10250593,15.23210088],"lng":[-87.52409962999999,-87.34818419]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmlwidgets)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>mi_mapa <span class="ot">&lt;-</span> <span class="fu">leaflet</span>(Puntos) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="at">clusterOptions =</span> <span class="fu">markerClusterOptions</span>(), <span class="at">popup =</span> <span class="sc">~</span>Site)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: sf layer is not long-lat data</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveWidget</span>(mi_mapa, <span class="at">file =</span> <span class="st">"mi_mapa.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cómo usarlo en PowerPoint:</p>
+<ul>
+<li><p>Inserta un hipervínculo en una diapositiva a mi_mapa.html.</p></li>
+<li><p>Cuando hagas clic en la presentación, el navegador abrirá el mapa interactivo.</p></li>
+<li><p>Alternativamente, puedes insertar una captura de pantalla en la diapositiva y enlazarla al HTML.</p></li>
+</ul>
 </div>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">HN Biology Investigation Academy</figcaption>
+<figcaption>HN Biology Investigation Academy</figcaption>
 </figure>
 </div>
 
@@ -228,18 +344,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -271,11 +376,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -285,8 +429,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -298,7 +451,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -342,6 +618,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -367,6 +644,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -427,6 +730,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
