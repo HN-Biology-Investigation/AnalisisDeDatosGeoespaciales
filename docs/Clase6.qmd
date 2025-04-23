@@ -1,29 +1,47 @@
 ---
-title: "Clase 6: Elaboracion de mapas"
+title: "Clase Extra: Elaboración de mapas"
 format: html
 editor: visual
 ---
 
 
+
+En esta clase, aprenderemos a crear mapas personalizados utilizando R, una herramienta poderosa para el análisis espacial. Exploraremos cómo visualizar datos geoespaciales, integrar capas vectoriales y ráster, y personalizar mapas para presentaciones y publicaciones científicas.
+
+Usaremos una serie de paquetes esenciales como sf, terra, ggplot2, ggspatial y rnaturalearth, entre otros, que nos permitirán manipular y representar información geográfica de manera eficiente.
+
 ::: panel-tabset
 
 ## Cargar paquetes
 
+El código a continuación carga el paquete pacman
+
 ```{r, warning=FALSE, message=FALSE}
 require(pacman)
+```
 
+La función p_load() del paquete pacman carga los paquetes listados si ya están instalados. Si alguno no está instalado, lo instala automáticamente y luego lo carga.
+
+```{r, warning=FALSE, message=FALSE}
 pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf, 
-               terra, reticulate,  maptools,maps,
+               terra,  maptools,maps,
                ggplot2, ggspatial,rgeos, raster)
 ```
 
 ## Ejemplo 1
 
+El siguiente código descarga un mapa del mundo usando la función ne_countries() del paquete rnaturalearth. Se especifica que el mapa sea de escala pequeña (scale = "small") y que se devuelva como un objeto sf (returnclass = "sf"), que es un formato espacial moderno en R.
+
+Luego, se crea un subconjunto del mapa llamado world.SA que contiene únicamente los países del continente sudamericano (continent == "South America").
 
 ```{r}
 world <- ne_countries(scale= "small", returnclass = "sf") 
 world.SA     <- subset(world, continent=="South America") 
 ```
+
+En la primera línea del siguiente código, se crean los centroides de cada país en Sudamérica usando la función st_centroid(), y se guardan como un nuevo objeto llamado world_points.
+
+En la segunda línea se sobrescribe ese objeto, pero ahora combinando los datos originales de world.SA con las coordenadas de los centroides. Esto se hace con cbind() y st_coordinates(), que extrae las coordenadas X (longitud) y Y (latitud) de los centroides calculados a partir de la geometría (world.SA$geometry). El resultado es un objeto sf que contiene tanto la información espacial de cada país como las coordenadas de su centroide.
 
 ```{r}
 world_points <- st_centroid(world.SA)  
@@ -32,23 +50,49 @@ world_points <- cbind(world.SA, st_coordinates(st_centroid(world.SA$geometry)))
 
 ```
 
+A continuación se hace un filtrado adicional. Primero, se crea el objeto Sur_America, que selecciona únicamente los países del continente sudamericano a partir de world_points. Luego, se genera el objeto Peru_S, que aísla solo el país de Perú usando el código ISO de tres letras (iso_a3 == "PER"). Así, Peru_S contiene la geometría, atributos y coordenadas del centroide exclusivamente para Perú.
 
 ```{r}
 Sur_America  <- subset(world_points, continent == "South America")
 Peru_S       <- subset(Sur_America, iso_a3 == "PER") 
 ```
 
+El siguiente código se descarga información administrativa de Perú usando la función `gadm` del paquete `geodata`. Se especifica el país como 'Peru' y el nivel administrativo como 3, que corresponde a subdivisiones más detalladas (como distritos). Luego, con %>% st_as_sf(), se convierte ese objeto en un formato espacial moderno (sf).
+
+Después, se crea el objeto Cusco filtrando únicamente las unidades donde la columna NAME_1 (que representa los departamentos) es igual a "Cusco". De esta forma, Cusco contiene todos los límites administrativos del departamento de Cusco.
+
 ```{r}
-Peru <- raster::getData('GADM', country='Peru', level=3) %>%            
+Peru <- geodata::gadm(country='Peru', level=3, path=tempdir() ) %>%            
   st_as_sf()          
 
 Cusco <- subset(Peru, NAME_1 == "Cusco")
 ```
 
+En la siguente línea se crea un marco espacial (bounding box) a partir del objeto Peru_S. Primero, st_bbox(Peru_S) obtiene la extensión espacial mínima que encierra completamente la geometría de Perú. Luego, st_as_sfc() convierte esa caja delimitadora en una geometría simple (sfc), que puede ser utilizada en mapas como un rectángulo que enmarca a Perú. El resultado se guarda en el objeto Marco_Per.
+
 ```{r}
 Marco_Per = st_as_sfc(st_bbox(Peru_S ))
 ```
 
+Finalmente se construye un mapa llamado Mapa1 utilizando ggplot(). El mapa muestra América del Sur con varios elementos personalizados:
+
+- geom_sf() con Sur_America dibuja los países sudamericanos, con relleno según el nombre del país (admin), contornos negros, líneas delgadas (lwd = 1), transparencia (alpha = 0.2) y líneas continuas (linetype = 1).
+
+- geom_sf() con Marco_Per dibuja un marco (bounding box) en rojo alrededor de Perú, sin relleno (fill = NA) y con líneas de grosor 1.
+
+- geom_text() agrega los nombres de los países directamente en el mapa, usando las coordenadas de los centroides (X, Y) y la columna admin. El texto es negro, en negrita y de tamaño 3.
+
+- labs() define el título principal del mapa ("Mapa de América del Sur"), un subtítulo ("Mapa de Ubicación"), y etiquetas para los ejes y una etiqueta de figura ("A)").
+
+- theme_bw() aplica un fondo blanco clásico al mapa.
+
+- annotation_scale() añade una barra de escala.
+
+- annotation_north_arrow() coloca una flecha del norte estilo náutico en la esquina superior izquierda (location="tl").
+
+- theme() personaliza las líneas de la cuadrícula principal para que sean grises, punteadas y de grosor 0.5.
+
+- labs(color="Species", fill = "Sur America") define las etiquetas de leyenda para el color (aunque color="Species" no se usa explícitamente en el código actual, puede estar previsto para una futura capa).
 
 ```{r}
 Mapa1 <- ggplot() +
@@ -71,8 +115,11 @@ Mapa1 <- ggplot() +
 Mapa1
 ```
 
-
 ## Ejemplo 2
+
+Primero, cargamos los paquetes mapview y mapedit, que nos permiten visualizar y editar datos espaciales de manera interactiva.
+
+Luego, con la función mapview() visualizamos el objeto Peru_S en un mapa interactivo. Este tipo de visualización nos permite explorar el área de manera dinámica, hacer zoom, mover el mapa y examinar la geometría de Perú de forma rápida y sencilla. Es muy útil para obtener una vista preliminar de los datos sin necesidad de crear mapas estáticos complejos.
 
 ```{r}
 library(mapview)
@@ -91,46 +138,116 @@ pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf,
                rgrass7, sp, mapr, rgdal, RColorBrewer,ggrepel, leaflet)
 ```
 
+Primero, creamos un punto con las coordenadas geográficas usando st_point(), donde se definen la longitud y la latitud correspondientes al sitio de interés. En este caso, las coordenadas corresponden a un lugar específico.
 
 ```{r}
-# Creamos una data frame a sf
 punto1    <- st_point(c(-55.833147651973036,-15.408246576309264))
+```
+
+Luego, creamos un data.frame llamado lugar con el nombre del sitio, que en este caso es "Valle Forestal Véu de Noiva".
+
+```{r}
 lugar     <- data.frame(name= c("Valle Forestal Véu de Noiva"))
+```
+
+
+A continuación, convertimos ese punto en una geometría espacial utilizando st_sfc() y le asignamos el sistema de coordenadas WGS84, que es el estándar de coordenadas geográficas.
+
+```{r}
 Coor      <- st_sfc(punto1,  crs = "+proj=longlat +datum=WGS84 +no_defs")
+```
+
+
+Después, combinamos el nombre del lugar y las coordenadas en un objeto espacial Sites, que contiene tanto la información geográfica como el nombre del sitio.
+
+```{r}
 Sites     <- st_sf(lugar, Coor)
+```
+
+
+Finalmente, también creo un data.frame llamado sites1 para almacenar las coordenadas y el nombre del lugar de una forma más estructurada con columnas para longitude, latitude y name. Esto me permite manejar y trabajar con los datos espaciales de manera más ordenada.
+
+```{r}
+
 sites1    <- data.frame(longitude = c(55.833147651973036),
                     latitude = c(-15.408246576309264),
                     name= c("Valle Forestal Véu de Noiva"))
 ```
 
+En el siguiente código, utilizamos la librería leaflet para crear un mapa interactivo.
+
+Primero, pasamos el objeto espacial Sites a la función leaflet(), lo que nos permite visualizar los puntos en un mapa interactivo. Luego, añadimos las baldosas estándar del mapa con addTiles() para mostrar el fondo básico del mapa.
+
+A continuación, con addCircles(), agregamos círculos en las ubicaciones de los puntos de Sites, lo que permite visualizar las ubicaciones de forma destacada.
+
+Finalmente, con addProviderTiles(providers$Esri.WorldImagery, group = "Satellite"), añadimos una capa de imágenes satelitales proporcionada por Esri, que nos muestra un fondo más detallado del mapa en lugar del fondo estándar. Esta capa se agrupa bajo el nombre "Satellite" para poder alternar entre diferentes fondos de mapa si se desea.
+
+Este código permite visualizar los puntos de Sites en un mapa interactivo, proporcionando la opción de ver el mapa con imágenes satelitales.
 
 ```{r}
-leaflet(Sites) %>% addTiles() %>% addCircles()%>%
+leaflet(Sites) %>% 
+  addTiles() %>% 
+  addCircles()%>%
 addProviderTiles(providers$Esri.WorldImagery, group = "Satellite")
 ```
 
-
-
 ## Ejemplo 4
 
+Primero, cargamos los datos geográficos de México a nivel de estados utilizando la función `gadm` del paquete `geodata`, especificando el país como "Mexico" y el nivel como 1, que nos da los límites administrativos de los estados. Luego, convertimos esos datos en un objeto espacial con st_as_sf().
+
 ```{r}
-mexico         <- getData('GADM', country='Mexico', level=1) %>%st_as_sf() 
-mexico_Alt     <- getData("alt", country='Mexico', mask=TRUE)
+mexico <- geodata::gadm(country='Mexico', level=1, path=tempdir()) %>%
+  st_as_sf()
+```
+
+A continuación, obtenemos los datos de altitud para México usando `elevation_30s` del paquete `geodata`, lo que nos proporciona un modelo de elevación del terreno (DEM) para todo el país.
+
+```{r}
+mexico_Alt <- geodata::elevation_30s(country='Mexico',
+                                    path=tempdir())
+```
+
+Después, seleccionamos el estado de Chiapas del conjunto de datos de México utilizando subset() y filtramos por el nombre del estado "Chiapas".
+
+```{r}
 Chiapas        <- subset(mexico, NAME_1 == "Chiapas")
-Chiapas_alt    <- crop(mexico_Alt, Chiapas)
-Chiapas_alt    <- Chiapas_alt <- mask(Chiapas_alt, Chiapas)
+```
+
+Luego, recortamos los datos de altitud para que solo incluyan la región de Chiapas con la función crop(), y aplicamos una máscara para asegurarnos de que solo se muestren los datos dentro de los límites de Chiapas usando mask().
+
+```{r}
+Chiapas_alt    <- crop(mexico_Alt, Chiapas, mask = TRUE)
+```
+
+Posteriormente, generamos una visualización de los datos de altitud con plot() para examinar la distribución de la altitud en Chiapas.
+
+```{r}
 plot(Chiapas_alt)
-dem.p          <-  rasterToPoints(Chiapas_alt)
-df             <-  data.frame(dem.p)
-colnames(df) = c("lon", "lat", "alt")
+```
+
+A continuación, convertimos el raster de altitud en un conjunto de puntos con la función `as.data.frame` del paquete `terra`, lo que nos permite tener las coordenadas y los valores de altitud en un formato de tabla. Guardamos estos puntos en un data frame llamado dem.p, y renombramos las columnas a "lon" para longitud, "lat" para latitud y "alt" para altitud.
+
+```{r}
+dem.p          <-  terra::as.data.frame(Chiapas_alt, xy = TRUE)
+colnames(dem.p) <- c("lon", "lat", "alt")
+```
+
+Calculamos el aspecto del terreno para la región de Chiapas utilizando la función `terrain` del paquete `terra`. El aspecto representa la dirección de la pendiente más pronunciada del terreno en grados, lo cual nos da información sobre la orientación de las colinas. En este caso, se calcula el aspecto con la opción opt = "aspect" y se especifica que las unidades sean en grados (unit = "degrees"). El resultado se almacena en el objeto aps.
+
+```{r}
+aps = terra::terrain(Chiapas_alt, v = "aspect", unit= "degrees")
+```
+
+Luego, convertimos el raster de aspecto en un data.frame con las coordenadas de cada punto usando as.data.frame(aps, xy=T), lo que permite trabajar con los valores de aspecto en formato tabular junto con sus coordenadas geográficas (longitud y latitud).
+
+```{r}
+aps_df = as.data.frame(aps, xy=T)
 ```
 
 
-```{r}
-# Aspecto del DEM
-aps    = terrain(Chiapas_alt, opt = "aspect", unit= "degrees")
-aps_df = as.data.frame(aps, xy=T)
+A continuación, creamos un gráfico con ggplot2 para visualizar los límites de México y de Chiapas. Usamos geom_sf() para trazar las fronteras de México en color blanco y las de Chiapas en color negro. Para este gráfico, aplicamos el tema theme_void() para eliminar los ejes y otras referencias, dejándolo limpio de elementos innecesarios.
 
+```{r}
 A <-ggplot()+
   geom_sf(data= mexico, fill="white")+
   geom_sf(data= Chiapas, fill="black")+
@@ -140,6 +257,7 @@ A <-ggplot()+
   ggspatial::annotation_scale(location = "bl",bar_cols = c("grey60", "white"), text_family = "ArcherPro Book")
 ```
 
+Creamos un mapa con ggplot2 de la región de Chiapas. Se utiliza geom_sf() para mostrar los límites de Chiapas con un relleno blanco, y theme_void() para eliminar los ejes y otras referencias. Se añade una anotación de texto en las coordenadas aproximadas de Chiapas (x = -92.5, y = 16.5) con el nombre "Chiapas", en cursiva y color negro. Además, se incluye una flecha del norte en la esquina superior derecha utilizando annotation_north_arrow() y una escala del mapa en la esquina inferior izquierda con ggspatial::annotation_scale(), proporcionando orientación y referencia espacial en el mapa.
 
 ```{r}
 B <- ggplot()+
@@ -149,6 +267,10 @@ B <- ggplot()+
   annotation_north_arrow(location="tr",which_north="true",style=north_arrow_fancy_orienteering ())+
   ggspatial::annotation_scale(location = "bl",bar_cols = c("grey60", "white"), text_family = "ArcherPro Book")
 ```
+
+Creamos un mapa de la ubicación geográfica de Chiapas, México usando ggplot2. Se utiliza geom_raster() para visualizar los datos de aspecto del terreno (aps_df), donde las coordenadas x y y están mapeadas a la variable aspect. El color del relleno se ajusta con scale_fill_gradientn() utilizando una paleta de grises, con valores nulos representados en blanco y los valores del aspecto limitados entre 0 y 360, con divisiones en intervalos de 50.
+
+El mapa utiliza el tema theme_bw() para un fondo blanco y se añaden etiquetas personalizadas con labs(), incluyendo un título, leyenda para el DEM, y las etiquetas de los ejes. La leyenda se personaliza en su posición y texto con theme(), y se especifica el tamaño y el estilo de la fuente para los elementos de la leyenda.
 
 
 ```{r}
@@ -165,10 +287,13 @@ C <-ggplot()+
         legend.title = element_text(color = "black", size = 11))
 ```
 
+Generamos un mapa de Chiapas, México utilizando datos de altitud. Se usa geom_raster() para crear una capa raster, donde las coordenadas de longitud (lon) y latitud (lat) se mapean a los valores de altitud (alt). El relleno de la capa se ajusta con un gradiente de colores utilizando la paleta terrain.colors(10) para representar el Modelo Digital de Elevación (DEM).
+
+El mapa usa el tema theme_bw() para un fondo blanco y se añaden etiquetas personalizadas con labs(), que incluyen un título, la leyenda del DEM y las etiquetas de los ejes. Además, la leyenda se personaliza en su posición, tamaño de texto y estilo con theme(). La posición de la leyenda se coloca en las coordenadas (0.15, 0.15) dentro del gráfico, y se ajustan el tamaño y el color del texto en la leyenda.
 
 ```{r}
 D <- ggplot()+
-  geom_raster(data = df, aes(lon,lat, fill = alt) )+
+  geom_raster(data = dem.p, aes(lon,lat, fill = alt) )+
   scale_fill_gradientn(colors = terrain.colors(10), name="DEM")+
   theme_bw()+
   labs(title = 'Ubicación geográfica de Chiapas, México', fill = 'DEM',  
@@ -179,24 +304,39 @@ D <- ggplot()+
         legend.title = element_text(color = "black", size = 11))
 ```
 
+### Cobinar mapas
+
+Primero, utilizamos el paquete cowplot para combinar varios mapas en un solo gráfico. Esto nos permite crear una visualización más clara y compacta de los mapas. Vamos a usar la función ggdraw() para esto.
+
+En este primer paso, crearemos un gráfico compuesto en el que:
+
+- El mapa C será el gráfico principal, ocupando toda el área.
+
+- El mapa B se posicionará en la esquina inferior derecha con un tamaño reducido, ajustado a un 25% del tamaño del gráfico principal.
+
+- El mapa A se ubicará en la esquina superior derecha, también con un tamaño reducido.
 
 ```{r}
-
 library(cowplot)
+
 map_Union <-ggdraw() + draw_plot(C) + 
   draw_plot(B, x = 0.70, y = 0.08, width = .25, height = .25)+
   draw_plot(A, x = 0.70, y = 0.70, width = .25, height = .25)
 
+map_Union
+```
+
+A continuación, creamos otro gráfico map_Union1 siguiendo la misma estructura, pero esta vez reemplazamos el mapa C por el mapa D. Los mapas B y A se mantienen en las mismas posiciones.
+
+De esta forma, logramos combinar los mapas en una sola imagen, manteniendo un diseño organizado y claro.
+
+```{r}
 map_Union1 <-ggdraw() + draw_plot(D) + 
   draw_plot(B, x = 0.70, y = 0.08, width = .25, height = .25)+
   draw_plot(A, x = 0.70, y = 0.70, width = .25, height = .25)
 
 map_Union1
 ```
-
-
-## Ejemplo 5
-
 
 :::
 

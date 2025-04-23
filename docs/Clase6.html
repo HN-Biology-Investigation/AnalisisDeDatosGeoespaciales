@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clase 6: Elaboracion de mapas</title>
+<title>Clase Extra: Elaboración de mapas</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -67,23 +67,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="Clase6_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Clase6_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Clase6_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="Clase6_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
 <script src="Clase6_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
 <script src="Clase6_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
 <link href="Clase6_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
 <script src="Clase6_files/libs/leaflet-1.3.1/leaflet.js"></script>
+
 <link href="Clase6_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
 <script src="Clase6_files/libs/proj4-2.6.2/proj4.min.js"></script>
+
 <script src="Clase6_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
 <link href="Clase6_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
-<script src="Clase6_files/libs/leaflet-binding-2.2.1/leaflet.js"></script>
+
+<script src="Clase6_files/libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
 <script src="Clase6_files/libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
-<script src="Clase6_files/libs/leaflet-providers-plugin-2.2.1/leaflet-providers-plugin.js"></script>
+
+<script src="Clase6_files/libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
 <link href="Clase6_files/libs/HomeButton-0.0.1/home-button.css" rel="stylesheet">
+
 <script src="Clase6_files/libs/HomeButton-0.0.1/home-button.js"></script>
+
 <script src="Clase6_files/libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+
 <script src="Clase6_files/libs/clipboard-0.0.1/setClipboardText.js"></script>
+
 <link href="Clase6_files/libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet">
+
 <link href="Clase6_files/libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet">
+
 
 
 </head>
@@ -96,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase 6: Elaboracion de mapas</h1>
+<h1 class="title">Clase Extra: Elaboración de mapas</h1>
 </div>
 
 
@@ -109,189 +128,273 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
 
+
+<p>En esta clase, aprenderemos a crear mapas personalizados utilizando R, una herramienta poderosa para el análisis espacial. Exploraremos cómo visualizar datos geoespaciales, integrar capas vectoriales y ráster, y personalizar mapas para presentaciones y publicaciones científicas.</p>
+<p>Usaremos una serie de paquetes esenciales como sf, terra, ggplot2, ggspatial y rnaturalearth, entre otros, que nos permitirán manipular y representar información geográfica de manera eficiente.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Cargar paquetes</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Ejemplo 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Ejemplo 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Ejemplo 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Ejemplo 4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Ejemplo 5</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Cargar paquetes</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Ejemplo 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Ejemplo 2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Ejemplo 3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Ejemplo 4</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>El código a continuación carga el paquete pacman</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(pacman)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rnaturalearth, rnaturalearthdata, sf, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               terra, reticulate,  maptools,maps,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               ggplot2, ggspatial,rgeos, raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(pacman)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La función p_load() del paquete pacman carga los paquetes listados si ya están instalados. Si alguno no está instalado, lo instala automáticamente y luego lo carga.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rnaturalearth, rnaturalearthdata, sf, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>               terra,  maptools,maps,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>               ggplot2, ggspatial,rgeos, raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>El siguiente código descarga un mapa del mundo usando la función ne_countries() del paquete rnaturalearth. Se especifica que el mapa sea de escala pequeña (scale = “small”) y que se devuelva como un objeto sf (returnclass = “sf”), que es un formato espacial moderno en R.</p>
+<p>Luego, se crea un subconjunto del mapa llamado world.SA que contiene únicamente los países del continente sudamericano (continent == “South America”).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale=</span> <span class="st">"small"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>) </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>world.SA     <span class="ot">&lt;-</span> <span class="fu">subset</span>(world, continent<span class="sc">==</span><span class="st">"South America"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale=</span> <span class="st">"small"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>world.SA     <span class="ot">&lt;-</span> <span class="fu">subset</span>(world, continent<span class="sc">==</span><span class="st">"South America"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>En la primera línea del siguiente código, se crean los centroides de cada país en Sudamérica usando la función st_centroid(), y se guardan como un nuevo objeto llamado world_points.</p>
+<p>En la segunda línea se sobrescribe ese objeto, pero ahora combinando los datos originales de world.SA con las coordenadas de los centroides. Esto se hace con cbind() y st_coordinates(), que extrae las coordenadas X (longitud) y Y (latitud) de los centroides calculados a partir de la geometría (world.SA$geometry). El resultado es un objeto sf que contiene tanto la información espacial de cada país como las coordenadas de su centroide.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>world_points <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(world.SA)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>world_points <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(world.SA)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: st_centroid assumes attributes are constant over geometries</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>world_points <span class="ot">&lt;-</span> <span class="fu">cbind</span>(world.SA, <span class="fu">st_coordinates</span>(<span class="fu">st_centroid</span>(world.SA<span class="sc">$</span>geometry))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>world_points <span class="ot">&lt;-</span> <span class="fu">cbind</span>(world.SA, <span class="fu">st_coordinates</span>(<span class="fu">st_centroid</span>(world.SA<span class="sc">$</span>geometry))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>A continuación se hace un filtrado adicional. Primero, se crea el objeto Sur_America, que selecciona únicamente los países del continente sudamericano a partir de world_points. Luego, se genera el objeto Peru_S, que aísla solo el país de Perú usando el código ISO de tres letras (iso_a3 == “PER”). Así, Peru_S contiene la geometría, atributos y coordenadas del centroide exclusivamente para Perú.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Sur_America  <span class="ot">&lt;-</span> <span class="fu">subset</span>(world_points, continent <span class="sc">==</span> <span class="st">"South America"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Peru_S       <span class="ot">&lt;-</span> <span class="fu">subset</span>(Sur_America, iso_a3 <span class="sc">==</span> <span class="st">"PER"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Sur_America  <span class="ot">&lt;-</span> <span class="fu">subset</span>(world_points, continent <span class="sc">==</span> <span class="st">"South America"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Peru_S       <span class="ot">&lt;-</span> <span class="fu">subset</span>(Sur_America, iso_a3 <span class="sc">==</span> <span class="st">"PER"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>El siguiente código se descarga información administrativa de Perú usando la función <code>gadm</code> del paquete <code>geodata</code>. Se especifica el país como ‘Peru’ y el nivel administrativo como 3, que corresponde a subdivisiones más detalladas (como distritos). Luego, con %&gt;% st_as_sf(), se convierte ese objeto en un formato espacial moderno (sf).</p>
+<p>Después, se crea el objeto Cusco filtrando únicamente las unidades donde la columna NAME_1 (que representa los departamentos) es igual a “Cusco”. De esta forma, Cusco contiene todos los límites administrativos del departamento de Cusco.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Peru <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">getData</span>(<span class="st">'GADM'</span>, <span class="at">country=</span><span class="st">'Peru'</span>, <span class="at">level=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span>            </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>()          </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in raster::getData("GADM", country = "Peru", level = 3): getData will be removed in a future version of raster
-. Please use the geodata package instead</code></pre>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Peru <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">gadm</span>(<span class="at">country=</span><span class="st">'Peru'</span>, <span class="at">level=</span><span class="dv">3</span>, <span class="at">path=</span><span class="fu">tempdir</span>() ) <span class="sc">%&gt;%</span>            </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>()          </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Cusco <span class="ot">&lt;-</span> <span class="fu">subset</span>(Peru, NAME_1 <span class="sc">==</span> <span class="st">"Cusco"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Cusco <span class="ot">&lt;-</span> <span class="fu">subset</span>(Peru, NAME_1 <span class="sc">==</span> <span class="st">"Cusco"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>En la siguente línea se crea un marco espacial (bounding box) a partir del objeto Peru_S. Primero, st_bbox(Peru_S) obtiene la extensión espacial mínima que encierra completamente la geometría de Perú. Luego, st_as_sfc() convierte esa caja delimitadora en una geometría simple (sfc), que puede ser utilizada en mapas como un rectángulo que enmarca a Perú. El resultado se guarda en el objeto Marco_Per.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Marco_Per <span class="ot">=</span> <span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(Peru_S ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Marco_Per <span class="ot">=</span> <span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(Peru_S ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Finalmente se construye un mapa llamado Mapa1 utilizando ggplot(). El mapa muestra América del Sur con varios elementos personalizados:</p>
+<ul>
+<li><p>geom_sf() con Sur_America dibuja los países sudamericanos, con relleno según el nombre del país (admin), contornos negros, líneas delgadas (lwd = 1), transparencia (alpha = 0.2) y líneas continuas (linetype = 1).</p></li>
+<li><p>geom_sf() con Marco_Per dibuja un marco (bounding box) en rojo alrededor de Perú, sin relleno (fill = NA) y con líneas de grosor 1.</p></li>
+<li><p>geom_text() agrega los nombres de los países directamente en el mapa, usando las coordenadas de los centroides (X, Y) y la columna admin. El texto es negro, en negrita y de tamaño 3.</p></li>
+<li><p>labs() define el título principal del mapa (“Mapa de América del Sur”), un subtítulo (“Mapa de Ubicación”), y etiquetas para los ejes y una etiqueta de figura (“A)”).</p></li>
+<li><p>theme_bw() aplica un fondo blanco clásico al mapa.</p></li>
+<li><p>annotation_scale() añade una barra de escala.</p></li>
+<li><p>annotation_north_arrow() coloca una flecha del norte estilo náutico en la esquina superior izquierda (location=“tl”).</p></li>
+<li><p>theme() personaliza las líneas de la cuadrícula principal para que sean grises, punteadas y de grosor 0.5.</p></li>
+<li><p>labs(color=“Species”, fill = “Sur America”) define las etiquetas de leyenda para el color (aunque color=“Species” no se usa explícitamente en el código actual, puede estar previsto para una futura capa).</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Mapa1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> Sur_America , <span class="fu">aes</span>(<span class="at">fill=</span> admin ), <span class="at">lwd=</span><span class="dv">1</span>, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">color=</span><span class="st">"black"</span>,<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">linetype =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> Marco_Per, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span> Sur_America,<span class="fu">aes</span>(<span class="at">x=</span>X, <span class="at">y=</span>Y, <span class="at">label=</span>admin), <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">check_overlap =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mapa de America del Sur"</span>, </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span><span class="st">"Mapa de Ubicacion"</span>,<span class="at">x=</span><span class="st">"Longitud"</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Latitud"</span>,<span class="at">tag=</span><span class="st">"A)"</span>)<span class="sc">+</span> </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>() <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">"tl"</span>,<span class="at">which_north=</span><span class="st">"true"</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style=</span><span class="fu">north_arrow_nautical</span> ())<span class="sc">+</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="fu">gray</span>(.<span class="dv">5</span>),</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Species"</span>,<span class="at">fill =</span> <span class="st">"Sur America"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Mapa1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> Sur_America , <span class="fu">aes</span>(<span class="at">fill=</span> admin ), <span class="at">lwd=</span><span class="dv">1</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">color=</span><span class="st">"black"</span>,<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">linetype =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> Marco_Per, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span> Sur_America,<span class="fu">aes</span>(<span class="at">x=</span>X, <span class="at">y=</span>Y, <span class="at">label=</span>admin), <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">check_overlap =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Mapa de America del Sur"</span>, </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span><span class="st">"Mapa de Ubicacion"</span>,<span class="at">x=</span><span class="st">"Longitud"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Latitud"</span>,<span class="at">tag=</span><span class="st">"A)"</span>)<span class="sc">+</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>() <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">"tl"</span>,<span class="at">which_north=</span><span class="st">"true"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style=</span><span class="fu">north_arrow_nautical</span> ())<span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="fu">gray</span>(.<span class="dv">5</span>),</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">"Species"</span>,<span class="at">fill =</span> <span class="st">"Sur America"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
 ℹ Please use the `linewidth` argument instead.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Mapa1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Mapa1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale on map varies by more than 10%, scale bar may be inaccurate</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Clase6_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Clase6_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Primero, cargamos los paquetes mapview y mapedit, que nos permiten visualizar y editar datos espaciales de manera interactiva.</p>
+<p>Luego, con la función mapview() visualizamos el objeto Peru_S en un mapa interactivo. Este tipo de visualización nos permite explorar el área de manera dinámica, hacer zoom, mover el mapa y examinar la geometría de Perú de forma rápida y sencilla. Es muy útil para obtener una vista preliminar de los datos sin necesidad de crear mapas estáticos complejos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapedit)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>mapview<span class="sc">::</span><span class="fu">mapview</span>(Peru_S )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapedit)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>mapview<span class="sc">::</span><span class="fu">mapview</span>(Peru_S )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-ca6c9f0939d8cce4cc3b" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-ca6c9f0939d8cce4cc3b">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[-69.89363521999663,-70.7947688463023,-70.92884334988358,-71.74840572781655,-72.89192765978726,-72.9645072089412,-73.21971126981461,-73.1200274319236,-73.72448666044164,-73.7234014553635,-73.98723548042966,-73.57105933296707,-73.01538265653255,-73.22671342639016,-72.56303300646564,-72.18489071316985,-71.30241227892154,-70.48189388699117,-70.54868567572841,-70.09375220404689,-69.52967810736496,-68.66507971868963,-68.88007951523997,-68.92922380234954,-68.94888668483659,-69.33953467474701,-69.16034664577495,-69.38976416693471,-68.95963538275331,-69.59042375352405,-69.85844356960587,-70.37257239447771,-71.37525021023693,-71.46204077827113,-73.44452958850042,-75.23788265654144,-76.00920508492995,-76.42346920439775,-76.25924150257417,-77.10619238962184,-78.09215287953464,-79.03695309112695,-79.44592037628485,-79.76057817251005,-80.53748165558608,-81.24999630402642,-80.92634680858244,-81.41094255239946,-81.09966956248937,-80.30256059438722,-80.18401485870967,-80.46929460317695,-80.44224199087216,-80.02890804718561,-79.62497921417618,-79.20528906931773,-78.63989722361234,-78.45068396677564,-77.83790483265861,-76.63539425322672,-75.54499569365204,-75.23372270374195,-75.37322323271385,-75.10662451852008,-74.44160051135597,-74.12239518908906,-73.6595035468346,-73.07039221870724,-72.32578650581365,-71.7747607082854,-71.41364579942979,-70.81347571479196,-70.04770850287485,-70.69268205430971,-70.39404395209499,-69.89363521999663],"lat":[-4.298186944194327,-4.251264743673303,-4.401591485210368,-4.593982842633011,-5.274561455916981,-5.741251315944893,-6.089188734566078,-6.629930922068239,-6.91859547285064,-7.340998630404414,-7.523829847853065,-8.424446709835834,-9.032833347208062,-9.462212823121234,-9.520193780152717,-10.05359791426943,-10.07943613041537,-9.490118096558845,-11.00914682377847,-11.12397185633101,-10.95173430750219,-12.56130014409717,-12.89972909917665,-13.60268360764301,-14.45363941819328,-14.95319548915883,-15.32397389085302,-15.66012908291165,-16.50069793057127,-17.58001189541933,-18.09269378018701,-18.34797535570887,-17.77379851651386,-17.36348764411638,-16.359362888253,-15.26568287522778,-14.64928639085032,-13.82318694423243,-13.53503915777294,-12.22271615972082,-10.37771249760407,-8.386567884965892,-7.93083342858386,-7.194340915560084,-6.541667575713717,-6.136834405139183,-5.690556735866565,-4.736764825055459,-4.036394138203697,-3.404856459164713,-3.821161797708044,-4.059286797708999,-4.425724379090674,-4.346090996928893,-4.454198093283495,-4.959128513207389,-4.547784112164074,-3.873096612161376,-3.003020521663103,-2.608677666843818,-1.56160979574588,-0.9114169246495294,-0.1520317521204504,-0.05720549886486026,-0.5308200008198867,-1.002832533373848,-1.260491224781134,-2.308954359550953,-2.434218031426454,-2.169789727388938,-2.342802422702128,-2.256864515800743,-2.725156345229699,-3.742872002785859,-3.766591485207825,-4.298186944194327]}]]],null,"Peru_S",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>32&emsp;<\/td><\/tr><tr><td>1<\/td><th>featurecla&emsp;<\/th><td>Admin-0 country&emsp;<\/td><\/tr><tr><td>2<\/td><th>scalerank&emsp;<\/th><td>1&emsp;<\/td><\/tr><tr><td>3<\/td><th>labelrank&emsp;<\/th><td>2&emsp;<\/td><\/tr><tr><td>4<\/td><th>sovereignt&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>5<\/td><th>sov_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>6<\/td><th>adm0_dif&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>7<\/td><th>level&emsp;<\/th><td>2&emsp;<\/td><\/tr><tr><td>8<\/td><th>type&emsp;<\/th><td>Sovereign country&emsp;<\/td><\/tr><tr><td>9<\/td><th>tlc&emsp;<\/th><td>1&emsp;<\/td><\/tr><tr><td>10<\/td><th>admin&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>11<\/td><th>adm0_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>12<\/td><th>geou_dif&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>13<\/td><th>geounit&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>14<\/td><th>gu_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>15<\/td><th>su_dif&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>16<\/td><th>subunit&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>17<\/td><th>su_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>18<\/td><th>brk_diff&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>19<\/td><th>name&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>20<\/td><th>name_long&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>21<\/td><th>brk_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>22<\/td><th>brk_name&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>23<\/td><th>brk_group&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>24<\/td><th>abbrev&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>25<\/td><th>postal&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>26<\/td><th>formal_en&emsp;<\/th><td>Republic of Peru&emsp;<\/td><\/tr><tr><td>27<\/td><th>formal_fr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>28<\/td><th>name_ciawf&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>29<\/td><th>note_adm0&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>30<\/td><th>note_brk&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>31<\/td><th>name_sort&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>32<\/td><th>name_alt&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>33<\/td><th>mapcolor7&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>34<\/td><th>mapcolor8&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>35<\/td><th>mapcolor9&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>36<\/td><th>mapcolor13&emsp;<\/th><td>11&emsp;<\/td><\/tr><tr><td>37<\/td><th>pop_est&emsp;<\/th><td>32510453&emsp;<\/td><\/tr><tr><td>38<\/td><th>pop_rank&emsp;<\/th><td>15&emsp;<\/td><\/tr><tr><td>39<\/td><th>pop_year&emsp;<\/th><td>2019&emsp;<\/td><\/tr><tr><td>40<\/td><th>gdp_md&emsp;<\/th><td>226848&emsp;<\/td><\/tr><tr><td>41<\/td><th>gdp_year&emsp;<\/th><td>2019&emsp;<\/td><\/tr><tr><td>42<\/td><th>economy&emsp;<\/th><td>5. Emerging region: G20&emsp;<\/td><\/tr><tr><td>43<\/td><th>income_grp&emsp;<\/th><td>3. Upper middle income&emsp;<\/td><\/tr><tr><td>44<\/td><th>fips_10&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>45<\/td><th>iso_a2&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>46<\/td><th>iso_a2_eh&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>47<\/td><th>iso_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>48<\/td><th>iso_a3_eh&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>49<\/td><th>iso_n3&emsp;<\/th><td>604&emsp;<\/td><\/tr><tr><td>50<\/td><th>iso_n3_eh&emsp;<\/th><td>604&emsp;<\/td><\/tr><tr><td>51<\/td><th>un_a3&emsp;<\/th><td>604&emsp;<\/td><\/tr><tr><td>52<\/td><th>wb_a2&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>53<\/td><th>wb_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>54<\/td><th>woe_id&emsp;<\/th><td>23424919&emsp;<\/td><\/tr><tr><td>55<\/td><th>woe_id_eh&emsp;<\/th><td>23424919&emsp;<\/td><\/tr><tr><td>56<\/td><th>woe_note&emsp;<\/th><td>Exact WOE match as country&emsp;<\/td><\/tr><tr><td>57<\/td><th>adm0_iso&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>58<\/td><th>adm0_diff&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>59<\/td><th>adm0_tlc&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>60<\/td><th>adm0_a3_us&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>61<\/td><th>adm0_a3_fr&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>62<\/td><th>adm0_a3_ru&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>63<\/td><th>adm0_a3_es&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>64<\/td><th>adm0_a3_cn&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>65<\/td><th>adm0_a3_tw&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>66<\/td><th>adm0_a3_in&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>67<\/td><th>adm0_a3_np&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>68<\/td><th>adm0_a3_pk&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>69<\/td><th>adm0_a3_de&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>70<\/td><th>adm0_a3_gb&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>71<\/td><th>adm0_a3_br&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>72<\/td><th>adm0_a3_il&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>73<\/td><th>adm0_a3_ps&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>74<\/td><th>adm0_a3_sa&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>75<\/td><th>adm0_a3_eg&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>76<\/td><th>adm0_a3_ma&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>77<\/td><th>adm0_a3_pt&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>78<\/td><th>adm0_a3_ar&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>79<\/td><th>adm0_a3_jp&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>80<\/td><th>adm0_a3_ko&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>81<\/td><th>adm0_a3_vn&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>82<\/td><th>adm0_a3_tr&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>83<\/td><th>adm0_a3_id&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>84<\/td><th>adm0_a3_pl&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>85<\/td><th>adm0_a3_gr&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>86<\/td><th>adm0_a3_it&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>87<\/td><th>adm0_a3_nl&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>88<\/td><th>adm0_a3_se&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>89<\/td><th>adm0_a3_bd&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>90<\/td><th>adm0_a3_ua&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>91<\/td><th>adm0_a3_un&emsp;<\/th><td>-99&emsp;<\/td><\/tr><tr><td>92<\/td><th>adm0_a3_wb&emsp;<\/th><td>-99&emsp;<\/td><\/tr><tr><td>93<\/td><th>continent&emsp;<\/th><td>South America&emsp;<\/td><\/tr><tr><td>94<\/td><th>region_un&emsp;<\/th><td>Americas&emsp;<\/td><\/tr><tr><td>95<\/td><th>subregion&emsp;<\/th><td>South America&emsp;<\/td><\/tr><tr><td>96<\/td><th>region_wb&emsp;<\/th><td>Latin America & Caribbean&emsp;<\/td><\/tr><tr><td>97<\/td><th>name_len&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>98<\/td><th>long_len&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>99<\/td><th>abbrev_len&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>100<\/td><th>tiny&emsp;<\/th><td>-99&emsp;<\/td><\/tr><tr><td>101<\/td><th>homepart&emsp;<\/th><td>1&emsp;<\/td><\/tr><tr><td>102<\/td><th>min_zoom&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>103<\/td><th>min_label&emsp;<\/th><td>2&emsp;<\/td><\/tr><tr><td>104<\/td><th>max_label&emsp;<\/th><td>7&emsp;<\/td><\/tr><tr><td>105<\/td><th>label_x&emsp;<\/th><td>-72.90016&emsp;<\/td><\/tr><tr><td>106<\/td><th>label_y&emsp;<\/th><td>-12.97668&emsp;<\/td><\/tr><tr><td>107<\/td><th>ne_id&emsp;<\/th><td>1159321163&emsp;<\/td><\/tr><tr><td>108<\/td><th>wikidataid&emsp;<\/th><td>Q419&emsp;<\/td><\/tr><tr><td>109<\/td><th>name_ar&emsp;<\/th><td>بيرو&emsp;<\/td><\/tr><tr><td>110<\/td><th>name_bn&emsp;<\/th><td>পেরু&emsp;<\/td><\/tr><tr><td>111<\/td><th>name_de&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>112<\/td><th>name_en&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>113<\/td><th>name_es&emsp;<\/th><td>Perú&emsp;<\/td><\/tr><tr><td>114<\/td><th>name_fa&emsp;<\/th><td>پرو&emsp;<\/td><\/tr><tr><td>115<\/td><th>name_fr&emsp;<\/th><td>Pérou&emsp;<\/td><\/tr><tr><td>116<\/td><th>name_el&emsp;<\/th><td>Περού&emsp;<\/td><\/tr><tr><td>117<\/td><th>name_he&emsp;<\/th><td>פרו&emsp;<\/td><\/tr><tr><td>118<\/td><th>name_hi&emsp;<\/th><td>पेरू&emsp;<\/td><\/tr><tr><td>119<\/td><th>name_hu&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>120<\/td><th>name_id&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>121<\/td><th>name_it&emsp;<\/th><td>Perù&emsp;<\/td><\/tr><tr><td>122<\/td><th>name_ja&emsp;<\/th><td>ペルー&emsp;<\/td><\/tr><tr><td>123<\/td><th>name_ko&emsp;<\/th><td>페루&emsp;<\/td><\/tr><tr><td>124<\/td><th>name_nl&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>125<\/td><th>name_pl&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>126<\/td><th>name_pt&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>127<\/td><th>name_ru&emsp;<\/th><td>Перу&emsp;<\/td><\/tr><tr><td>128<\/td><th>name_sv&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>129<\/td><th>name_tr&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>130<\/td><th>name_uk&emsp;<\/th><td>Перу&emsp;<\/td><\/tr><tr><td>131<\/td><th>name_ur&emsp;<\/th><td>پیرو&emsp;<\/td><\/tr><tr><td>132<\/td><th>name_vi&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>133<\/td><th>name_zh&emsp;<\/th><td>秘鲁&emsp;<\/td><\/tr><tr><td>134<\/td><th>name_zht&emsp;<\/th><td>秘魯&emsp;<\/td><\/tr><tr><td>135<\/td><th>fclass_iso&emsp;<\/th><td>Admin-0 country&emsp;<\/td><\/tr><tr><td>136<\/td><th>tlc_diff&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>137<\/td><th>fclass_tlc&emsp;<\/th><td>Admin-0 country&emsp;<\/td><\/tr><tr><td>138<\/td><th>fclass_us&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>139<\/td><th>fclass_fr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>140<\/td><th>fclass_ru&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>141<\/td><th>fclass_es&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>142<\/td><th>fclass_cn&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>143<\/td><th>fclass_tw&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>144<\/td><th>fclass_in&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>145<\/td><th>fclass_np&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>146<\/td><th>fclass_pk&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>147<\/td><th>fclass_de&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>148<\/td><th>fclass_gb&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>149<\/td><th>fclass_br&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>150<\/td><th>fclass_il&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>151<\/td><th>fclass_ps&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>152<\/td><th>fclass_sa&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>153<\/td><th>fclass_eg&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>154<\/td><th>fclass_ma&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>155<\/td><th>fclass_pt&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>156<\/td><th>fclass_ar&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>157<\/td><th>fclass_jp&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>158<\/td><th>fclass_ko&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>159<\/td><th>fclass_vn&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>160<\/td><th>fclass_tr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>161<\/td><th>fclass_id&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>162<\/td><th>fclass_pl&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>163<\/td><th>fclass_gr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>164<\/td><th>fclass_it&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>165<\/td><th>fclass_nl&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>166<\/td><th>fclass_se&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>167<\/td><th>fclass_bd&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>168<\/td><th>fclass_ua&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>169<\/td><th>X&emsp;<\/th><td>-74.43045&emsp;<\/td><\/tr><tr><td>170<\/td><th>Y&emsp;<\/th><td>-9.146797&emsp;<\/td><\/tr><tr><td>171<\/td><th>geometry&emsp;<\/th><td>sfc_MULTIPOLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"32",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-81.41094255239946,-18.34797535570887,-68.66507971868963,-0.05720549886486026,true,"Peru_S","Zoom to Peru_S","<strong> Peru_S <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"Peru_S",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["Peru_S"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"Peru_S"}]}],"limits":{"lat":[-18.34797535570887,-0.05720549886486026],"lng":[-81.41094255239946,-68.66507971868963]},"fitBounds":[-18.34797535570887,-81.41094255239946,-0.05720549886486026,-68.66507971868963,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-6c3d188e9b6ebf0dfec6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-6c3d188e9b6ebf0dfec6">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["polygon",420]},{"method":"addPolygons","args":[[[[{"lng":[-69.89363521999663,-70.7947688463023,-70.92884334988358,-71.74840572781655,-72.89192765978726,-72.9645072089412,-73.21971126981461,-73.1200274319236,-73.72448666044164,-73.7234014553635,-73.98723548042966,-73.57105933296707,-73.01538265653255,-73.22671342639016,-72.56303300646564,-72.18489071316985,-71.30241227892154,-70.48189388699117,-70.54868567572841,-70.09375220404689,-69.52967810736496,-68.66507971868963,-68.88007951523997,-68.92922380234954,-68.94888668483659,-69.33953467474701,-69.16034664577495,-69.38976416693471,-68.95963538275331,-69.59042375352405,-69.85844356960587,-70.37257239447771,-71.37525021023693,-71.46204077827113,-73.44452958850042,-75.23788265654144,-76.00920508492995,-76.42346920439775,-76.25924150257417,-77.10619238962184,-78.09215287953464,-79.03695309112695,-79.44592037628485,-79.76057817251005,-80.53748165558608,-81.24999630402642,-80.92634680858244,-81.41094255239946,-81.09966956248937,-80.30256059438722,-80.18401485870967,-80.46929460317695,-80.44224199087216,-80.02890804718561,-79.62497921417618,-79.20528906931773,-78.63989722361234,-78.45068396677564,-77.83790483265861,-76.63539425322672,-75.54499569365204,-75.23372270374195,-75.37322323271385,-75.10662451852008,-74.44160051135597,-74.12239518908906,-73.6595035468346,-73.07039221870724,-72.32578650581365,-71.7747607082854,-71.41364579942979,-70.81347571479196,-70.04770850287485,-70.69268205430971,-70.39404395209499,-69.89363521999663],"lat":[-4.298186944194327,-4.251264743673303,-4.401591485210368,-4.593982842633011,-5.274561455916981,-5.741251315944893,-6.089188734566078,-6.629930922068239,-6.91859547285064,-7.340998630404414,-7.523829847853065,-8.424446709835834,-9.032833347208062,-9.462212823121234,-9.520193780152717,-10.05359791426943,-10.07943613041537,-9.490118096558845,-11.00914682377847,-11.12397185633101,-10.95173430750219,-12.56130014409717,-12.89972909917665,-13.60268360764301,-14.45363941819328,-14.95319548915883,-15.32397389085302,-15.66012908291165,-16.50069793057127,-17.58001189541933,-18.09269378018701,-18.34797535570887,-17.77379851651386,-17.36348764411638,-16.359362888253,-15.26568287522778,-14.64928639085032,-13.82318694423243,-13.53503915777294,-12.22271615972082,-10.37771249760407,-8.386567884965892,-7.93083342858386,-7.194340915560084,-6.541667575713717,-6.136834405139183,-5.690556735866565,-4.736764825055459,-4.036394138203697,-3.404856459164713,-3.821161797708044,-4.059286797708999,-4.425724379090674,-4.346090996928893,-4.454198093283495,-4.959128513207389,-4.547784112164074,-3.873096612161376,-3.003020521663103,-2.608677666843818,-1.56160979574588,-0.9114169246495294,-0.1520317521204504,-0.05720549886486026,-0.5308200008198867,-1.002832533373848,-1.260491224781134,-2.308954359550953,-2.434218031426454,-2.169789727388938,-2.342802422702128,-2.256864515800743,-2.725156345229699,-3.742872002785859,-3.766591485207825,-4.298186944194327]}]]],null,"Peru_S",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"polygon","stroke":true,"color":"#333333","weight":0.5,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6,"smoothFactor":1,"noClip":false},"<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>32&emsp;<\/td><\/tr><tr><td>1<\/td><th>featurecla&emsp;<\/th><td>Admin-0 country&emsp;<\/td><\/tr><tr><td>2<\/td><th>scalerank&emsp;<\/th><td>1&emsp;<\/td><\/tr><tr><td>3<\/td><th>labelrank&emsp;<\/th><td>2&emsp;<\/td><\/tr><tr><td>4<\/td><th>sovereignt&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>5<\/td><th>sov_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>6<\/td><th>adm0_dif&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>7<\/td><th>level&emsp;<\/th><td>2&emsp;<\/td><\/tr><tr><td>8<\/td><th>type&emsp;<\/th><td>Sovereign country&emsp;<\/td><\/tr><tr><td>9<\/td><th>tlc&emsp;<\/th><td>1&emsp;<\/td><\/tr><tr><td>10<\/td><th>admin&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>11<\/td><th>adm0_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>12<\/td><th>geou_dif&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>13<\/td><th>geounit&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>14<\/td><th>gu_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>15<\/td><th>su_dif&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>16<\/td><th>subunit&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>17<\/td><th>su_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>18<\/td><th>brk_diff&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>19<\/td><th>name&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>20<\/td><th>name_long&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>21<\/td><th>brk_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>22<\/td><th>brk_name&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>23<\/td><th>brk_group&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>24<\/td><th>abbrev&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>25<\/td><th>postal&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>26<\/td><th>formal_en&emsp;<\/th><td>Republic of Peru&emsp;<\/td><\/tr><tr><td>27<\/td><th>formal_fr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>28<\/td><th>name_ciawf&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>29<\/td><th>note_adm0&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>30<\/td><th>note_brk&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>31<\/td><th>name_sort&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>32<\/td><th>name_alt&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>33<\/td><th>mapcolor7&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>34<\/td><th>mapcolor8&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>35<\/td><th>mapcolor9&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>36<\/td><th>mapcolor13&emsp;<\/th><td>11&emsp;<\/td><\/tr><tr><td>37<\/td><th>pop_est&emsp;<\/th><td>32510453&emsp;<\/td><\/tr><tr><td>38<\/td><th>pop_rank&emsp;<\/th><td>15&emsp;<\/td><\/tr><tr><td>39<\/td><th>pop_year&emsp;<\/th><td>2019&emsp;<\/td><\/tr><tr><td>40<\/td><th>gdp_md&emsp;<\/th><td>226848&emsp;<\/td><\/tr><tr><td>41<\/td><th>gdp_year&emsp;<\/th><td>2019&emsp;<\/td><\/tr><tr><td>42<\/td><th>economy&emsp;<\/th><td>5. Emerging region: G20&emsp;<\/td><\/tr><tr><td>43<\/td><th>income_grp&emsp;<\/th><td>3. Upper middle income&emsp;<\/td><\/tr><tr><td>44<\/td><th>fips_10&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>45<\/td><th>iso_a2&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>46<\/td><th>iso_a2_eh&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>47<\/td><th>iso_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>48<\/td><th>iso_a3_eh&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>49<\/td><th>iso_n3&emsp;<\/th><td>604&emsp;<\/td><\/tr><tr><td>50<\/td><th>iso_n3_eh&emsp;<\/th><td>604&emsp;<\/td><\/tr><tr><td>51<\/td><th>un_a3&emsp;<\/th><td>604&emsp;<\/td><\/tr><tr><td>52<\/td><th>wb_a2&emsp;<\/th><td>PE&emsp;<\/td><\/tr><tr><td>53<\/td><th>wb_a3&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>54<\/td><th>woe_id&emsp;<\/th><td>23424919&emsp;<\/td><\/tr><tr><td>55<\/td><th>woe_id_eh&emsp;<\/th><td>23424919&emsp;<\/td><\/tr><tr><td>56<\/td><th>woe_note&emsp;<\/th><td>Exact WOE match as country&emsp;<\/td><\/tr><tr><td>57<\/td><th>adm0_iso&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>58<\/td><th>adm0_diff&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>59<\/td><th>adm0_tlc&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>60<\/td><th>adm0_a3_us&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>61<\/td><th>adm0_a3_fr&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>62<\/td><th>adm0_a3_ru&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>63<\/td><th>adm0_a3_es&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>64<\/td><th>adm0_a3_cn&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>65<\/td><th>adm0_a3_tw&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>66<\/td><th>adm0_a3_in&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>67<\/td><th>adm0_a3_np&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>68<\/td><th>adm0_a3_pk&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>69<\/td><th>adm0_a3_de&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>70<\/td><th>adm0_a3_gb&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>71<\/td><th>adm0_a3_br&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>72<\/td><th>adm0_a3_il&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>73<\/td><th>adm0_a3_ps&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>74<\/td><th>adm0_a3_sa&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>75<\/td><th>adm0_a3_eg&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>76<\/td><th>adm0_a3_ma&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>77<\/td><th>adm0_a3_pt&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>78<\/td><th>adm0_a3_ar&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>79<\/td><th>adm0_a3_jp&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>80<\/td><th>adm0_a3_ko&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>81<\/td><th>adm0_a3_vn&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>82<\/td><th>adm0_a3_tr&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>83<\/td><th>adm0_a3_id&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>84<\/td><th>adm0_a3_pl&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>85<\/td><th>adm0_a3_gr&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>86<\/td><th>adm0_a3_it&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>87<\/td><th>adm0_a3_nl&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>88<\/td><th>adm0_a3_se&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>89<\/td><th>adm0_a3_bd&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>90<\/td><th>adm0_a3_ua&emsp;<\/th><td>PER&emsp;<\/td><\/tr><tr><td>91<\/td><th>adm0_a3_un&emsp;<\/th><td>-99&emsp;<\/td><\/tr><tr><td>92<\/td><th>adm0_a3_wb&emsp;<\/th><td>-99&emsp;<\/td><\/tr><tr><td>93<\/td><th>continent&emsp;<\/th><td>South America&emsp;<\/td><\/tr><tr><td>94<\/td><th>region_un&emsp;<\/th><td>Americas&emsp;<\/td><\/tr><tr><td>95<\/td><th>subregion&emsp;<\/th><td>South America&emsp;<\/td><\/tr><tr><td>96<\/td><th>region_wb&emsp;<\/th><td>Latin America & Caribbean&emsp;<\/td><\/tr><tr><td>97<\/td><th>name_len&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>98<\/td><th>long_len&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>99<\/td><th>abbrev_len&emsp;<\/th><td>4&emsp;<\/td><\/tr><tr><td>100<\/td><th>tiny&emsp;<\/th><td>-99&emsp;<\/td><\/tr><tr><td>101<\/td><th>homepart&emsp;<\/th><td>1&emsp;<\/td><\/tr><tr><td>102<\/td><th>min_zoom&emsp;<\/th><td>0&emsp;<\/td><\/tr><tr><td>103<\/td><th>min_label&emsp;<\/th><td>2&emsp;<\/td><\/tr><tr><td>104<\/td><th>max_label&emsp;<\/th><td>7&emsp;<\/td><\/tr><tr><td>105<\/td><th>label_x&emsp;<\/th><td>-72.90016&emsp;<\/td><\/tr><tr><td>106<\/td><th>label_y&emsp;<\/th><td>-12.97668&emsp;<\/td><\/tr><tr><td>107<\/td><th>ne_id&emsp;<\/th><td>1159321163&emsp;<\/td><\/tr><tr><td>108<\/td><th>wikidataid&emsp;<\/th><td>Q419&emsp;<\/td><\/tr><tr><td>109<\/td><th>name_ar&emsp;<\/th><td>بيرو&emsp;<\/td><\/tr><tr><td>110<\/td><th>name_bn&emsp;<\/th><td>পেরু&emsp;<\/td><\/tr><tr><td>111<\/td><th>name_de&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>112<\/td><th>name_en&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>113<\/td><th>name_es&emsp;<\/th><td>Perú&emsp;<\/td><\/tr><tr><td>114<\/td><th>name_fa&emsp;<\/th><td>پرو&emsp;<\/td><\/tr><tr><td>115<\/td><th>name_fr&emsp;<\/th><td>Pérou&emsp;<\/td><\/tr><tr><td>116<\/td><th>name_el&emsp;<\/th><td>Περού&emsp;<\/td><\/tr><tr><td>117<\/td><th>name_he&emsp;<\/th><td>פרו&emsp;<\/td><\/tr><tr><td>118<\/td><th>name_hi&emsp;<\/th><td>पेरू&emsp;<\/td><\/tr><tr><td>119<\/td><th>name_hu&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>120<\/td><th>name_id&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>121<\/td><th>name_it&emsp;<\/th><td>Perù&emsp;<\/td><\/tr><tr><td>122<\/td><th>name_ja&emsp;<\/th><td>ペルー&emsp;<\/td><\/tr><tr><td>123<\/td><th>name_ko&emsp;<\/th><td>페루&emsp;<\/td><\/tr><tr><td>124<\/td><th>name_nl&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>125<\/td><th>name_pl&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>126<\/td><th>name_pt&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>127<\/td><th>name_ru&emsp;<\/th><td>Перу&emsp;<\/td><\/tr><tr><td>128<\/td><th>name_sv&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>129<\/td><th>name_tr&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>130<\/td><th>name_uk&emsp;<\/th><td>Перу&emsp;<\/td><\/tr><tr><td>131<\/td><th>name_ur&emsp;<\/th><td>پیرو&emsp;<\/td><\/tr><tr><td>132<\/td><th>name_vi&emsp;<\/th><td>Peru&emsp;<\/td><\/tr><tr><td>133<\/td><th>name_zh&emsp;<\/th><td>秘鲁&emsp;<\/td><\/tr><tr><td>134<\/td><th>name_zht&emsp;<\/th><td>秘魯&emsp;<\/td><\/tr><tr><td>135<\/td><th>fclass_iso&emsp;<\/th><td>Admin-0 country&emsp;<\/td><\/tr><tr><td>136<\/td><th>tlc_diff&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>137<\/td><th>fclass_tlc&emsp;<\/th><td>Admin-0 country&emsp;<\/td><\/tr><tr><td>138<\/td><th>fclass_us&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>139<\/td><th>fclass_fr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>140<\/td><th>fclass_ru&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>141<\/td><th>fclass_es&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>142<\/td><th>fclass_cn&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>143<\/td><th>fclass_tw&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>144<\/td><th>fclass_in&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>145<\/td><th>fclass_np&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>146<\/td><th>fclass_pk&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>147<\/td><th>fclass_de&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>148<\/td><th>fclass_gb&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>149<\/td><th>fclass_br&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>150<\/td><th>fclass_il&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>151<\/td><th>fclass_ps&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>152<\/td><th>fclass_sa&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>153<\/td><th>fclass_eg&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>154<\/td><th>fclass_ma&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>155<\/td><th>fclass_pt&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>156<\/td><th>fclass_ar&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>157<\/td><th>fclass_jp&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>158<\/td><th>fclass_ko&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>159<\/td><th>fclass_vn&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>160<\/td><th>fclass_tr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>161<\/td><th>fclass_id&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>162<\/td><th>fclass_pl&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>163<\/td><th>fclass_gr&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>164<\/td><th>fclass_it&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>165<\/td><th>fclass_nl&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>166<\/td><th>fclass_se&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>167<\/td><th>fclass_bd&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>168<\/td><th>fclass_ua&emsp;<\/th><td>NA&emsp;<\/td><\/tr><tr><td>169<\/td><th>X&emsp;<\/th><td>-74.43045&emsp;<\/td><\/tr><tr><td>170<\/td><th>Y&emsp;<\/th><td>-9.146797&emsp;<\/td><\/tr><tr><td>171<\/td><th>geometry&emsp;<\/th><td>sfc_MULTIPOLYGON&emsp;<\/td><\/tr><\/table><\/div>",{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"32",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},{"stroke":true,"weight":1,"opacity":0.9,"fillOpacity":0.84,"bringToFront":false,"sendToBack":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-81.41094255239946,-18.34797535570887,-68.66507971868963,-0.05720549886486026,true,"Peru_S","Zoom to Peru_S","<strong> Peru_S <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"Peru_S",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["Peru_S"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"Peru_S"}]}],"limits":{"lat":[-18.34797535570887,-0.05720549886486026],"lng":[-81.41094255239946,-68.66507971868963]},"fitBounds":[-18.34797535570887,-81.41094255239946,-0.05720549886486026,-68.66507971868963,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
 </div>
 </div>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(pacman)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rnaturalearth, rnaturalearthdata, sf, </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>               raster, reticulate,  maptools,maps,maptiles,gridExtra,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>               ggplot2, ggspatial,rgeos, tmap,grid, rgbif, ggmap,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>               rgrass7, sp, mapr, rgdal, RColorBrewer,ggrepel, leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(pacman)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, rnaturalearth, rnaturalearthdata, sf, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>               raster, reticulate,  maptools,maps,maptiles,gridExtra,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>               ggplot2, ggspatial,rgeos, tmap,grid, rgbif, ggmap,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>               rgrass7, sp, mapr, rgdal, RColorBrewer,ggrepel, leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Primero, creamos un punto con las coordenadas geográficas usando st_point(), donde se definen la longitud y la latitud correspondientes al sitio de interés. En este caso, las coordenadas corresponden a un lugar específico.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creamos una data frame a sf</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>punto1    <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">55.833147651973036</span>,<span class="sc">-</span><span class="fl">15.408246576309264</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>lugar     <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name=</span> <span class="fu">c</span>(<span class="st">"Valle Forestal Véu de Noiva"</span>))</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Coor      <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(punto1,  <span class="at">crs =</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>Sites     <span class="ot">&lt;-</span> <span class="fu">st_sf</span>(lugar, Coor)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>sites1    <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">longitude =</span> <span class="fu">c</span>(<span class="fl">55.833147651973036</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">latitude =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">15.408246576309264</span>),</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name=</span> <span class="fu">c</span>(<span class="st">"Valle Forestal Véu de Noiva"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>punto1    <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">55.833147651973036</span>,<span class="sc">-</span><span class="fl">15.408246576309264</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Luego, creamos un data.frame llamado lugar con el nombre del sitio, que en este caso es “Valle Forestal Véu de Noiva”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Sites) <span class="sc">%&gt;%</span> <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> <span class="fu">addCircles</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery, <span class="at">group =</span> <span class="st">"Satellite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lugar     <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name=</span> <span class="fu">c</span>(<span class="st">"Valle Forestal Véu de Noiva"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A continuación, convertimos ese punto en una geometría espacial utilizando st_sfc() y le asignamos el sistema de coordenadas WGS84, que es el estándar de coordenadas geográficas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Coor      <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(punto1,  <span class="at">crs =</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Después, combinamos el nombre del lugar y las coordenadas en un objeto espacial Sites, que contiene tanto la información geográfica como el nombre del sitio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Sites     <span class="ot">&lt;-</span> <span class="fu">st_sf</span>(lugar, Coor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finalmente, también creo un data.frame llamado sites1 para almacenar las coordenadas y el nombre del lugar de una forma más estructurada con columnas para longitude, latitude y name. Esto me permite manejar y trabajar con los datos espaciales de manera más ordenada.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sites1    <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">longitude =</span> <span class="fu">c</span>(<span class="fl">55.833147651973036</span>),</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">latitude =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">15.408246576309264</span>),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name=</span> <span class="fu">c</span>(<span class="st">"Valle Forestal Véu de Noiva"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En el siguiente código, utilizamos la librería leaflet para crear un mapa interactivo.</p>
+<p>Primero, pasamos el objeto espacial Sites a la función leaflet(), lo que nos permite visualizar los puntos en un mapa interactivo. Luego, añadimos las baldosas estándar del mapa con addTiles() para mostrar el fondo básico del mapa.</p>
+<p>A continuación, con addCircles(), agregamos círculos en las ubicaciones de los puntos de Sites, lo que permite visualizar las ubicaciones de forma destacada.</p>
+<p>Finalmente, con addProviderTiles(providers$Esri.WorldImagery, group = “Satellite”), añadimos una capa de imágenes satelitales proporcionada por Esri, que nos muestra un fondo más detallado del mapa en lugar del fondo estándar. Esta capa se agrupa bajo el nombre “Satellite” para poder alternar entre diferentes fondos de mapa si se desea.</p>
+<p>Este código permite visualizar los puntos de Sites en un mapa interactivo, proporcionando la opción de ver el mapa con imágenes satelitales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(Sites) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircles</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery, <span class="at">group =</span> <span class="st">"Satellite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-0ecfec165f5cfff04c36" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-0ecfec165f5cfff04c36">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircles","args":[-15.40824657630926,-55.83314765197304,10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satellite",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}],"limits":{"lat":[-15.40824657630926,-15.40824657630926],"lng":[-55.83314765197304,-55.83314765197304]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-ea59f452901a6142e3b3" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ea59f452901a6142e3b3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircles","args":[-15.40824657630926,-55.83314765197304,10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,"Satellite",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}],"limits":{"lat":[-15.40824657630926,-15.40824657630926],"lng":[-55.83314765197304,-55.83314765197304]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 <div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<p>Primero, cargamos los datos geográficos de México a nivel de estados utilizando la función <code>gadm</code> del paquete <code>geodata</code>, especificando el país como “Mexico” y el nivel como 1, que nos da los límites administrativos de los estados. Luego, convertimos esos datos en un objeto espacial con st_as_sf().</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mexico         <span class="ot">&lt;-</span> <span class="fu">getData</span>(<span class="st">'GADM'</span>, <span class="at">country=</span><span class="st">'Mexico'</span>, <span class="at">level=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span><span class="fu">st_as_sf</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in getData("GADM", country = "Mexico", level = 1): getData will be removed in a future version of raster
-. Please use the geodata package instead</code></pre>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mexico <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">gadm</span>(<span class="at">country=</span><span class="st">'Mexico'</span>, <span class="at">level=</span><span class="dv">1</span>, <span class="at">path=</span><span class="fu">tempdir</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mexico_Alt     <span class="ot">&lt;-</span> <span class="fu">getData</span>(<span class="st">"alt"</span>, <span class="at">country=</span><span class="st">'Mexico'</span>, <span class="at">mask=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in getData("alt", country = "Mexico", mask = TRUE): getData will be removed in a future version of raster
-. Please use the geodata package instead</code></pre>
+<p>A continuación, obtenemos los datos de altitud para México usando <code>elevation_30s</code> del paquete <code>geodata</code>, lo que nos proporciona un modelo de elevación del terreno (DEM) para todo el país.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mexico_Alt <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">elevation_30s</span>(<span class="at">country=</span><span class="st">'Mexico'</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">path=</span><span class="fu">tempdir</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>Chiapas        <span class="ot">&lt;-</span> <span class="fu">subset</span>(mexico, NAME_1 <span class="sc">==</span> <span class="st">"Chiapas"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Chiapas_alt    <span class="ot">&lt;-</span> <span class="fu">crop</span>(mexico_Alt, Chiapas)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>Chiapas_alt    <span class="ot">&lt;-</span> Chiapas_alt <span class="ot">&lt;-</span> <span class="fu">mask</span>(Chiapas_alt, Chiapas)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Chiapas_alt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Después, seleccionamos el estado de Chiapas del conjunto de datos de México utilizando subset() y filtramos por el nombre del estado “Chiapas”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Chiapas        <span class="ot">&lt;-</span> <span class="fu">subset</span>(mexico, NAME_1 <span class="sc">==</span> <span class="st">"Chiapas"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Luego, recortamos los datos de altitud para que solo incluyan la región de Chiapas con la función crop(), y aplicamos una máscara para asegurarnos de que solo se muestren los datos dentro de los límites de Chiapas usando mask().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Chiapas_alt    <span class="ot">&lt;-</span> <span class="fu">crop</span>(mexico_Alt, Chiapas, <span class="at">mask =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Posteriormente, generamos una visualización de los datos de altitud con plot() para examinar la distribución de la altitud en Chiapas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Chiapas_alt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Clase6_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Clase6_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dem.p          <span class="ot">&lt;-</span>  <span class="fu">rasterToPoints</span>(Chiapas_alt)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df             <span class="ot">&lt;-</span>  <span class="fu">data.frame</span>(dem.p)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>, <span class="st">"alt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+<p>A continuación, convertimos el raster de altitud en un conjunto de puntos con la función <code>as.data.frame</code> del paquete <code>terra</code>, lo que nos permite tener las coordenadas y los valores de altitud en un formato de tabla. Guardamos estos puntos en un data frame llamado dem.p, y renombramos las columnas a “lon” para longitud, “lat” para latitud y “alt” para altitud.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aspecto del DEM</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>aps    <span class="ot">=</span> <span class="fu">terrain</span>(Chiapas_alt, <span class="at">opt =</span> <span class="st">"aspect"</span>, <span class="at">unit=</span> <span class="st">"degrees"</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>aps_df <span class="ot">=</span> <span class="fu">as.data.frame</span>(aps, <span class="at">xy=</span>T)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> mexico, <span class="at">fill=</span><span class="st">"white"</span>)<span class="sc">+</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> Chiapas, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">95</span>, <span class="at">y =</span> <span class="dv">30</span>, <span class="at">label =</span> <span class="st">"México"</span>, <span class="at">fontface =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">"tr"</span>,<span class="at">which_north=</span><span class="st">"true"</span>,<span class="at">style=</span><span class="fu">north_arrow_fancy_orienteering</span> ())<span class="sc">+</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>,<span class="at">bar_cols =</span> <span class="fu">c</span>(<span class="st">"grey60"</span>, <span class="st">"white"</span>), <span class="at">text_family =</span> <span class="st">"ArcherPro Book"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dem.p          <span class="ot">&lt;-</span>  terra<span class="sc">::</span><span class="fu">as.data.frame</span>(Chiapas_alt, <span class="at">xy =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dem.p) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>, <span class="st">"alt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Calculamos el aspecto del terreno para la región de Chiapas utilizando la función <code>terrain</code> del paquete <code>terra</code>. El aspecto representa la dirección de la pendiente más pronunciada del terreno en grados, lo cual nos da información sobre la orientación de las colinas. En este caso, se calcula el aspecto con la opción opt = “aspect” y se especifica que las unidades sean en grados (unit = “degrees”). El resultado se almacena en el objeto aps.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> Chiapas, <span class="at">fill=</span><span class="st">"white"</span>)<span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="fl">92.5</span>, <span class="at">y =</span> <span class="fl">16.5</span>, <span class="at">label =</span> <span class="st">"Chiapas"</span>, <span class="at">fontface =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">"tr"</span>,<span class="at">which_north=</span><span class="st">"true"</span>,<span class="at">style=</span><span class="fu">north_arrow_fancy_orienteering</span> ())<span class="sc">+</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>,<span class="at">bar_cols =</span> <span class="fu">c</span>(<span class="st">"grey60"</span>, <span class="st">"white"</span>), <span class="at">text_family =</span> <span class="st">"ArcherPro Book"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>aps <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">terrain</span>(Chiapas_alt, <span class="at">v =</span> <span class="st">"aspect"</span>, <span class="at">unit=</span> <span class="st">"degrees"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Luego, convertimos el raster de aspecto en un data.frame con las coordenadas de cada punto usando as.data.frame(aps, xy=T), lo que permite trabajar con los valores de aspecto en formato tabular junto con sus coordenadas geográficas (longitud y latitud).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> aps_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">fill =</span> aspect) )<span class="sc">+</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colours =</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">8</span>, <span class="at">name =</span> <span class="st">"Greys"</span>), </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.value =</span> <span class="st">'white'</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">360</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Ubicación geográfica de Chiapas, México'</span>, <span class="at">fill =</span> <span class="st">'DEM'</span>,  </span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Longitud'</span>, <span class="at">y =</span> <span class="st">'Latitud'</span>, <span class="at">caption =</span> <span class="st">"Gorky Florez"</span>) <span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>),</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.15</span>),</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="dv">1</span>),</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>aps_df <span class="ot">=</span> <span class="fu">as.data.frame</span>(aps, <span class="at">xy=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>A continuación, creamos un gráfico con ggplot2 para visualizar los límites de México y de Chiapas. Usamos geom_sf() para trazar las fronteras de México en color blanco y las de Chiapas en color negro. Para este gráfico, aplicamos el tema theme_void() para eliminar los ejes y otras referencias, dejándolo limpio de elementos innecesarios.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> df, <span class="fu">aes</span>(lon,lat, <span class="at">fill =</span> alt) )<span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">terrain.colors</span>(<span class="dv">10</span>), <span class="at">name=</span><span class="st">"DEM"</span>)<span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Ubicación geográfica de Chiapas, México'</span>, <span class="at">fill =</span> <span class="st">'DEM'</span>,  </span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Longitud'</span>, <span class="at">y =</span> <span class="st">'Latitud'</span>, <span class="at">caption =</span> <span class="st">"Gorky Florez"</span>) <span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>),</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.15</span>),</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="dv">1</span>),</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> mexico, <span class="at">fill=</span><span class="st">"white"</span>)<span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> Chiapas, <span class="at">fill=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">95</span>, <span class="at">y =</span> <span class="dv">30</span>, <span class="at">label =</span> <span class="st">"México"</span>, <span class="at">fontface =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">"tr"</span>,<span class="at">which_north=</span><span class="st">"true"</span>,<span class="at">style=</span><span class="fu">north_arrow_fancy_orienteering</span> ())<span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>,<span class="at">bar_cols =</span> <span class="fu">c</span>(<span class="st">"grey60"</span>, <span class="st">"white"</span>), <span class="at">text_family =</span> <span class="st">"ArcherPro Book"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Creamos un mapa con ggplot2 de la región de Chiapas. Se utiliza geom_sf() para mostrar los límites de Chiapas con un relleno blanco, y theme_void() para eliminar los ejes y otras referencias. Se añade una anotación de texto en las coordenadas aproximadas de Chiapas (x = -92.5, y = 16.5) con el nombre “Chiapas”, en cursiva y color negro. Además, se incluye una flecha del norte en la esquina superior derecha utilizando annotation_north_arrow() y una escala del mapa en la esquina inferior izquierda con ggspatial::annotation_scale(), proporcionando orientación y referencia espacial en el mapa.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> Chiapas, <span class="at">fill=</span><span class="st">"white"</span>)<span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="fl">92.5</span>, <span class="at">y =</span> <span class="fl">16.5</span>, <span class="at">label =</span> <span class="st">"Chiapas"</span>, <span class="at">fontface =</span> <span class="st">"italic"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">"tr"</span>,<span class="at">which_north=</span><span class="st">"true"</span>,<span class="at">style=</span><span class="fu">north_arrow_fancy_orienteering</span> ())<span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>,<span class="at">bar_cols =</span> <span class="fu">c</span>(<span class="st">"grey60"</span>, <span class="st">"white"</span>), <span class="at">text_family =</span> <span class="st">"ArcherPro Book"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Creamos un mapa de la ubicación geográfica de Chiapas, México usando ggplot2. Se utiliza geom_raster() para visualizar los datos de aspecto del terreno (aps_df), donde las coordenadas x y y están mapeadas a la variable aspect. El color del relleno se ajusta con scale_fill_gradientn() utilizando una paleta de grises, con valores nulos representados en blanco y los valores del aspecto limitados entre 0 y 360, con divisiones en intervalos de 50.</p>
+<p>El mapa utiliza el tema theme_bw() para un fondo blanco y se añaden etiquetas personalizadas con labs(), incluyendo un título, leyenda para el DEM, y las etiquetas de los ejes. La leyenda se personaliza en su posición y texto con theme(), y se especifica el tamaño y el estilo de la fuente para los elementos de la leyenda.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> aps_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">fill =</span> aspect) )<span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colours =</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">8</span>, <span class="at">name =</span> <span class="st">"Greys"</span>), </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.value =</span> <span class="st">'white'</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">360</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">360</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Ubicación geográfica de Chiapas, México'</span>, <span class="at">fill =</span> <span class="st">'DEM'</span>,  </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Longitud'</span>, <span class="at">y =</span> <span class="st">'Latitud'</span>, <span class="at">caption =</span> <span class="st">"Gorky Florez"</span>) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>),</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.15</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="dv">1</span>),</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
+3.5.0.
+ℹ Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
+</div>
+</div>
+<p>Generamos un mapa de Chiapas, México utilizando datos de altitud. Se usa geom_raster() para crear una capa raster, donde las coordenadas de longitud (lon) y latitud (lat) se mapean a los valores de altitud (alt). El relleno de la capa se ajusta con un gradiente de colores utilizando la paleta terrain.colors(10) para representar el Modelo Digital de Elevación (DEM).</p>
+<p>El mapa usa el tema theme_bw() para un fondo blanco y se añaden etiquetas personalizadas con labs(), que incluyen un título, la leyenda del DEM y las etiquetas de los ejes. Además, la leyenda se personaliza en su posición, tamaño de texto y estilo con theme(). La posición de la leyenda se coloca en las coordenadas (0.15, 0.15) dentro del gráfico, y se ajustan el tamaño y el color del texto en la leyenda.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="at">data =</span> dem.p, <span class="fu">aes</span>(lon,lat, <span class="at">fill =</span> alt) )<span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">terrain.colors</span>(<span class="dv">10</span>), <span class="at">name=</span><span class="st">"DEM"</span>)<span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Ubicación geográfica de Chiapas, México'</span>, <span class="at">fill =</span> <span class="st">'DEM'</span>,  </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Longitud'</span>, <span class="at">y =</span> <span class="st">'Latitud'</span>, <span class="at">caption =</span> <span class="st">"Gorky Florez"</span>) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.15</span>),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="dv">1</span>),</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="cobinar-mapas" class="level3">
+<h3 class="anchored" data-anchor-id="cobinar-mapas">Cobinar mapas</h3>
+<p>Primero, utilizamos el paquete cowplot para combinar varios mapas en un solo gráfico. Esto nos permite crear una visualización más clara y compacta de los mapas. Vamos a usar la función ggdraw() para esto.</p>
+<p>En este primer paso, crearemos un gráfico compuesto en el que:</p>
+<ul>
+<li><p>El mapa C será el gráfico principal, ocupando toda el área.</p></li>
+<li><p>El mapa B se posicionará en la esquina inferior derecha con un tamaño reducido, ajustado a un 25% del tamaño del gráfico principal.</p></li>
+<li><p>El mapa A se ubicará en la esquina superior derecha, también con un tamaño reducido.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'cowplot'</code></pre>
@@ -306,45 +409,59 @@ Attaching package: 'cowplot'</code></pre>
 
     stamp</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>map_Union <span class="ot">&lt;-</span><span class="fu">ggdraw</span>() <span class="sc">+</span> <span class="fu">draw_plot</span>(C) <span class="sc">+</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(B, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.08</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)<span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(A, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.70</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>map_Union <span class="ot">&lt;-</span><span class="fu">ggdraw</span>() <span class="sc">+</span> <span class="fu">draw_plot</span>(C) <span class="sc">+</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(B, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.08</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)<span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(A, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.70</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale on map varies by more than 10%, scale bar may be inaccurate</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>map_Union1 <span class="ot">&lt;-</span><span class="fu">ggdraw</span>() <span class="sc">+</span> <span class="fu">draw_plot</span>(D) <span class="sc">+</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(B, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.08</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)<span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(A, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.70</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted
-ℹ Consider using `geom_tile()` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Scale on map varies by more than 10%, scale bar may be inaccurate</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>map_Union1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>map_Union</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font family not found in Windows font database</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
 font family not found in Windows font database</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Clase6_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Clase6_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>
-<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
-
+<p>A continuación, creamos otro gráfico map_Union1 siguiendo la misma estructura, pero esta vez reemplazamos el mapa C por el mapa D. Los mapas B y A se mantienen en las mismas posiciones.</p>
+<p>De esta forma, logramos combinar los mapas en una sola imagen, manteniendo un diseño organizado y claro.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>map_Union1 <span class="ot">&lt;-</span><span class="fu">ggdraw</span>() <span class="sc">+</span> <span class="fu">draw_plot</span>(D) <span class="sc">+</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(B, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.08</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)<span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(A, <span class="at">x =</span> <span class="fl">0.70</span>, <span class="at">y =</span> <span class="fl">0.70</span>, <span class="at">width =</span> .<span class="dv">25</span>, <span class="at">height =</span> .<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale on map varies by more than 10%, scale bar may be inaccurate</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>map_Union1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clase6_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </div>
 </div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">HN Biology Investigation Academy</figcaption>
+<figcaption>HN Biology Investigation Academy</figcaption>
 </figure>
 </div>
 
@@ -385,18 +502,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -428,11 +534,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -442,8 +587,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -455,7 +609,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -499,6 +776,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -524,6 +802,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -584,6 +888,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
