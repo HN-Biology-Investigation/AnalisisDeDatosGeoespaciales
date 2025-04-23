@@ -4,14 +4,11 @@ format: html
 editor: visual
 ---
 
-
-
 En esta clase, aprenderemos a crear mapas personalizados utilizando R, una herramienta poderosa para el análisis espacial. Exploraremos cómo visualizar datos geoespaciales, integrar capas vectoriales y ráster, y personalizar mapas para presentaciones y publicaciones científicas.
 
 Usaremos una serie de paquetes esenciales como sf, terra, ggplot2, ggspatial y rnaturalearth, entre otros, que nos permitirán manipular y representar información geográfica de manera eficiente.
 
 ::: panel-tabset
-
 ## Cargar paquetes
 
 El código a continuación carga el paquete pacman
@@ -41,7 +38,7 @@ world.SA     <- subset(world, continent=="South America")
 
 En la primera línea del siguiente código, se crean los centroides de cada país en Sudamérica usando la función st_centroid(), y se guardan como un nuevo objeto llamado world_points.
 
-En la segunda línea se sobrescribe ese objeto, pero ahora combinando los datos originales de world.SA con las coordenadas de los centroides. Esto se hace con cbind() y st_coordinates(), que extrae las coordenadas X (longitud) y Y (latitud) de los centroides calculados a partir de la geometría (world.SA$geometry). El resultado es un objeto sf que contiene tanto la información espacial de cada país como las coordenadas de su centroide.
+En la segunda línea se sobrescribe ese objeto, pero ahora combinando los datos originales de world.SA con las coordenadas de los centroides. Esto se hace con cbind() y st_coordinates(), que extrae las coordenadas X (longitud) y Y (latitud) de los centroides calculados a partir de la geometría (world.SA\$geometry). El resultado es un objeto sf que contiene tanto la información espacial de cada país como las coordenadas de su centroide.
 
 ```{r}
 world_points <- st_centroid(world.SA)  
@@ -57,7 +54,7 @@ Sur_America  <- subset(world_points, continent == "South America")
 Peru_S       <- subset(Sur_America, iso_a3 == "PER") 
 ```
 
-El siguiente código se descarga información administrativa de Perú usando la función `gadm` del paquete `geodata`. Se especifica el país como 'Peru' y el nivel administrativo como 3, que corresponde a subdivisiones más detalladas (como distritos). Luego, con %>% st_as_sf(), se convierte ese objeto en un formato espacial moderno (sf).
+El siguiente código se descarga información administrativa de Perú usando la función `gadm` del paquete `geodata`. Se especifica el país como 'Peru' y el nivel administrativo como 3, que corresponde a subdivisiones más detalladas (como distritos). Luego, con %\>% st_as_sf(), se convierte ese objeto en un formato espacial moderno (sf).
 
 Después, se crea el objeto Cusco filtrando únicamente las unidades donde la columna NAME_1 (que representa los departamentos) es igual a "Cusco". De esta forma, Cusco contiene todos los límites administrativos del departamento de Cusco.
 
@@ -76,23 +73,23 @@ Marco_Per = st_as_sfc(st_bbox(Peru_S ))
 
 Finalmente se construye un mapa llamado Mapa1 utilizando ggplot(). El mapa muestra América del Sur con varios elementos personalizados:
 
-- geom_sf() con Sur_America dibuja los países sudamericanos, con relleno según el nombre del país (admin), contornos negros, líneas delgadas (lwd = 1), transparencia (alpha = 0.2) y líneas continuas (linetype = 1).
+-   geom_sf() con Sur_America dibuja los países sudamericanos, con relleno según el nombre del país (admin), contornos negros, líneas delgadas (lwd = 1), transparencia (alpha = 0.2) y líneas continuas (linetype = 1).
 
-- geom_sf() con Marco_Per dibuja un marco (bounding box) en rojo alrededor de Perú, sin relleno (fill = NA) y con líneas de grosor 1.
+-   geom_sf() con Marco_Per dibuja un marco (bounding box) en rojo alrededor de Perú, sin relleno (fill = NA) y con líneas de grosor 1.
 
-- geom_text() agrega los nombres de los países directamente en el mapa, usando las coordenadas de los centroides (X, Y) y la columna admin. El texto es negro, en negrita y de tamaño 3.
+-   geom_text() agrega los nombres de los países directamente en el mapa, usando las coordenadas de los centroides (X, Y) y la columna admin. El texto es negro, en negrita y de tamaño 3.
 
-- labs() define el título principal del mapa ("Mapa de América del Sur"), un subtítulo ("Mapa de Ubicación"), y etiquetas para los ejes y una etiqueta de figura ("A)").
+-   labs() define el título principal del mapa ("Mapa de América del Sur"), un subtítulo ("Mapa de Ubicación"), y etiquetas para los ejes y una etiqueta de figura ("A)").
 
-- theme_bw() aplica un fondo blanco clásico al mapa.
+-   theme_bw() aplica un fondo blanco clásico al mapa.
 
-- annotation_scale() añade una barra de escala.
+-   annotation_scale() añade una barra de escala.
 
-- annotation_north_arrow() coloca una flecha del norte estilo náutico en la esquina superior izquierda (location="tl").
+-   annotation_north_arrow() coloca una flecha del norte estilo náutico en la esquina superior izquierda (location="tl").
 
-- theme() personaliza las líneas de la cuadrícula principal para que sean grises, punteadas y de grosor 0.5.
+-   theme() personaliza las líneas de la cuadrícula principal para que sean grises, punteadas y de grosor 0.5.
 
-- labs(color="Species", fill = "Sur America") define las etiquetas de leyenda para el color (aunque color="Species" no se usa explícitamente en el código actual, puede estar previsto para una futura capa).
+-   labs(color="Species", fill = "Sur America") define las etiquetas de leyenda para el color (aunque color="Species" no se usa explícitamente en el código actual, puede estar previsto para una futura capa).
 
 ```{r}
 Mapa1 <- ggplot() +
@@ -150,20 +147,17 @@ Luego, creamos un data.frame llamado lugar con el nombre del sitio, que en este 
 lugar     <- data.frame(name= c("Valle Forestal Véu de Noiva"))
 ```
 
-
 A continuación, convertimos ese punto en una geometría espacial utilizando st_sfc() y le asignamos el sistema de coordenadas WGS84, que es el estándar de coordenadas geográficas.
 
 ```{r}
 Coor      <- st_sfc(punto1,  crs = "+proj=longlat +datum=WGS84 +no_defs")
 ```
 
-
 Después, combinamos el nombre del lugar y las coordenadas en un objeto espacial Sites, que contiene tanto la información geográfica como el nombre del sitio.
 
 ```{r}
 Sites     <- st_sf(lugar, Coor)
 ```
-
 
 Finalmente, también creo un data.frame llamado sites1 para almacenar las coordenadas y el nombre del lugar de una forma más estructurada con columnas para longitude, latitude y name. Esto me permite manejar y trabajar con los datos espaciales de manera más ordenada.
 
@@ -180,7 +174,7 @@ Primero, pasamos el objeto espacial Sites a la función leaflet(), lo que nos pe
 
 A continuación, con addCircles(), agregamos círculos en las ubicaciones de los puntos de Sites, lo que permite visualizar las ubicaciones de forma destacada.
 
-Finalmente, con addProviderTiles(providers$Esri.WorldImagery, group = "Satellite"), añadimos una capa de imágenes satelitales proporcionada por Esri, que nos muestra un fondo más detallado del mapa en lugar del fondo estándar. Esta capa se agrupa bajo el nombre "Satellite" para poder alternar entre diferentes fondos de mapa si se desea.
+Finalmente, con addProviderTiles(providers\$Esri.WorldImagery, group = "Satellite"), añadimos una capa de imágenes satelitales proporcionada por Esri, que nos muestra un fondo más detallado del mapa en lugar del fondo estándar. Esta capa se agrupa bajo el nombre "Satellite" para poder alternar entre diferentes fondos de mapa si se desea.
 
 Este código permite visualizar los puntos de Sites en un mapa interactivo, proporcionando la opción de ver el mapa con imágenes satelitales.
 
@@ -244,7 +238,6 @@ Luego, convertimos el raster de aspecto en un data.frame con las coordenadas de 
 aps_df = as.data.frame(aps, xy=T)
 ```
 
-
 A continuación, creamos un gráfico con ggplot2 para visualizar los límites de México y de Chiapas. Usamos geom_sf() para trazar las fronteras de México en color blanco y las de Chiapas en color negro. Para este gráfico, aplicamos el tema theme_void() para eliminar los ejes y otras referencias, dejándolo limpio de elementos innecesarios.
 
 ```{r}
@@ -271,7 +264,6 @@ B <- ggplot()+
 Creamos un mapa de la ubicación geográfica de Chiapas, México usando ggplot2. Se utiliza geom_raster() para visualizar los datos de aspecto del terreno (aps_df), donde las coordenadas x y y están mapeadas a la variable aspect. El color del relleno se ajusta con scale_fill_gradientn() utilizando una paleta de grises, con valores nulos representados en blanco y los valores del aspecto limitados entre 0 y 360, con divisiones en intervalos de 50.
 
 El mapa utiliza el tema theme_bw() para un fondo blanco y se añaden etiquetas personalizadas con labs(), incluyendo un título, leyenda para el DEM, y las etiquetas de los ejes. La leyenda se personaliza en su posición y texto con theme(), y se especifica el tamaño y el estilo de la fuente para los elementos de la leyenda.
-
 
 ```{r}
 C <-ggplot()+
@@ -310,11 +302,11 @@ Primero, utilizamos el paquete cowplot para combinar varios mapas en un solo gr�
 
 En este primer paso, crearemos un gráfico compuesto en el que:
 
-- El mapa C será el gráfico principal, ocupando toda el área.
+-   El mapa C será el gráfico principal, ocupando toda el área.
 
-- El mapa B se posicionará en la esquina inferior derecha con un tamaño reducido, ajustado a un 25% del tamaño del gráfico principal.
+-   El mapa B se posicionará en la esquina inferior derecha con un tamaño reducido, ajustado a un 25% del tamaño del gráfico principal.
 
-- El mapa A se ubicará en la esquina superior derecha, también con un tamaño reducido.
+-   El mapa A se ubicará en la esquina superior derecha, también con un tamaño reducido.
 
 ```{r}
 library(cowplot)
@@ -336,6 +328,65 @@ map_Union1 <-ggdraw() + draw_plot(D) +
   draw_plot(A, x = 0.70, y = 0.70, width = .25, height = .25)
 
 map_Union1
+```
+
+
+## Mapa animado
+
+```{r, warning=FALSE, message=FALSE}
+
+library(pacman)
+library(lubridate)
+library(gganimate)
+library(ggthemes)
+
+pacman::p_load(tidyverse, rnaturalearth, rnaturalearthdata, sf)
+```
+
+```{r}
+Honduras <- ne_countries(scale = "medium", 
+                              returnclass = "sf", 
+                              country = "Honduras")
+```
+
+```{r}
+SETCHR <- read_delim("data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt")
+```
+
+```{r}
+SETCHR1 <- SETCHR %>%
+  rename("Observaciones" = `OBSERVATION COUNT`,
+         "Fecha" = `OBSERVATION DATE`) %>% 
+  mutate(Observaciones = as.numeric(Observaciones)) %>% 
+  filter(Observaciones < 5) %>%
+  mutate(Year = year(Fecha)) %>% 
+  filter(Year == "2018" | Year == "2019") %>% 
+  dplyr::select(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)
+```
+
+```{r}
+head(SETCHR1)
+```
+
+```{r}
+gg  <- ggplot()+
+  geom_sf(data= Honduras)+
+  geom_point(data =SETCHR1,  aes(x=LONGITUDE, y=LATITUDE,color= Observaciones),
+             alpha= 0.3, size= 1, shape= 15)+
+   transition_time(time = Fecha)+
+  scale_color_gradient(low = "orange", high = "red", na.value = NA)+
+  labs(title= "Abundancia de",
+       subtitle = "Setophaga chrysoparia",
+       color = "Abundancia")+
+  theme_void()+
+  theme(plot.title = element_text(size = 14))+
+  theme(plot.subtitle = element_text(face= "italic", size = 12))
+```
+
+
+```{r, eval=FALSE}
+
+gganimate::animate(gg + ease_aes('cubic-in-out'), fps = 7, width = 600, height = 600, renderer = gifski_renderer())
 ```
 
 :::

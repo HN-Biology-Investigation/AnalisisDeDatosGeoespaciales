@@ -8,24 +8,23 @@ El paquete [leaflet](https://leafletjs.com/download.html) en R es una herramient
 
 Con leaflet, puedes:
 
-- Visualizar datos geográficos (puntos, líneas y polígonos).
+-   Visualizar datos geográficos (puntos, líneas y polígonos).
 
-- Agregar capas base (OpenStreetMap, Esri, CartoDB, etc.).
+-   Agregar capas base (OpenStreetMap, Esri, CartoDB, etc.).
 
-- Personalizar los elementos del mapa (color, tamaño, estilo).
+-   Personalizar los elementos del mapa (color, tamaño, estilo).
 
-- Crear popups con información de los datos.
+-   Crear popups con información de los datos.
 
-- Incluir controles interactivos como leyendas, escala y minimapas.
+-   Incluir controles interactivos como leyendas, escala y minimapas.
 
-- Exportar o compartir mapas de manera sencilla.
+-   Exportar o compartir mapas de manera sencilla.
 
-- Usar clústers para agrupar puntos.
+-   Usar clústers para agrupar puntos.
 
-- Integrarlo con sf, sp o raster para datos espaciales.
+-   Integrarlo con sf, sp o raster para datos espaciales.
 
 ::: panel-tabset
-
 ## Cargar paquetes
 
 ```{r, warning=FALSE, message=FALSE}
@@ -35,8 +34,7 @@ library(leaflet)
 library(mapedit)
 ```
 
-
-## Agregar puntos 
+## Agregar puntos
 
 ```{r}
 Puntos <- st_read("data/Point_counts.gpkg")
@@ -70,7 +68,6 @@ leaflet(Puntos) %>%
 
 ```
 
-
 ## Estilizar puntos por tipo de hábitat
 
 ```{r}
@@ -89,7 +86,6 @@ leaflet(Puntos) %>%
 ```
 
 ## Agregar controles interactivos (escala, mini-mapa, leyenda)
-
 
 ```{r}
 leaflet(Puntos) %>%
@@ -120,6 +116,7 @@ leaflet(Puntos) %>%
   addTiles() %>%
   addMarkers(clusterOptions = markerClusterOptions(), popup = ~Site)
 ```
+
 ## Cómo usar un mapa en PowerPoint
 
 ```{r}
@@ -135,12 +132,11 @@ saveWidget(mi_mapa, file = "mi_mapa.html")
 
 Cómo usarlo en PowerPoint:
 
-- Inserta un hipervínculo en una diapositiva a mi_mapa.html.
+-   Inserta un hipervínculo en una diapositiva a mi_mapa.html.
 
-- Cuando hagas clic en la presentación, el navegador abrirá el mapa interactivo.
+-   Cuando hagas clic en la presentación, el navegador abrirá el mapa interactivo.
 
-- Alternativamente, puedes insertar una captura de pantalla en la diapositiva y enlazarla al HTML.
-
+-   Alternativamente, puedes insertar una captura de pantalla en la diapositiva y enlazarla al HTML.
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
