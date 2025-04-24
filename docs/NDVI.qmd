@@ -5,13 +5,14 @@ format: html
 editor: visual
 ---
 
-En esta clase exploraremos el uso de imágenes satelitales para el análisis de la vegetación y otros elementos del paisaje utilizando índices de vegetación y otros índices espectrales derivados de bandas específicas. 
+En esta clase exploraremos el uso de imágenes satelitales para el análisis de la vegetación y otros elementos del paisaje utilizando índices de vegetación y otros índices espectrales derivados de bandas específicas.
 
 Uno de los índices más comunes en el análisis de la vegetación es el NDVI (Índice de Vegetación de Diferencia Normalizada), que permite evaluar la cantidad de vegetación verde en un área dada. Sin embargo, existen otros índices como el EVI y el SAVI que mejoran la sensibilidad en ciertos contextos, como áreas de vegetación densa o zonas áridas. Además, el NDWI se utiliza para monitorear la presencia de agua en paisajes terrestres, y el NBR es útil para analizar bosques y detectar áreas quemadas o dañadas por incendios.
 
-A lo largo de esta clase, aprenderemos cómo calcular estos índices utilizando imágenes satelitales en R, procesando las bandas disponibles para obtener métricas que nos proporcionen información sobre la vegetación y otros aspectos del paisaje. 
+A lo largo de esta clase, aprenderemos cómo calcular estos índices utilizando imágenes satelitales en R, procesando las bandas disponibles para obtener métricas que nos proporcionen información sobre la vegetación y otros aspectos del paisaje.
 
-[Significant Remote Sensing Vegetation Indices: A Review of Developments and Applications](https://doi.org/10.1155/2017/1353691)
+[Significant Remote Sensing Vegetation Indices: A Review of Developments and Applications](https://doi.org/10.1155/2017/1353691) 
+
 ::: panel-tabset
 
 ## Cargar paquetes
@@ -41,24 +42,24 @@ b7 <- rast("data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B7.TIF")
 
 El [NDVI](https://www.usgs.gov/landsat-missions/landsat-normalized-difference-vegetation-index) es uno de los índices más utilizados para evaluar la salud y la densidad de la vegetación. Utiliza la diferencia entre la banda del infrarrojo cercano (B5) y la banda roja (B4), ya que la vegetación refleja fuertemente la luz infrarroja cercana y absorbe la luz roja para la fotosíntesis.
 
-
 ```{r}
 ndvi <- (b5 - b4) / (b5 + b4)
 plot(ndvi)
 ```
 
-
 Interpretación:
 
-- < 0.0: Agua, nubes o nieve.
+-   \< 0.0: Agua, nubes o nieve.
 
-- 0.0 - 0.1: Suelo desnudo, rocas, áreas urbanas.
+-   0.0 - 0.1: Suelo desnudo, rocas, áreas urbanas.
 
-- 0.1 - 0.2: Vegetación muy escasa o estresada.
+-   0.1 - 0.2: Vegetación muy escasa o estresada.
 
-- 0.2 - 0.5: Vegetación moderada (pastos, cultivos).
+-   0.2 - 0.5: Vegetación moderada (pastos, cultivos).
 
-- > 0.5: Vegetación densa y saludable (bosques, selvas).
+-   
+
+    > 0.5: Vegetación densa y saludable (bosques, selvas).
 
 Usos:
 
@@ -77,7 +78,6 @@ evi <- 2.5 * ((b5 - b4) / (b5 + (6 * b4) - (7.5 * b2) + 10000))
 plot(evi)
 title("EVI")
 ```
-
 
 Interpretación:
 
@@ -113,8 +113,6 @@ Análisis de áreas áridas o semiáridas con poca vegetación.
 
 Monitoreo de vegetación en tierras agrícolas o áreas de pastoreo donde el suelo es visible.
 
-
-
 ## Calcular NDWI (Índice de Agua Normalizado)
 
 El [NDWI](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-vegetation-monitoring-eviirs-global-ndwi#:~:text=Explore%20Search,Mask%20GeoTIFF) es un índice utilizado para monitorear la presencia de agua, identificando cuerpos de agua (ríos, lagos, embalses) y áreas húmedas en la superficie terrestre. Utiliza la banda verde (B3) y la banda infrarroja cercana (B5) para detectar la cantidad de agua en la superficie.
@@ -124,7 +122,6 @@ ndwi <- (b3 - b5) / (b3 + b5)
 plot(ndwi)
 title("NDWI")
 ```
-
 
 Interpretación:
 
@@ -149,6 +146,7 @@ nbr <- (b5 - b7) / (b5 + b7)
 plot(nbr)
 title("NBR")
 ```
+
 Interpretación:
 
 Valores más altos de NBR: Vegetación saludable en bosques.
