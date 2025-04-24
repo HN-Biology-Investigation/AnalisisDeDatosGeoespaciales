@@ -15,6 +15,16 @@ A lo largo de esta clase, aprenderemos cómo calcular estos índices utilizando 
 
 ::: panel-tabset
 
+## Plataformas para descargar imágenes satelitales
+
+[Remap: An online remote sensing application for land cover classification and monitoring](https://doi.org/10.1111/2041-210X.13043)
+
+[Remap](https://remap-app.org/)
+
+[EarthExplorer](https://earthexplorer.usgs.gov/)
+
+[Global Forest Watch](https://www.globalforestwatch.org/map/)
+
 ## Cargar paquetes
 
 ```{r}
@@ -22,6 +32,19 @@ library(terra)
 ```
 
 ## Cargar bandas
+
+1	Costera - Aerosoles	
+2	Azul	
+3	Verde	
+4	Rojo	
+5	Infrarrojo cercano (NIR)	
+6	Infrarrojo de onda corta 1 (SWIR 1)	
+7	Infrarrojo de onda corta 2 (SWIR 2)
+8	Pancromática	
+9	Cirrus	
+10	(TIR 1)	
+11	(TIR 2)
+
 
 ```{r}
 b2 <- rast("data/dnvi/LC08_L2SP_018050_20181102_20200830_02_T1_SR_B2.TIF")
@@ -74,7 +97,7 @@ Detección de cambios en el uso del suelo, como deforestación o expansión urba
 El [EVI](https://www.usgs.gov/landsat-missions/landsat-enhanced-vegetation-index) es una versión mejorada del NDVI que fue diseñado para mejorar la sensibilidad de las áreas densamente vegetadas y para reducir los efectos de la saturación que pueden ocurrir en áreas con alta cobertura vegetal. Además, utiliza la banda azul (B2) como un coeficiente para minimizar los efectos de la atmósfera.
 
 ```{r}
-evi <- 2.5 * ((b5 - b4) / (b5 + (6 * b4) - (7.5 * b2) + 10000))
+evi <- 2.5 * ((b5 - b4) / (b5 + 6 * b4 - 7.5 * b2 + 1))
 plot(evi)
 title("EVI")
 ```
