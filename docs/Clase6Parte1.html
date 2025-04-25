@@ -311,6 +311,7 @@ Low Correlation
 <p>Random Forest (RF).</p>
 <p>MaxEnt (Maximum Entropy).</p>
 <p>El modelo se ajusta a partir de los datos de presencia y ausencia utilizando las variables ambientales seleccionadas.</p>
+<p><a href="https://doi.org/10.1111/2041-210X.12841">ssdm: An r package to predict distribution of species richness and composition based on stacked species distribution models</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SSDM)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -430,11 +431,11 @@ Model axes contribution evaluation...
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sdrf<span class="sc">@</span>variable.importance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                wc2.1_30s_bio_3 wc2.1_30s_bio_7 wc2.1_30s_bio_8
-Axes.evaluation        8.710054        9.889604        37.12505
+Axes.evaluation         6.05946        13.16031        29.71138
                 wc2.1_30s_bio_15 wc2.1_30s_bio_16 wc2.1_30s_bio_18
-Axes.evaluation            7.579         4.074317         24.65617
+Axes.evaluation         13.00629         4.646024         28.82013
                 wc2.1_30s_bio_19
-Axes.evaluation         7.965811</code></pre>
+Axes.evaluation         4.596405</code></pre>
 </div>
 </div>
 <div class="cell">

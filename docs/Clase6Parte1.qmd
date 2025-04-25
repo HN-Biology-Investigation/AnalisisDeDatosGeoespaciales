@@ -199,6 +199,8 @@ MaxEnt (Maximum Entropy).
 
 El modelo se ajusta a partir de los datos de presencia y ausencia utilizando las variables ambientales seleccionadas.
 
+[ssdm: An r package to predict distribution of species richness and composition based on stacked species distribution models]( https://doi.org/10.1111/2041-210X.12841)
+
 ```{r, warning=FALSE, message=FALSE}
 library(SSDM)
 
