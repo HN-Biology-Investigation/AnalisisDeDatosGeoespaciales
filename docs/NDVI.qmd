@@ -14,13 +14,11 @@ A lo largo de esta clase, aprenderemos cómo calcular estos índices utilizando 
 [Significant Remote Sensing Vegetation Indices: A Review of Developments and Applications](https://doi.org/10.1155/2017/1353691)
 
 ::: panel-tabset
-
 ## Plataformas para descargar imágenes satelitales
 
 [Remap](https://remap-app.org/) es una aplicación en línea de código abierto diseñada para facilitar la clasificación y el monitoreo de la cobertura terrestre a través de sensores remotos, sin necesidad de conocimientos técnicos avanzados. Utilizando la plataforma Google Earth Engine, permite a los usuarios generar mapas de uso del suelo mediante un proceso interactivo que incluye la selección de predictores ambientales y la aplicación de algoritmos de clasificación supervisada.
 
 [Remap: An online remote sensing application for land cover classification and monitoring](https://doi.org/10.1111/2041-210X.13043)
-
 
 [EarthExplorer](https://earthexplorer.usgs.gov/) es una plataforma en línea desarrollada por el United States Geological Survey (USGS) que proporciona acceso gratuito a una amplia variedad de datos geoespaciales, incluyendo imágenes satelitales, datos aéreos y topográficos, y productos derivados de sensores remotos. Es una de las principales herramientas para la descarga de imágenes históricas y actuales de misiones como Landsat, Sentinel, ASTER, MODIS, entre otras.
 
@@ -29,7 +27,6 @@ Su interfaz permite a los usuarios buscar datos fácilmente mediante criterios e
 EarthExplorer es una herramienta esencial en disciplinas como la ecología, geografía, agricultura, planificación territorial y estudios de cambio ambiental, al facilitar el acceso a datos fundamentales para análisis de cobertura del suelo, detección de cambios, monitoreo climático, entre otros.
 
 [Global Forest Watch](https://www.globalforestwatch.org/map/) (GFW) es una plataforma interactiva en línea desarrollada por el World Resources Institute (WRI) que permite monitorear en tiempo casi real los cambios en la cobertura forestal a nivel global. Utiliza datos satelitales, algoritmos de detección de cambios y visualización geoespacial para proporcionar información actualizada sobre deforestación, reforestación, incendios forestales, concesiones, y presiones sobre los bosques tropicales y templados del mundo.
-
 
 ## Cargar bandas
 
@@ -43,17 +40,17 @@ TIRS (Thermal Infrared Sensor): Captura imágenes térmicas en dos bandas.
 
 A continuación, se describen las 11 bandas de Landsat 8
 
-- 1 Costera - Aerosoles 
-- 2 Azul
-- 3 Verde
-- 4 Rojo
-- 5 Infrarrojo cercano (NIR)
-- 6 Infrarrojo de onda corta 1 (SWIR 1) 
-- 7 Infrarrojo de onda corta 2 (SWIR 2) 
-- 8 Pancromática
-- 9 Cirrus
-- 10 (TIR 1) 
-- 11 (TIR 2)
+-   1 Costera - Aerosoles
+-   2 Azul
+-   3 Verde
+-   4 Rojo
+-   5 Infrarrojo cercano (NIR)
+-   6 Infrarrojo de onda corta 1 (SWIR 1)
+-   7 Infrarrojo de onda corta 2 (SWIR 2)
+-   8 Pancromática
+-   9 Cirrus
+-   10 (TIR 1)
+-   11 (TIR 2)
 
 ```{r}
 library(terra)
@@ -85,15 +82,17 @@ plot(ndvi)
 
 Interpretación:
 
-- < 0.0: Agua, nubes o nieve.
+-   \< 0.0: Agua, nubes o nieve.
 
-- 0.0 - 0.1: Suelo desnudo, rocas, áreas urbanas.
+-   0.0 - 0.1: Suelo desnudo, rocas, áreas urbanas.
 
-- 0.1 - 0.2: Vegetación muy escasa o estresada.
+-   0.1 - 0.2: Vegetación muy escasa o estresada.
 
-- 0.2 - 0.5: Vegetación moderada (pastos, cultivos).
+-   0.2 - 0.5: Vegetación moderada (pastos, cultivos).
 
-- > 0.5: Vegetación densa y saludable (bosques, selvas).
+-   
+
+    > 0.5: Vegetación densa y saludable (bosques, selvas).
 
 Usos:
 
@@ -107,7 +106,7 @@ Detección de cambios en el uso del suelo, como deforestación o expansión urba
 
 La reclasificación de un raster es una herramienta fundamental en el análisis espacial y la teledetección, ya que permite simplificar, interpretar y transformar los valores continuos de una imagen en categorías significativas para la toma de decisiones ecológicas, agrícolas o ambientales. Este proceso consiste en reasignar los valores originales del raster a nuevas clases o categorías, según criterios definidos por el usuario.
 
-Un ejemplo común es la reclasificación de un raster de NDVI (Índice de Vegetación de Diferencia Normalizada). El NDVI es un índice continuo que varía generalmente entre -1 y 1, y representa la densidad y salud de la vegetación. Aunque este rango es útil para análisis detallados, no siempre es intuitivo para la interpretación o comparación. 
+Un ejemplo común es la reclasificación de un raster de NDVI (Índice de Vegetación de Diferencia Normalizada). El NDVI es un índice continuo que varía generalmente entre -1 y 1, y representa la densidad y salud de la vegetación. Aunque este rango es útil para análisis detallados, no siempre es intuitivo para la interpretación o comparación.
 
 ```{r}
 reclass_matrix <- matrix(c(
@@ -214,7 +213,6 @@ Monitoreo de la salud de los bosques.
 Detección de incendios forestales y cambios en la cobertura forestal.
 
 Estudio de la regeneración post-incendio y el impacto de eventos naturales en bosques.
-
 :::
 
 ![HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)

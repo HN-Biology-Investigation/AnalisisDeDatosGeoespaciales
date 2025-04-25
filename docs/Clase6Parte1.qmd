@@ -4,93 +4,82 @@ format: html
 editor: visual
 ---
 
-
 Los Modelos de Distribución de Especies (Species Distribution Models o SDMs) son herramientas estadísticas y computacionales que nos permiten predecir la distribución geográfica de una especie a partir de datos de ocurrencia (presencia o presencia/ausencia) y variables ambientales (como clima, topografía, vegetación, etc.).
 
-[Species distribution models rarely predict the biology of real populations]( https://doi.org/10.1111/ecog.05877)
+[Species distribution models rarely predict the biology of real populations](https://doi.org/10.1111/ecog.05877)
 
 **Glosario de términos**
 
-- Abundancia: Número de individuos de una especie presentes en un sitio.
+-   Abundancia: Número de individuos de una especie presentes en un sitio.
 
-- AUC: Área bajo la curva ROC (característica operativa del receptor). Es una medida de la capacidad de discriminación del modelo independiente de umbrales. Varía entre 0 y 1, donde un valor de 0.5 indica un modelo que no predice mejor que el azar la presencia o ausencia.
+-   AUC: Área bajo la curva ROC (característica operativa del receptor). Es una medida de la capacidad de discriminación del modelo independiente de umbrales. Varía entre 0 y 1, donde un valor de 0.5 indica un modelo que no predice mejor que el azar la presencia o ausencia.
 
-- Calibración: Se refiere con frecuencia a la validación interna de los SDMs durante su construcción (ver validación cruzada). Con datos independientes, el "desempeño de calibración" se refiere al grado de correlación entre las predicciones del SDM y la probabilidad de ocurrencia cuantificada en encuestas independientes, por ejemplo, si los sitios con una probabilidad predicha de 0.60 tienen un 60% de probabilidad de estar ocupados, y si esto es el doble de probable que en sitios con una probabilidad predicha de 0.30 (Vaughan y Ormerod 2005).
+-   Calibración: Se refiere con frecuencia a la validación interna de los SDMs durante su construcción (ver validación cruzada). Con datos independientes, el "desempeño de calibración" se refiere al grado de correlación entre las predicciones del SDM y la probabilidad de ocurrencia cuantificada en encuestas independientes, por ejemplo, si los sitios con una probabilidad predicha de 0.60 tienen un 60% de probabilidad de estar ocupados, y si esto es el doble de probable que en sitios con una probabilidad predicha de 0.30 (Vaughan y Ormerod 2005).
 
-- SDM: Se utiliza aquí para referirse tanto a los Modelos de Distribución de Especies (SDMs) como a los Modelos de Nicho Ecológico (ENMs), ambos de naturaleza correlacional.
+-   SDM: Se utiliza aquí para referirse tanto a los Modelos de Distribución de Especies (SDMs) como a los Modelos de Nicho Ecológico (ENMs), ambos de naturaleza correlacional.
 
-- Predicción de SDM: Salida del SDM para cada celda en la región de estudio. Dependiendo del algoritmo del modelo, esta salida puede representar probabilidad de ocurrencia o idoneidad del hábitat, aunque en muchos casos se transforma o interpreta como idoneidad relativa del hábitat.
+-   Predicción de SDM: Salida del SDM para cada celda en la región de estudio. Dependiendo del algoritmo del modelo, esta salida puede representar probabilidad de ocurrencia o idoneidad del hábitat, aunque en muchos casos se transforma o interpreta como idoneidad relativa del hábitat.
 
-- Error de comisión: Predecir la presencia de una especie en un lugar donde en realidad está ausente (falso positivo).
+-   Error de comisión: Predecir la presencia de una especie en un lugar donde en realidad está ausente (falso positivo).
 
-- Validación cruzada: Evaluación de la capacidad del SDM para predecir presencias y ausencias utilizando una porción retenida de los datos de localidad usados para construir el modelo.
+-   Validación cruzada: Evaluación de la capacidad del SDM para predecir presencias y ausencias utilizando una porción retenida de los datos de localidad usados para construir el modelo.
 
-- Capacidad de discriminación: Habilidad del SDM para distinguir correctamente las presencias y ausencias observadas de una especie en la región de estudio.
+-   Capacidad de discriminación: Habilidad del SDM para distinguir correctamente las presencias y ausencias observadas de una especie en la región de estudio.
 
-- Limitación por dispersión: Ausencia de individuos en ciertos lugares debido a barreras fisiológicas o físicas al movimiento, o por tiempo insuficiente para colonizar.
+-   Limitación por dispersión: Ausencia de individuos en ciertos lugares debido a barreras fisiológicas o físicas al movimiento, o por tiempo insuficiente para colonizar.
 
-- Distancia al centroide del nicho (según Lira-Noriega y Manthey 2014): Medida calculada extrayendo las condiciones ambientales subyacentes en todos los sitios dentro del rango geográfico predicho por el SDM; se estima el centroide multivariado de este espacio ambiental y se calcula la distancia geométrica entre una localidad de interés y este centroide en el espacio ambiental. Nota: en otros estudios, los datos ambientales se extraen inicialmente de observaciones de la especie u otras estimaciones del rango (es decir, no basado en predicciones de SDM).
+-   Distancia al centroide del nicho (según Lira-Noriega y Manthey 2014): Medida calculada extrayendo las condiciones ambientales subyacentes en todos los sitios dentro del rango geográfico predicho por el SDM; se estima el centroide multivariado de este espacio ambiental y se calcula la distancia geométrica entre una localidad de interés y este centroide en el espacio ambiental. Nota: en otros estudios, los datos ambientales se extraen inicialmente de observaciones de la especie u otras estimaciones del rango (es decir, no basado en predicciones de SDM).
 
-- Nicho ecológico: Tiene muchas definiciones; ver Chase y Leopold (2003) para una revisión, y Soberón (2007) para una discusión en el contexto de los SDMs. Muchos parámetros en esta revisión se refieren al nicho demográfico: condiciones ambientales que permiten un crecimiento poblacional intrínseco no negativo.
+-   Nicho ecológico: Tiene muchas definiciones; ver Chase y Leopold (2003) para una revisión, y Soberón (2007) para una discusión en el contexto de los SDMs. Muchos parámetros en esta revisión se refieren al nicho demográfico: condiciones ambientales que permiten un crecimiento poblacional intrínseco no negativo.
 
-- Tasa finita de crecimiento (lambda): Tasa de crecimiento per cápita de una población, medida como la razón del tamaño poblacional entre dos intervalos de tiempo consecutivos.
+-   Tasa finita de crecimiento (lambda): Tasa de crecimiento per cápita de una población, medida como la razón del tamaño poblacional entre dos intervalos de tiempo consecutivos.
 
-- Diversidad genética: Diversidad de alelos y genotipos dentro de una población, representada por la riqueza alélica, diversidad de nucleótidos, heterocigosidad, coeficientes de endogamia y/o relaciones de parentesco.
+-   Diversidad genética: Diversidad de alelos y genotipos dentro de una población, representada por la riqueza alélica, diversidad de nucleótidos, heterocigosidad, coeficientes de endogamia y/o relaciones de parentesco.
 
-- Idoneidad del hábitat: Capacidad y grado en que las condiciones ambientales pueden sostener poblaciones viables.
+-   Idoneidad del hábitat: Capacidad y grado en que las condiciones ambientales pueden sostener poblaciones viables.
 
-- Datos independientes: Mediciones del rango geográfico, ocurrencia, abundancia, aptitud promedio poblacional o diversidad genética recogidas independientemente de los registros de ocurrencia usados para construir SDMs. Idealmente, no incluyen sesgos espaciales u otros, y se recolectan en sitios que abarcan todo el rango de predicciones del SDM.
+-   Datos independientes: Mediciones del rango geográfico, ocurrencia, abundancia, aptitud promedio poblacional o diversidad genética recogidas independientemente de los registros de ocurrencia usados para construir SDMs. Idealmente, no incluyen sesgos espaciales u otros, y se recolectan en sitios que abarcan todo el rango de predicciones del SDM.
 
-- Aptitud individual: Existen múltiples definiciones, unificadas por el objetivo de evaluar la capacidad relativa de un individuo para pasar sus genes a la siguiente generación.
+-   Aptitud individual: Existen múltiples definiciones, unificadas por el objetivo de evaluar la capacidad relativa de un individuo para pasar sus genes a la siguiente generación.
 
-- Tasa intrínseca de crecimiento (r): Máxima tasa de crecimiento per cápita para una población.
+-   Tasa intrínseca de crecimiento (r): Máxima tasa de crecimiento per cápita para una población.
 
-- Ocurrencia: Presencia de una especie dada en un sitio dado. Los conjuntos de datos de ocurrencia pueden incluir tanto presencias como ausencias.
+-   Ocurrencia: Presencia de una especie dada en un sitio dado. Los conjuntos de datos de ocurrencia pueden incluir tanto presencias como ausencias.
 
-- Errores de omisión: Predecir la ausencia de una especie en un lugar donde en realidad está presente (falso negativo).
+-   Errores de omisión: Predecir la ausencia de una especie en un lugar donde en realidad está presente (falso negativo).
 
-- Aptitud promedio poblacional (λ): Aptitud promediada entre todos los individuos de una población.
+-   Aptitud promedio poblacional (λ): Aptitud promediada entre todos los individuos de una población.
 
-- Posición en el rango: Posición de un sitio con respecto al centro o a los bordes de la distribución geográfica de una especie.
+-   Posición en el rango: Posición de un sitio con respecto al centro o a los bordes de la distribución geográfica de una especie.
 
-- ROC: Curva característica operativa del receptor. Se grafica la sensibilidad contra 1-especificidad para cada posible umbral de ocurrencia.
+-   ROC: Curva característica operativa del receptor. Se grafica la sensibilidad contra 1-especificidad para cada posible umbral de ocurrencia.
 
-- SDM y ENM (modelo de distribución de especies y modelo de nicho ecológico): Términos utilizados para describir modelos correlacionales que asocian variables ambientales con ocurrencias conocidas de especies (revisado en Peterson 2011, Peterson y Soberón 2012). Aunque en teoría y en la práctica ideal, modelar la distribución no es lo mismo que modelar el nicho (Pulliam 2000, Peterson 2011, Peterson y Soberón 2012), los autores utilizan ambos términos al generar modelos para predecir los parámetros revisados aquí.
+-   SDM y ENM (modelo de distribución de especies y modelo de nicho ecológico): Términos utilizados para describir modelos correlacionales que asocian variables ambientales con ocurrencias conocidas de especies (revisado en Peterson 2011, Peterson y Soberón 2012). Aunque en teoría y en la práctica ideal, modelar la distribución no es lo mismo que modelar el nicho (Pulliam 2000, Peterson 2011, Peterson y Soberón 2012), los autores utilizan ambos términos al generar modelos para predecir los parámetros revisados aquí.
 
-- Sensibilidad: Proporción de presencias observadas que fueron correctamente predichas como presentes por el SDM.
+-   Sensibilidad: Proporción de presencias observadas que fueron correctamente predichas como presentes por el SDM.
 
-- Especificidad: Proporción de ausencias observadas que fueron correctamente predichas como ausentes por el SDM.
+-   Especificidad: Proporción de ausencias observadas que fueron correctamente predichas como ausentes por el SDM.
 
-- Tasa de verdaderos positivos: Proporción de presencias observadas que fueron predichas como presentes por el SDM.
-
-::: panel-tabset
-
-# Flujo de trabajo 
+-   Tasa de verdaderos positivos: Proporción de presencias observadas que fueron predichas como presentes por el SDM.
 
 ::: panel-tabset
 
-## Obtener Datos Climáticos (WorldClim)
+## Selección de las Especies y de los Datos de Presencia y Ausencia
 
-```{r, message=FALSE, warning=FALSE}
+Datos de presencia: Son los puntos geográficos donde se ha registrado la presencia de la especie. Estos datos deben ser lo más precisos posible y cubrir una amplia gama de condiciones ambientales donde la especie podría encontrarse.
+
+Datos de ausencia: Es importante contar con puntos donde se ha confirmado que la especie no está presente, aunque en muchos casos estos datos se generan a través de técnicas de muestreo sistemático o métodos de pseudo-ausencia.
+
+```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(geodata)
 library(terra)
 library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(raster)
+library(sp)
 
-pacman::p_load(rnaturalearth, rnaturalearthdata, sf, 
-               raster,rgeos,
-               rgrass7, sp, mapr, rgdal)
-
-output_path <- "data/"
-
-HN_clim.current <- geodata::worldclim_country("HN", var = "bio", path = output_path)
-
-HN_clim.current_raster <- as(HN_clim.current, "Raster")
-```
-
-## Cargar los Datos de Ocurrencias de la Especie
-
-```{r}
 SETCHR <- read_delim("data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt")
 
 SETCHR1 <- SETCHR %>%
@@ -103,13 +92,118 @@ SETCHR1 <- SETCHR %>%
   dplyr::select(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)
 ```
 
-## Generar el Modelo de Distribución Potencial (SDM)
+## Selección de Variables Ambientales
+
+Las variables ambientales son factores que influyen en la distribución de la especie, como temperatura, precipitación, tipo de vegetación, altitud, entre otras. En este paso se seleccionan las variables que son relevantes para la especie en estudio.
+
+Datos espaciales como imágenes satelitales, mapas de uso del suelo, o bases de datos climáticas (por ejemplo, WorldClim, CHELSA) pueden ser utilizadas para obtener las capas raster que representan estas variables.
+
+```{r, message=FALSE, warning=FALSE}
+
+output_path <- "data/"
+
+HN_clim.current <- geodata::worldclim_country("HN", var = "bio", path = output_path)
+
+HN_clim.current_raster <- as(HN_clim.current, "Raster")
+```
+
+## Preparación y Preprocesamiento de los Datos
+
+Homogeneización de resoluciones: Asegurarse de que todas las capas de variables ambientales tengan la misma resolución espacial y cobertura geográfica.
+
+Manejo de datos faltantes: Es fundamental abordar los valores faltantes, ya sea imputándolos o eliminando las observaciones incompletas.
+
+Transformación de las variables: Algunas variables pueden necesitar ser transformadas (por ejemplo, a través de logaritmos o escalado) para mejorar la relación con la presencia de la especie.
+
+## La colinealidad 
+
+Ocurre cuando dos o más variables predictoras están altamente correlacionadas entre sí, lo que puede afectar la estabilidad y la interpretación de los modelos. Para verificar la colinealidad entre las variables ambientales, se puede calcular el Índice de Inflación de la Varianza (VIF). Un VIF alto (generalmente > 10) indica una alta colinealidad y sugiere que esas variables pueden estar proporcionando información redundante al modelo.
+
+
+```{r,  warning=FALSE, message=FALSE}
+Variables <- terra::as.data.frame(HN_clim.current_raster)
+```
+
+```{r,  warning=FALSE, message=FALSE}
+library(GGally)
+
+GGally::ggcorr(Variables)
+
+```
+
+```{r,  warning=FALSE, message=FALSE}
+Modelo1 <- lm(wc2.1_30s_bio_1 ~ wc2.1_30s_bio_1 +
+                wc2.1_30s_bio_2 + 
+                wc2.1_30s_bio_3 +
+                wc2.1_30s_bio_4 +
+                wc2.1_30s_bio_5 +
+                wc2.1_30s_bio_6 + 
+                wc2.1_30s_bio_7 +
+                wc2.1_30s_bio_8 +
+                wc2.1_30s_bio_9 +
+                wc2.1_30s_bio_10 + 
+                wc2.1_30s_bio_11 +
+                wc2.1_30s_bio_12 +
+                wc2.1_30s_bio_13 +
+                wc2.1_30s_bio_14 + 
+                wc2.1_30s_bio_15 +
+                wc2.1_30s_bio_16 +
+                wc2.1_30s_bio_17 + 
+                wc2.1_30s_bio_18 +
+                wc2.1_30s_bio_19,
+              data = Variables)
+
+performance::check_collinearity(Modelo1)
+```
+
+```{r,  warning=FALSE, message=FALSE}
+Modelo1 <- lm(wc2.1_30s_bio_1 ~ wc2.1_30s_bio_1 +
+                wc2.1_30s_bio_3 +
+                wc2.1_30s_bio_7 +
+                wc2.1_30s_bio_8 +
+                wc2.1_30s_bio_15 +
+                wc2.1_30s_bio_16 +
+                wc2.1_30s_bio_18 +
+                wc2.1_30s_bio_19,
+              data = Variables)
+
+performance::check_collinearity(Modelo1)
+```
+
+## Seleccionar variables
+
+```{r,  warning=FALSE, message=FALSE}
+HN_clim.current_raster2 <- subset(HN_clim.current_raster, c("wc2.1_30s_bio_3",
+                                                    "wc2.1_30s_bio_7",
+                                                    "wc2.1_30s_bio_8",
+                                                    "wc2.1_30s_bio_15",
+                                                    "wc2.1_30s_bio_16",
+                                                    "wc2.1_30s_bio_18",
+                                                    "wc2.1_30s_bio_19"))
+```
+
+
+## Construcción del Modelo
+
+Utilizando métodos estadísticos y de aprendizaje automático, se ajustan los modelos de distribución potencial. Algunos de los métodos más comunes son:
+
+Modelos de Regresión Logística (GLM).
+
+Máquinas de Vectores de Soporte (SVM).
+
+Redes Neuronales Artificiales (ANN).
+
+Random Forest (RF).
+
+MaxEnt (Maximum Entropy).
+
+El modelo se ajusta a partir de los datos de presencia y ausencia utilizando las variables ambientales seleccionadas.
 
 ```{r, warning=FALSE, message=FALSE}
 library(SSDM)
 
 sdrf <- modelling(algorithm = 'RF', 
-                  Env = HN_clim.current_raster, 
+                  Env = HN_clim.current_raster2, 
                   Occurrences = SETCHR1,
                   Xcol = 'LONGITUDE', 
                   Ycol = 'LATITUDE', 
@@ -121,38 +215,108 @@ sdrf <- modelling(algorithm = 'RF',
                   select.thresh = c(0.75))
 ```
 
-- algorithm = 'RF': Especifica el algoritmo de Random Forest para modelar la distribución.
+-   algorithm = 'RF': Especifica el algoritmo de Random Forest para modelar la distribución.
 
-- Env = HN_clim.current_raster: Las capas climáticas obtenidas previamente.
+-   Env = HN_clim.current_raster: Las capas climáticas obtenidas previamente.
 
-- Occurrences = SETCHR1: Conjunto de datos de ocurrencia con las coordenadas de latitud y longitud.
+-   Occurrences = SETCHR1: Conjunto de datos de ocurrencia con las coordenadas de latitud y longitud.
 
-- Xcol = 'LONGITUDE', Ycol = 'LATITUDE': Especifica las columnas que contienen las coordenadas.
+-   Xcol = 'LONGITUDE', Ycol = 'LATITUDE': Especifica las columnas que contienen las coordenadas.
 
-- metric = 'TSS': Utiliza la métrica TSS para evaluar el modelo.
+-   metric = 'TSS': Utiliza la métrica TSS para evaluar el modelo.
 
-- select.metric = 'AUC': Selección de la métrica AUC para determinar el umbral.
+-   select.metric = 'AUC': Selección de la métrica AUC para determinar el umbral.
 
-- cv = "holdout": Realiza una validación cruzada con partición holdout (70% entrenamiento, 30% validación).
+-   cv = "holdout": Realiza una validación cruzada con partición holdout (70% entrenamiento, 30% validación).
 
-- cv.param = c(0.7, 2): Especifica el porcentaje para el entrenamiento y el número de pliegues.
+-   cv.param = c(0.7, 2): Especifica el porcentaje para el entrenamiento y el número de pliegues.
 
-- thresh = 1001, select.thresh = c(0.75): Define el umbral para la selección de los modelos.
+-   thresh = 1001, select.thresh = c(0.75): Define el umbral para la selección de los modelos.
 
-## Visualizar los Resultados del Modelo SDM
+## Evaluación del Modelo
+
+Una vez ajustado el modelo, se evalúa su desempeño utilizando un conjunto de datos independiente (validación cruzada) o mediante medidas como el Área Bajo la Curva (AUC) de la curva ROC (Receiver Operating Characteristic), que indica cuán bien el modelo puede distinguir entre las áreas donde la especie está presente y las áreas donde no está.
+
+También se puede utilizar la Kappa estadística para evaluar la concordancia entre las predicciones del modelo y los datos reales.
 
 ```{r, eval=FALSE}
-plot(sdrf)
+head(sdrf@evaluation)
 ```
 
-::: 
+- Threshold (Umbral)
 
-# Aplicando metodologia estandarizada
+Significado: El umbral de probabilidad es el valor que se usa para decidir si una célula en el raster debe ser clasificada como "presencia" o "ausencia". Si la probabilidad predicha es mayor que este umbral, se clasifica como presencia.
 
-## Revisar colialinidad entre variables
+Valor recomendado: El umbral óptimo depende del contexto y del objetivo del modelo. En general, se elige para maximizar la relación entre sensibilidad y especificidad. Típicamente, el umbral se ajusta a 0.5, pero puede ser mayor o menor dependiendo de los objetivos del estudio (por ejemplo, en estudios de conservación, se podría preferir un umbral bajo para evitar la omisión de presencias).
 
-## Sellecionar modelo mas adecuado
+- 2. AUC (Área Bajo la Curva ROC)
 
+Significado: La AUC mide la capacidad del modelo para discriminar entre las clases (presencia y ausencia). Un valor de 1 significa una discriminación perfecta, mientras que un valor de 0.5 indica un modelo que no discrimina mejor que el azar.
+
+Valor recomendado: Un valor cercano a 1 (idealmente > 0.8) es altamente deseable. Un AUC entre 0.7 y 0.8 todavía indica un buen modelo, pero valores menores de 0.7 pueden sugerir un modelo débil.
+
+- 3. Omission Rate (Tasa de Omisión)
+
+Significado: La tasa de omisión mide el porcentaje de presencias que el modelo no logra predecir correctamente (es decir, los falsos negativos). Es el complemento de la sensibilidad.
+
+Valor recomendado: Se recomienda una tasa de omisión baja, idealmente menos de 0.1. Valores más altos indican que el modelo no está identificando bien las áreas de presencia.
+
+- 4. Sensitivity (Sensibilidad)
+
+Significado: La sensibilidad mide la capacidad del modelo para identificar correctamente las presencias (verdaderos positivos). Un valor cercano a 1 indica un modelo altamente sensible.
+
+Valor recomendado: Un valor cercano a 1 (idealmente > 0.8) es deseable, ya que indica que el modelo tiene una alta capacidad para identificar correctamente las presencias.
+
+- 5. Specificity (Especificidad)
+
+Significado: La especificidad mide la capacidad del modelo para identificar correctamente las ausencias (verdaderos negativos). Un valor cercano a 1 indica que el modelo evita falsos positivos.
+
+Valor recomendado: Se busca una especificidad alta, idealmente > 0.9. Sin embargo, una especificidad razonable de 0.8 también es aceptable, dependiendo del contexto.
+
+- 6. Proporción Correcta (Prop. Correct)
+
+Significado: La proporción correcta mide la proporción de predicciones correctas (tanto presencias como ausencias) con respecto al total de predicciones. Un valor cercano a 1 indica que el modelo tiene un alto nivel de precisión.
+
+Valor recomendado: Un valor cercano a 1 (idealmente > 0.9) es excelente, indicando que el modelo tiene una alta tasa de precisión.
+
+- 7. Kappa
+
+Significado: El índice Kappa mide la concordancia entre las predicciones del modelo y las observaciones reales, ajustado por el azar. Un valor de Kappa cercano a 1 indica una excelente concordancia entre el modelo y los datos reales.
+
+Valor recomendado: Un valor de Kappa > 0.8 es excelente, entre 0.6 y 0.8 es bueno, y entre 0.4 y 0.6 es moderado. Valores menores indican una concordancia pobre.
+
+- 8. Calibration (Calibración)
+
+Significado: La calibración mide cómo las probabilidades predichas por el modelo se ajustan a las observaciones reales. Un modelo bien calibrado es aquel cuya probabilidad de presencia predicha corresponde bien con la probabilidad real observada.
+
+Valor recomendado: Se busca un valor de calibración cercano a 1. Idealmente, se debería obtener un valor > 0.75. Sin embargo, en muchos casos, una calibración razonable de 0.7 a 0.75 puede ser aceptable.
+
+## Validación y Ajuste del Modelo
+
+Evaluación espacial: Comparar las predicciones del modelo con mapas de distribución conocidos y datos de campo adicionales para confirmar la precisión de las predicciones en áreas no muestreadas.
+
+Ajustes del modelo: Si es necesario, los parámetros del modelo pueden ser ajustados para mejorar su precisión. Esto podría implicar la eliminación de variables no significativas o la inclusión de otras variables no consideradas inicialmente.
+
+## Predicción de la Distribución Potencial
+
+Una vez validado el modelo, se usa para predecir la distribución de la especie en áreas no muestreadas o para explorar escenarios de cambio, como el cambio climático. Esto permite identificar las áreas de mayor idoneidad ambiental para la especie, lo cual es clave para la conservación y manejo de la biodiversidad.
+
+```{r}
+sdrf@variable.importance
+```
+
+```{r}
+plot(sdrf@projection)
+```
+
+## Interpretación y Aplicación de los Resultados
+
+Los resultados se interpretan en términos ecológicos y se utilizan para tomar decisiones en la conservación, el manejo del hábitat y la planificación territorial.
+
+Las predicciones también pueden usarse para identificar áreas prioritarias para la conservación de especies en peligro de extinción, áreas con alta biodiversidad o zonas donde se prevé que las especies puedan desplazar su distribución debido al cambio climático.
 
 
 :::
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
+

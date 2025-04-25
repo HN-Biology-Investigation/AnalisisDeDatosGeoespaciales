@@ -128,78 +128,203 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Tasa de verdaderos positivos: Proporción de presencias observadas que fueron predichas como presentes por el SDM.</p></li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Flujo de trabajo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Aplicando metodologia estandarizada</a></li></ul>
-<div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Obtener Datos Climáticos (WorldClim)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Cargar los Datos de Ocurrencias de la Especie</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Generar el Modelo de Distribución Potencial (SDM)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Visualizar los Resultados del Modelo SDM</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Selección de las Especies y de los Datos de Presencia y Ausencia</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Selección de Variables Ambientales</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Preparación y Preprocesamiento de los Datos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">La colinealidad</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Seleccionar variables</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Construcción del Modelo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Evaluación del Modelo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false" href="">Validación y Ajuste del Modelo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false" href="">Predicción de la Distribución Potencial</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-10" role="tab" aria-controls="tabset-1-10" aria-selected="false" href="">Interpretación y Aplicación de los Resultados</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Datos de presencia: Son los puntos geográficos donde se ha registrado la presencia de la especie. Estos datos deben ser lo más precisos posible y cubrir una amplia gama de condiciones ambientales donde la especie podría encontrarse.</p>
+<p>Datos de ausencia: Es importante contar con puntos donde se ha confirmado que la especie no está presente, aunque en muchos casos estos datos se generan a través de técnicas de muestreo sistemático o métodos de pseudo-ausencia.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(rnaturalearth, rnaturalearthdata, sf, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               raster,rgeos,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               rgrass7, sp, mapr, rgdal)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearthdata)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="st">"data/"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>SETCHR <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt"</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>HN_clim.current <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_country</span>(<span class="st">"HN"</span>, <span class="at">var =</span> <span class="st">"bio"</span>, <span class="at">path =</span> output_path)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>HN_clim.current_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(HN_clim.current, <span class="st">"Raster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>SETCHR1 <span class="ot">&lt;-</span> SETCHR <span class="sc">%&gt;%</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Observaciones"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION COUNT</span><span class="st">`</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fecha"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION DATE</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Observaciones =</span> <span class="fu">as.numeric</span>(Observaciones)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Observaciones <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Fecha)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="st">"2018"</span> <span class="sc">|</span> Year <span class="sc">==</span> <span class="st">"2019"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Las variables ambientales son factores que influyen en la distribución de la especie, como temperatura, precipitación, tipo de vegetación, altitud, entre otras. En este paso se seleccionan las variables que son relevantes para la especie en estudio.</p>
+<p>Datos espaciales como imágenes satelitales, mapas de uso del suelo, o bases de datos climáticas (por ejemplo, WorldClim, CHELSA) pueden ser utilizadas para obtener las capas raster que representan estas variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SETCHR <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-Rows: 384 Columns: 50
-── Column specification
-──────────────────────────────────────────────────────── Delimiter: "\t" chr
-(24): GLOBAL UNIQUE IDENTIFIER, CATEGORY, TAXON CONCEPT ID, COMMON NAME... dbl
-(10): TAXONOMIC ORDER, LATITUDE, LONGITUDE, DURATION MINUTES, EFFORT DI... lgl
-(13): SUBSPECIES COMMON NAME, SUBSPECIES SCIENTIFIC NAME, EXOTIC CODE, ... dttm
-(1): LAST EDITED DATE date (1): OBSERVATION DATE time (1): TIME OBSERVATIONS
-STARTED
-ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `` -&gt; `...50`</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SETCHR1 <span class="ot">&lt;-</span> SETCHR <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Observaciones"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION COUNT</span><span class="st">`</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fecha"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION DATE</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Observaciones =</span> <span class="fu">as.numeric</span>(Observaciones)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Observaciones <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Fecha)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="st">"2018"</span> <span class="sc">|</span> Year <span class="sc">==</span> <span class="st">"2019"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: There was 1 warning in `mutate()`.
-ℹ In argument: `Observaciones = as.numeric(Observaciones)`.
-Caused by warning:
-! NAs introduced by coercion</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="st">"data/"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>HN_clim.current <span class="ot">&lt;-</span> geodata<span class="sc">::</span><span class="fu">worldclim_country</span>(<span class="st">"HN"</span>, <span class="at">var =</span> <span class="st">"bio"</span>, <span class="at">path =</span> output_path)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>HN_clim.current_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(HN_clim.current, <span class="st">"Raster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Homogeneización de resoluciones: Asegurarse de que todas las capas de variables ambientales tengan la misma resolución espacial y cobertura geográfica.</p>
+<p>Manejo de datos faltantes: Es fundamental abordar los valores faltantes, ya sea imputándolos o eliminando las observaciones incompletas.</p>
+<p>Transformación de las variables: Algunas variables pueden necesitar ser transformadas (por ejemplo, a través de logaritmos o escalado) para mejorar la relación con la presencia de la especie.</p>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>Ocurre cuando dos o más variables predictoras están altamente correlacionadas entre sí, lo que puede afectar la estabilidad y la interpretación de los modelos. Para verificar la colinealidad entre las variables ambientales, se puede calcular el Índice de Inflación de la Varianza (VIF). Un VIF alto (generalmente &gt; 10) indica una alta colinealidad y sugiere que esas variables pueden estar proporcionando información redundante al modelo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SSDM)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sdrf <span class="ot">&lt;-</span> <span class="fu">modelling</span>(<span class="at">algorithm =</span> <span class="st">'RF'</span>, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Env =</span> HN_clim.current_raster, </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Occurrences =</span> SETCHR1,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Xcol =</span> <span class="st">'LONGITUDE'</span>, </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Ycol =</span> <span class="st">'LATITUDE'</span>, </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metric =</span> <span class="st">'TSS'</span>, </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.metric =</span> <span class="st">'AUC'</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv =</span> <span class="st">"holdout"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv.param =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">2</span>),</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">thresh =</span> <span class="dv">1001</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.thresh =</span> <span class="fu">c</span>(<span class="fl">0.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Variables <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.data.frame</span>(HN_clim.current_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>GGally<span class="sc">::</span><span class="fu">ggcorr</span>(Variables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clase6Parte1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wc2<span class="fl">.1</span>_30s_bio_1 <span class="sc">~</span> wc2<span class="fl">.1</span>_30s_bio_1 <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_2 <span class="sc">+</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_3 <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_4 <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_5 <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_6 <span class="sc">+</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_7 <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_8 <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_9 <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_10 <span class="sc">+</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_11 <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_12 <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_13 <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_14 <span class="sc">+</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_15 <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_16 <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_17 <span class="sc">+</span> </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_18 <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_19,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> Variables)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_collinearity</span>(Modelo1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for Multicollinearity
+
+Low Correlation
+
+             Term  VIF         VIF 95% CI Increased SE Tolerance
+ wc2.1_30s_bio_18 3.89 [   3.87,    3.91]         1.97      0.26
+ Tolerance 95% CI
+     [0.26, 0.26]
+
+Moderate Correlation
+
+             Term  VIF         VIF 95% CI Increased SE Tolerance
+ wc2.1_30s_bio_19 6.38 [   6.33,    6.42]         2.52      0.16
+ Tolerance 95% CI
+     [0.16, 0.16]
+
+High Correlation
+
+             Term     VIF         VIF 95% CI Increased SE Tolerance
+  wc2.1_30s_bio_2 1172.72 [1164.21, 1181.29]        34.24  8.53e-04
+  wc2.1_30s_bio_3   74.20 [  73.66,   74.74]         8.61      0.01
+  wc2.1_30s_bio_4  175.89 [ 174.61,  177.17]        13.26  5.69e-03
+  wc2.1_30s_bio_5 1286.11 [1276.77, 1295.51]        35.86  7.78e-04
+  wc2.1_30s_bio_6 1778.76 [1765.85, 1791.76]        42.18  5.62e-04
+  wc2.1_30s_bio_8   34.12 [  33.87,   34.36]         5.84      0.03
+  wc2.1_30s_bio_9   56.51 [  56.10,   56.92]         7.52      0.02
+ wc2.1_30s_bio_10 2036.20 [2021.42, 2051.09]        45.12  4.91e-04
+ wc2.1_30s_bio_11 2197.26 [2181.31, 2213.33]        46.87  4.55e-04
+ wc2.1_30s_bio_12   74.02 [  73.49,   74.56]         8.60      0.01
+ wc2.1_30s_bio_13   57.55 [  57.14,   57.97]         7.59      0.02
+ wc2.1_30s_bio_14   55.89 [  55.49,   56.30]         7.48      0.02
+ wc2.1_30s_bio_15   19.61 [  19.47,   19.74]         4.43      0.05
+ wc2.1_30s_bio_16   71.50 [  70.99,   72.02]         8.46      0.01
+ wc2.1_30s_bio_17   92.44 [  91.77,   93.11]         9.61      0.01
+ Tolerance 95% CI
+     [0.00, 0.00]
+     [0.01, 0.01]
+     [0.01, 0.01]
+     [0.00, 0.00]
+     [0.00, 0.00]
+     [0.03, 0.03]
+     [0.02, 0.02]
+     [0.00, 0.00]
+     [0.00, 0.00]
+     [0.01, 0.01]
+     [0.02, 0.02]
+     [0.02, 0.02]
+     [0.05, 0.05]
+     [0.01, 0.01]
+     [0.01, 0.01]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wc2<span class="fl">.1</span>_30s_bio_1 <span class="sc">~</span> wc2<span class="fl">.1</span>_30s_bio_1 <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_3 <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_7 <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_8 <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_15 <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_16 <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_18 <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                wc2<span class="fl">.1</span>_30s_bio_19,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> Variables)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_collinearity</span>(Modelo1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for Multicollinearity
+
+Low Correlation
+
+             Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
+  wc2.1_30s_bio_3 2.29 [2.28, 2.31]         1.51      0.44     [0.43, 0.44]
+  wc2.1_30s_bio_7 2.34 [2.33, 2.35]         1.53      0.43     [0.42, 0.43]
+  wc2.1_30s_bio_8 1.70 [1.69, 1.71]         1.30      0.59     [0.59, 0.59]
+ wc2.1_30s_bio_15 2.62 [2.61, 2.64]         1.62      0.38     [0.38, 0.38]
+ wc2.1_30s_bio_16 3.64 [3.61, 3.66]         1.91      0.27     [0.27, 0.28]
+ wc2.1_30s_bio_18 2.69 [2.67, 2.70]         1.64      0.37     [0.37, 0.37]
+ wc2.1_30s_bio_19 2.59 [2.57, 2.60]         1.61      0.39     [0.38, 0.39]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>HN_clim.current_raster2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(HN_clim.current_raster, <span class="fu">c</span>(<span class="st">"wc2.1_30s_bio_3"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"wc2.1_30s_bio_7"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"wc2.1_30s_bio_8"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"wc2.1_30s_bio_15"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"wc2.1_30s_bio_16"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"wc2.1_30s_bio_18"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"wc2.1_30s_bio_19"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<p>Utilizando métodos estadísticos y de aprendizaje automático, se ajustan los modelos de distribución potencial. Algunos de los métodos más comunes son:</p>
+<p>Modelos de Regresión Logística (GLM).</p>
+<p>Máquinas de Vectores de Soporte (SVM).</p>
+<p>Redes Neuronales Artificiales (ANN).</p>
+<p>Random Forest (RF).</p>
+<p>MaxEnt (Maximum Entropy).</p>
+<p>El modelo se ajusta a partir de los datos de presencia y ausencia utilizando las variables ambientales seleccionadas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SSDM)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sdrf <span class="ot">&lt;-</span> <span class="fu">modelling</span>(<span class="at">algorithm =</span> <span class="st">'RF'</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Env =</span> HN_clim.current_raster2, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Occurrences =</span> SETCHR1,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Xcol =</span> <span class="st">'LONGITUDE'</span>, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Ycol =</span> <span class="st">'LATITUDE'</span>, </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metric =</span> <span class="st">'TSS'</span>, </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.metric =</span> <span class="st">'AUC'</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv =</span> <span class="st">"holdout"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">cv.param =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="dv">2</span>),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">thresh =</span> <span class="dv">1001</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">select.thresh =</span> <span class="fu">c</span>(<span class="fl">0.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Data check ... 
 No presence column, presence-only data set is supposed.
@@ -234,23 +359,106 @@ Model axes contribution evaluation...
 <li><p>thresh = 1001, select.thresh = c(0.75): Define el umbral para la selección de los modelos.</p></li>
 </ul>
 </div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<p>Una vez ajustado el modelo, se evalúa su desempeño utilizando un conjunto de datos independiente (validación cruzada) o mediante medidas como el Área Bajo la Curva (AUC) de la curva ROC (Receiver Operating Characteristic), que indica cuán bien el modelo puede distinguir entre las áreas donde la especie está presente y las áreas donde no está.</p>
+<p>También se puede utilizar la Kappa estadística para evaluar la concordancia entre las predicciones del modelo y los datos reales.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdrf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sdrf<span class="sc">@</span>evaluation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Threshold (Umbral)</li>
+</ul>
+<p>Significado: El umbral de probabilidad es el valor que se usa para decidir si una célula en el raster debe ser clasificada como “presencia” o “ausencia”. Si la probabilidad predicha es mayor que este umbral, se clasifica como presencia.</p>
+<p>Valor recomendado: El umbral óptimo depende del contexto y del objetivo del modelo. En general, se elige para maximizar la relación entre sensibilidad y especificidad. Típicamente, el umbral se ajusta a 0.5, pero puede ser mayor o menor dependiendo de los objetivos del estudio (por ejemplo, en estudios de conservación, se podría preferir un umbral bajo para evitar la omisión de presencias).</p>
+<ul>
+<li><ol start="2" type="1">
+<li>AUC (Área Bajo la Curva ROC)</li>
+</ol></li>
+</ul>
+<p>Significado: La AUC mide la capacidad del modelo para discriminar entre las clases (presencia y ausencia). Un valor de 1 significa una discriminación perfecta, mientras que un valor de 0.5 indica un modelo que no discrimina mejor que el azar.</p>
+<p>Valor recomendado: Un valor cercano a 1 (idealmente &gt; 0.8) es altamente deseable. Un AUC entre 0.7 y 0.8 todavía indica un buen modelo, pero valores menores de 0.7 pueden sugerir un modelo débil.</p>
+<ul>
+<li><ol start="3" type="1">
+<li>Omission Rate (Tasa de Omisión)</li>
+</ol></li>
+</ul>
+<p>Significado: La tasa de omisión mide el porcentaje de presencias que el modelo no logra predecir correctamente (es decir, los falsos negativos). Es el complemento de la sensibilidad.</p>
+<p>Valor recomendado: Se recomienda una tasa de omisión baja, idealmente menos de 0.1. Valores más altos indican que el modelo no está identificando bien las áreas de presencia.</p>
+<ul>
+<li><ol start="4" type="1">
+<li>Sensitivity (Sensibilidad)</li>
+</ol></li>
+</ul>
+<p>Significado: La sensibilidad mide la capacidad del modelo para identificar correctamente las presencias (verdaderos positivos). Un valor cercano a 1 indica un modelo altamente sensible.</p>
+<p>Valor recomendado: Un valor cercano a 1 (idealmente &gt; 0.8) es deseable, ya que indica que el modelo tiene una alta capacidad para identificar correctamente las presencias.</p>
+<ul>
+<li><ol start="5" type="1">
+<li>Specificity (Especificidad)</li>
+</ol></li>
+</ul>
+<p>Significado: La especificidad mide la capacidad del modelo para identificar correctamente las ausencias (verdaderos negativos). Un valor cercano a 1 indica que el modelo evita falsos positivos.</p>
+<p>Valor recomendado: Se busca una especificidad alta, idealmente &gt; 0.9. Sin embargo, una especificidad razonable de 0.8 también es aceptable, dependiendo del contexto.</p>
+<ul>
+<li><ol start="6" type="1">
+<li>Proporción Correcta (Prop. Correct)</li>
+</ol></li>
+</ul>
+<p>Significado: La proporción correcta mide la proporción de predicciones correctas (tanto presencias como ausencias) con respecto al total de predicciones. Un valor cercano a 1 indica que el modelo tiene un alto nivel de precisión.</p>
+<p>Valor recomendado: Un valor cercano a 1 (idealmente &gt; 0.9) es excelente, indicando que el modelo tiene una alta tasa de precisión.</p>
+<ul>
+<li><ol start="7" type="1">
+<li>Kappa</li>
+</ol></li>
+</ul>
+<p>Significado: El índice Kappa mide la concordancia entre las predicciones del modelo y las observaciones reales, ajustado por el azar. Un valor de Kappa cercano a 1 indica una excelente concordancia entre el modelo y los datos reales.</p>
+<p>Valor recomendado: Un valor de Kappa &gt; 0.8 es excelente, entre 0.6 y 0.8 es bueno, y entre 0.4 y 0.6 es moderado. Valores menores indican una concordancia pobre.</p>
+<ul>
+<li><ol start="8" type="1">
+<li>Calibration (Calibración)</li>
+</ol></li>
+</ul>
+<p>Significado: La calibración mide cómo las probabilidades predichas por el modelo se ajustan a las observaciones reales. Un modelo bien calibrado es aquel cuya probabilidad de presencia predicha corresponde bien con la probabilidad real observada.</p>
+<p>Valor recomendado: Se busca un valor de calibración cercano a 1. Idealmente, se debería obtener un valor &gt; 0.75. Sin embargo, en muchos casos, una calibración razonable de 0.7 a 0.75 puede ser aceptable.</p>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<p>Evaluación espacial: Comparar las predicciones del modelo con mapas de distribución conocidos y datos de campo adicionales para confirmar la precisión de las predicciones en áreas no muestreadas.</p>
+<p>Ajustes del modelo: Si es necesario, los parámetros del modelo pueden ser ajustados para mejorar su precisión. Esto podría implicar la eliminación de variables no significativas o la inclusión de otras variables no consideradas inicialmente.</p>
+</div>
+<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
+<p>Una vez validado el modelo, se usa para predecir la distribución de la especie en áreas no muestreadas o para explorar escenarios de cambio, como el cambio climático. Esto permite identificar las áreas de mayor idoneidad ambiental para la especie, lo cual es clave para la conservación y manejo de la biodiversidad.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sdrf<span class="sc">@</span>variable.importance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                wc2.1_30s_bio_3 wc2.1_30s_bio_7 wc2.1_30s_bio_8
+Axes.evaluation        8.710054        9.889604        37.12505
+                wc2.1_30s_bio_15 wc2.1_30s_bio_16 wc2.1_30s_bio_18
+Axes.evaluation            7.579         4.074317         24.65617
+                wc2.1_30s_bio_19
+Axes.evaluation         7.965811</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdrf<span class="sc">@</span>projection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clase6Parte1_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<section id="revisar-colialinidad-entre-variables" class="level2">
-<h2 class="anchored" data-anchor-id="revisar-colialinidad-entre-variables">Revisar colialinidad entre variables</h2>
-</section>
-<section id="sellecionar-modelo-mas-adecuado" class="level2">
-<h2 class="anchored" data-anchor-id="sellecionar-modelo-mas-adecuado">Sellecionar modelo mas adecuado</h2>
-</section>
+<div id="tabset-1-10" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-10-tab">
+<p>Los resultados se interpretan en términos ecológicos y se utilizan para tomar decisiones en la conservación, el manejo del hábitat y la planificación territorial.</p>
+<p>Las predicciones también pueden usarse para identificar áreas prioritarias para la conservación de especies en peligro de extinción, áreas con alta biodiversidad o zonas donde se prevé que las especies puedan desplazar su distribución debido al cambio climático.</p>
 </div>
 </div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
+<figcaption>HN Biology Investigation Academy</figcaption>
+</figure>
 </div>
 
 </main>
