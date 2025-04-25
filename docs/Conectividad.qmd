@@ -17,13 +17,63 @@ editor: visual
 library(Makurhini)
 ```
 
-
 ```{r}
 library(terra)
+library(sf)
 library(gdistance)
 ```
 
-[R Package gdistance: Distances and Routes on Geographical Grids](https://www.jstatsoft.org/article/view/v076i13) 
+[R Package gdistance: Distances and Routes on Geographical Grids](https://www.jstatsoft.org/article/view/v076i13)
+
+```{r}
+data("habitat_nodes", package = "Makurhini")
+```
+
+`MK_dPCIIC` calcula el índice dPC (delta Probability of Connectivity) o sus componentes (intra, flux, connector) para múltiples umbrales de distancia.
+
+```{r}
+PC_example <- MK_dPCIIC(nodes = habitat_nodes, 
+                        attribute = NULL, 
+                        distance =list(type = "centroid"),
+                        parallel = NULL, 
+                        metric = "PC", 
+                        probability = 0.5, 
+                        distance_thresholds = c(250, 1500, 3000, 10000))
+
+plot(PC_example$d250["dPC"])
+```
+
+- dPC: Valor total de conectividad asociado a ese parche. Este valor representa cuánto contribuye el parche a la conectividad total del paisaje. Parches con valores altos son más importantes para mantener la conectividad general.
+
+- dPCintra: Esta parte representa la conectividad interna, que depende del tamaño del parche. Si es igual al dPC, significa que el parche no está conectado a otros (o que la especie no puede moverse a otros parches dentro del umbral de distancia).
+
+- dPCflux: Representa el flujo de conectividad directa con otros parches. Si este valor es 0, el parche no tiene conexiones directas dentro del umbral de dispersión.
+
+- dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.
+
+Example 3: Identifying the most important corridors to maintain and improve the connectivity of
+forest mammals in northern Spain
+
+```{r}
+data("habitat_nodes_spain", package = "Makurhini")
+data("dist_original", package = "Makurhini")
+
+n_cores<-15
+```
+
+
+PCconnections <- MK_dPCIIC_links(nodes=habitat_nodes_spain,
+                                 attribute="attribute", 
+                                 area_unit ="ha", 
+                                 distance=dist_original, 
+                                 metric = "PC", 
+                                 probability=0.5,
+                                 distance_thresholds=980966.64, 
+                                 parallel=n_cores, 
+                                 parallel_mode=1, 
+                                 removal=TRUE)
+
+
 
 # Iconnect
 
@@ -47,7 +97,6 @@ class(land)
 
 ```
 
-
 ```{r}
 plot(land, main="Landscape clusters")
 ```
@@ -63,7 +112,6 @@ plot(land1, main="Patch prioritization (%)")
 # Grainscape
 
 [The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks](https://doi.org/10.1111/2041-210X.13350)
-
 
 ```{r}
 library(grainscape)
@@ -96,4 +144,3 @@ if (interactive()) {
 ```
 
 # Conectividad genetica
-

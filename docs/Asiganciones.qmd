@@ -31,9 +31,11 @@ Realizar un modelo para evaluar la asociación de la fragmentación del bosque y
 
 ## Asignación 5
 
+Calcular 5 índices de vegetación basados en el artículo [Significant Remote Sensing Vegetation Indices: A Review of Developments and Applications](https://doi.org/10.1155/2017/1353691) 
 
 ## Asignación 6
 
+Realizar 5 tipos de modelos de distribución potencial y seleccionar el más adecuado
 
 ## Asignación 7
 
