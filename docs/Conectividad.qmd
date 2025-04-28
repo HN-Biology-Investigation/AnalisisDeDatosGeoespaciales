@@ -1,11 +1,43 @@
 ---
-title: "Conectividad"
+title: "Conectividad ecológica y conectividad genética"
 author: "David Murillo"
 format: html
 editor: visual
 ---
 
-# Cargar paquetes
+La conectividad es un concepto central en ecología y conservación. Se refiere a cómo el paisaje facilita o impide el movimiento de organismos, genes, agua, nutrientes y energía entre diferentes hábitats.
+
+- Conectividad ecológica describe la capacidad de los organismos para moverse libremente por el paisaje. Esta puede ser estructural (basada en la continuidad física de los hábitats, como corredores o parches conectados) o funcional (basada en el comportamiento de las especies, su capacidad de atravesar diferentes tipos de hábitat).
+
+- Conectividad genética, por otro lado, se refiere al intercambio de genes entre poblaciones a través del movimiento de individuos reproductores. La conectividad genética es vital para mantener la diversidad genética, evitar la endogamia y permitir la adaptación evolutiva a largo plazo.
+
+Aunque relacionadas, conectividad ecológica y genética no siempre son equivalentes: un paisaje puede parecer conectado físicamente, pero no garantizar suficiente flujo genético si las especies no logran reproducirse tras moverse.
+
+Entender y gestionar ambos tipos de conectividad es crucial para diseñar estrategias efectivas de conservación, especialmente en paisajes fragmentados por actividades humanas.
+
+::: panel.tabset
+
+## Conectividad ecológica - Makurhini
+
+[Makurhini](https://connectscape.github.io/Makurhini/) es un paquete de R diseñado para facilitar el análisis detallado de fragmentación y conectividad del paisaje, dos procesos clave en la conservación de la biodiversidad. El nombre Makurhini proviene de una palabra indígena purépecha que significa "camino" o "conexión", reflejando el enfoque del paquete en los flujos ecológicos entre fragmentos de hábitat.
+
+Makurhini permite:
+
+- Calcular métricas de conectividad tanto estructural (basada en la disposición física del paisaje) como funcional (considerando el movimiento de especies según distancias o resistencias).
+
+- Estimar índices como el Probability of Connectivity (PC), Integral Index of Connectivity (IIC), flux y otros indicadores que miden la importancia de fragmentos, la cantidad de hábitat disponible y los cambios en conectividad a través del tiempo.
+
+- Trabajar con análisis de escenarios, optimización de redes de conservación y comparaciones entre múltiples paisajes.
+
+El paquete integra capacidades de procesamiento espacial avanzadas usando terra y sf, y está diseñado para trabajar de forma flexible con grandes conjuntos de datos.
+
+¿Para qué sirve?
+
+- Evaluar el impacto de la fragmentación sobre especies.
+
+- Priorizar áreas para restauración o conservación basadas en su contribución a la conectividad.
+
+- Comparar escenarios de cambio de paisaje (por ejemplo, deforestación, expansión urbana).
 
 [Makurhini: An R package for comprehensive analysis of landscape fragmentation and connectivity](https://doi.org/10.21203/rs.3.rs-6398746/v1)
 
@@ -15,15 +47,10 @@ editor: visual
 # install_github("connectscape/Makurhini", dependencies = TRUE)
 
 library(Makurhini)
-```
-
-```{r}
 library(terra)
 library(sf)
-library(gdistance)
-```
 
-[R Package gdistance: Distances and Routes on Geographical Grids](https://www.jstatsoft.org/article/view/v076i13)
+```
 
 ```{r}
 data("habitat_nodes", package = "Makurhini")
@@ -51,64 +78,8 @@ plot(PC_example$d250["dPC"])
 
 - dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.
 
-Example 3: Identifying the most important corridors to maintain and improve the connectivity of
-forest mammals in northern Spain
 
-```{r}
-data("habitat_nodes_spain", package = "Makurhini")
-data("dist_original", package = "Makurhini")
-
-n_cores<-15
-```
-
-
-PCconnections <- MK_dPCIIC_links(nodes=habitat_nodes_spain,
-                                 attribute="attribute", 
-                                 area_unit ="ha", 
-                                 distance=dist_original, 
-                                 metric = "PC", 
-                                 probability=0.5,
-                                 distance_thresholds=980966.64, 
-                                 parallel=n_cores, 
-                                 parallel_mode=1, 
-                                 removal=TRUE)
-
-
-
-# Iconnect
-
-```{r}
-# library(devtools)
-# install_github("FMestre1/lconnect")
-library(lconnect)
-```
-
-[Iconnect](https://doi.org/10.1016/j.ecolmodel.2023.110489)
-
-```{r}
-#Load data
-vec_path <- system.file("extdata/vec_projected.shp", package = "lconnect")
-```
-
-```{r}
-#upload landscape
-land <- upload_land(vec_path, habitat = 1, max_dist = 500)
-class(land)
-
-```
-
-```{r}
-plot(land, main="Landscape clusters")
-```
-
-```{r}
-land1 <- patch_imp(land, metric="IIC")
-```
-
-```{r}
-plot(land1, main="Patch prioritization (%)")
-```
-
+## 
 # Grainscape
 
 [The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks](https://doi.org/10.1111/2041-210X.13350)
@@ -144,3 +115,7 @@ if (interactive()) {
 ```
 
 # Conectividad genetica
+
+:::
+
+[HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
