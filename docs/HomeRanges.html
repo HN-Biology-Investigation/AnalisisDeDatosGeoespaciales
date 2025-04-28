@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Murillo">
 
-<title>Home ranges</title>
+<title>Clase 6: Análisis de rango de hogar (home range)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -46,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Home ranges</h1>
+<h1 class="title">Clase 6: Análisis de rango de hogar (home range)</h1>
 </div>
 
 
@@ -69,7 +103,173 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>El análisis de Home Range (rango de hogar) es una técnica fundamental en ecología y biología de la conservación que busca estimar el área utilizada por un animal dentro de su entorno durante un periodo específico. Este análisis es crucial para comprender cómo los animales interactúan con su hábitat, cómo utilizan los recursos disponibles y cómo su espacio de vida está distribuido en el paisaje.</p>
+<p>¿Qué es un Home Range?</p>
+<p>El Home Range es el área en la que un individuo o una población de animales realiza la mayoría de sus actividades, como la alimentación, la reproducción y la defensa territorial. A diferencia del territorio, que generalmente está defendido activamente por un animal, el Home Range no implica necesariamente exclusividad, sino simplemente el área dentro de la cual un animal se desplaza regularmente.</p>
+<p>Importancia del Análisis de Home Range El estudio del Home Range tiene varias aplicaciones:</p>
+<ul>
+<li><p>Conservación y Manejo de Especies: Permite identificar áreas críticas para la conservación, como zonas de alto uso o sitios donde los animales pasan la mayor parte de su tiempo, lo cual es fundamental para la gestión de hábitats y la planificación de áreas protegidas.</p></li>
+<li><p>Estrategias de Movimiento: Ayuda a comprender los patrones de movimiento de los animales, cómo se distribuyen en el paisaje y cómo las características del hábitat (como la vegetación, el agua o la topografía) influyen en su uso del espacio.</p></li>
+<li><p>Impacto de la Fragmentación del Hábitat: El análisis de Home Range permite estudiar cómo la pérdida o fragmentación del hábitat afecta a las especies, por ejemplo, si sus rangos de hogar se reducen o si las especies deben desplazarse mayores distancias en busca de recursos.</p></li>
+</ul>
+<p>Métodos para Estimar el Home Range Existen diferentes métodos para estimar el Home Range de los animales, siendo los más comunes:</p>
+<ul>
+<li><p>Método de Polígono Convexo (MCP, Minimum Convex Polygon): Este método conecta los puntos más exteriores del área utilizada por un animal, formando un polígono. Aunque es sencillo, tiene limitaciones, ya que incluye áreas no utilizadas y no captura bien las áreas con baja densidad de observación.</p></li>
+<li><p>Estimación de Densidad de Kernel (KDE, Kernel Density Estimation): Este es un método más avanzado y robusto que utiliza una función matemática para estimar la densidad de uso en diferentes áreas del rango de hogar. El resultado es un mapa continuo de probabilidades que indica las áreas de alta y baja utilización. A menudo se utiliza el 95% de la estimación de densidad de kernel para definir el rango de hogar.</p></li>
+<li><p>Método de Contorno de Utilización (UD, Utilization Distribution): Estima la distribución de probabilidades de la ubicación de un animal dentro de un área. Esto se utiliza para describir la densidad de uso en el espacio, considerando la forma y extensión del área ocupada.</p></li>
+<li><p>Método de Áreas Relacionadas con el Tiempo: Este tipo de análisis utiliza la frecuencia de las ubicaciones de los animales durante un periodo de tiempo determinado para estimar el Home Range. Las áreas de alta frecuencia de ubicación son consideradas más importantes para el individuo.</p></li>
+</ul>
+<p>Variables Importantes en el Análisis de Home Range</p>
+<p>Para llevar a cabo un análisis de Home Range preciso, se requieren varios tipos de datos:</p>
+<ul>
+<li><p>Ubicación geoespacial: Coordenadas de latitud y longitud de las observaciones, que pueden ser obtenidas a través de dispositivos de seguimiento GPS, radio-telemetría u observación directa.</p></li>
+<li><p>Tiempo: La marca temporal (fecha y hora) de las observaciones es crucial para analizar cómo cambia el rango de hogar a lo largo del tiempo, especialmente en función de factores como las estaciones del año, la disponibilidad de recursos o los comportamientos migratorios.</p></li>
+<li><p>Características del Hábitat: Factores como la vegetación, la presencia de cuerpos de agua o los límites de los hábitats también influyen en el uso del espacio.</p></li>
+</ul>
+<p>Aplicación del Análisis de Home Range</p>
+<p>En muchos casos, los ecologistas y biólogos de la conservación utilizan el análisis de Home Range para comprender la dinámica de especies migratorias, estudiar cómo los cambios en el paisaje afectan a las especies locales y para guiar las estrategias de conservación. Por ejemplo, el uso de técnicas como Kernel Density Estimation (KDE) puede ayudar a determinar el área mínima que un animal necesita para sobrevivir y reproducirse, lo que es clave para la protección del hábitat.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">adehabitatHR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Cargar base de datos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Objeto de trayectorias</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Estimación of Kernel Home-Range</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Calcular 95 % home range</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Visualizar los polígonos del rango de hogar</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Otros análisis aparte del Home Range</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>El paquete “adehabitat” para R es una herramienta diseñada para el análisis del uso del espacio y del hábitat por animales. Este paquete permite realizar diversos análisis espaciales, como la estimación del rango de hogar (home range) de una especie a partir de sus ubicaciones geográficas, utilizando métodos como la estimación por densidad de núcleo (Kernel Density Estimation) y el polígono convexo mínimo (MCP). Además, facilita la evaluación de la relación entre los animales y su hábitat, permitiendo modelar la distribución espacial de las especies y explorar patrones de movilidad. “adehabitat” es ampliamente utilizado en ecología de la conservación para estudios sobre la ecología del comportamiento, la selección de hábitat y la conectividad ecológica, ayudando a identificar áreas críticas para la conservación de especies.</p>
 <p><a href="https://doi.org/10.1016/j.ecolmodel.2006.03.017">The package “adehabitat” for the R software: A tool for the analysis of space and habitat use by animals</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(adehabitatHR)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Birds <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/HomeRange_df.txt"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Birds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [1,153 × 5] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Bird    : chr [1:1153] "ID_1" "ID_1" "ID_1" "ID_1" ...
+ $ x       : num [1:1153] -74.9 -74.9 -74.9 -74.9 -74.9 ...
+ $ y       : num [1:1153] 41.4 41.4 41.4 41.4 41.4 ...
+ $ Date    : Date[1:1153], format: "2023-05-12" "2023-05-12" ...
+ $ DateTime: POSIXct[1:1153], format: "2023-05-12 12:54:00" "2023-05-12 12:57:00" ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   Bird = col_character(),
+  ..   x = col_double(),
+  ..   y = col_double(),
+  ..   Date = col_date(format = ""),
+  ..   DateTime = col_datetime(format = "")
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>La función as.ltraj() convierte un conjunto de datos de ubicaciones geográficas (por ejemplo, coordenadas GPS) en un objeto “ltraj” (un objeto de trayectorias) que puede ser utilizado para análisis de movimiento en el paquete adehabitatLT</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bird.ltraj <span class="ot">&lt;-</span> <span class="fu">as.ltraj</span>(Birds[,<span class="fu">c</span>(<span class="st">"x"</span>,<span class="st">"y"</span>)],</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">id =</span> Birds<span class="sc">$</span>Bird,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">date =</span> Birds<span class="sc">$</span>DateTime,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">slsp =</span> <span class="fu">c</span>(<span class="st">"remove"</span>, <span class="st">"missing"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">"+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El resultado de esta operación es el objeto bird.ltraj, que es un objeto de tipo “ltraj”. Este objeto contiene la información de las trayectorias (movimientos) de las aves, organizada por individuo, con las coordenadas geográficas y las fechas de las observaciones. Este objeto puede ser utilizado para realizar análisis de movimiento, como la estimación del rango de hogar, la distancia recorrida, el análisis de la velocidad de movimiento, entre otros.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bird.ltraj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>La función kernelUD() pertenece al paquete adehabitatHR y se utiliza para calcular la distribución de uso del espacio de un animal en función de sus ubicaciones geográficas. Específicamente, crea una distribución de uso del espacio (UD, Utilization Distribution), que es una representación de las áreas que el animal ha utilizado durante el período de observación.</p>
+<p>KDE es una técnica que estima la densidad de puntos espaciales a lo largo del área de estudio. En el contexto de un rango de hogar, esta técnica se utiliza para identificar las áreas donde el animal pasa más tiempo, asumiendo que las ubicaciones más cercanas entre sí representan áreas de mayor uso.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Bird.sp <span class="ot">&lt;-</span>  <span class="fu">st_as_sf</span>(Birds,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">crs =</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>)  </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Bird_sp <span class="ot">&lt;-</span> <span class="fu">as</span>(Bird.sp, <span class="st">"Spatial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Bird_ud <span class="ot">&lt;-</span> <span class="fu">kernelUD</span>(Bird_sp[,<span class="dv">1</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(Bird_ud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<p>La función getverticeshr() calcula el polígono del rango de hogar a partir de la distribución de uso del espacio estimada, que es la salida del análisis realizado con la función kernelUD(). El polígono de rango de hogar es una representación geométrica (generalmente un polígono) que define las áreas donde un animal utiliza su espacio con una determinada probabilidad de presencia. Este polígono se calcula con base en un umbral de porcentaje de uso del espacio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Bird_ver <span class="ot">&lt;-</span> <span class="fu">getverticeshr</span>(Bird_ud, <span class="dv">95</span>, <span class="at">unin =</span> <span class="st">"m"</span>, <span class="at">unout =</span> <span class="st">"ha"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Bird_ver, <span class="at">col=</span><span class="fu">grey</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="at">length=</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(Bird_ud, <span class="at">col=</span><span class="fu">grey</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="at">length=</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Bird_ver, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>HomeRange <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Bird_ver<span class="sc">$</span>id, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                        Bird_ver<span class="sc">$</span>area, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">manage =</span> <span class="fu">c</span>(<span class="st">"un"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"ma"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(HomeRange, <span class="fu">aes</span>(Bird_ver.area, manage))<span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
+<figcaption>HN Biology Investigation Academy</figcaption>
+</figure>
+</div>
 
 </main>
 <!-- /main column -->

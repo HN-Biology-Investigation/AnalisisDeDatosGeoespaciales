@@ -1,8 +1,149 @@
 ---
-title: "Home ranges"
+title: "Clase 6: Análisis de rango de hogar (home range)"
 author: "David Murillo"
 format: html
 editor: visual
 ---
 
+El análisis de Home Range (rango de hogar) es una técnica fundamental en ecología y biología de la conservación que busca estimar el área utilizada por un animal dentro de su entorno durante un periodo específico. Este análisis es crucial para comprender cómo los animales interactúan con su hábitat, cómo utilizan los recursos disponibles y cómo su espacio de vida está distribuido en el paisaje.
+
+¿Qué es un Home Range?
+
+El Home Range es el área en la que un individuo o una población de animales realiza la mayoría de sus actividades, como la alimentación, la reproducción y la defensa territorial. A diferencia del territorio, que generalmente está defendido activamente por un animal, el Home Range no implica necesariamente exclusividad, sino simplemente el área dentro de la cual un animal se desplaza regularmente.
+
+Importancia del Análisis de Home Range
+El estudio del Home Range tiene varias aplicaciones:
+
+- Conservación y Manejo de Especies: Permite identificar áreas críticas para la conservación, como zonas de alto uso o sitios donde los animales pasan la mayor parte de su tiempo, lo cual es fundamental para la gestión de hábitats y la planificación de áreas protegidas.
+
+- Estrategias de Movimiento: Ayuda a comprender los patrones de movimiento de los animales, cómo se distribuyen en el paisaje y cómo las características del hábitat (como la vegetación, el agua o la topografía) influyen en su uso del espacio.
+
+- Impacto de la Fragmentación del Hábitat: El análisis de Home Range permite estudiar cómo la pérdida o fragmentación del hábitat afecta a las especies, por ejemplo, si sus rangos de hogar se reducen o si las especies deben desplazarse mayores distancias en busca de recursos.
+
+Métodos para Estimar el Home Range
+Existen diferentes métodos para estimar el Home Range de los animales, siendo los más comunes:
+
+- Método de Polígono Convexo (MCP, Minimum Convex Polygon): Este método conecta los puntos más exteriores del área utilizada por un animal, formando un polígono. Aunque es sencillo, tiene limitaciones, ya que incluye áreas no utilizadas y no captura bien las áreas con baja densidad de observación.
+
+- Estimación de Densidad de Kernel (KDE, Kernel Density Estimation): Este es un método más avanzado y robusto que utiliza una función matemática para estimar la densidad de uso en diferentes áreas del rango de hogar. El resultado es un mapa continuo de probabilidades que indica las áreas de alta y baja utilización. A menudo se utiliza el 95% de la estimación de densidad de kernel para definir el rango de hogar.
+
+- Método de Contorno de Utilización (UD, Utilization Distribution): Estima la distribución de probabilidades de la ubicación de un animal dentro de un área. Esto se utiliza para describir la densidad de uso en el espacio, considerando la forma y extensión del área ocupada.
+
+- Método de Áreas Relacionadas con el Tiempo: Este tipo de análisis utiliza la frecuencia de las ubicaciones de los animales durante un periodo de tiempo determinado para estimar el Home Range. Las áreas de alta frecuencia de ubicación son consideradas más importantes para el individuo.
+
+Variables Importantes en el Análisis de Home Range
+
+Para llevar a cabo un análisis de Home Range preciso, se requieren varios tipos de datos:
+
+- Ubicación geoespacial: Coordenadas de latitud y longitud de las observaciones, que pueden ser obtenidas a través de dispositivos de seguimiento GPS, radio-telemetría u observación directa.
+
+- Tiempo: La marca temporal (fecha y hora) de las observaciones es crucial para analizar cómo cambia el rango de hogar a lo largo del tiempo, especialmente en función de factores como las estaciones del año, la disponibilidad de recursos o los comportamientos migratorios.
+
+- Características del Hábitat: Factores como la vegetación, la presencia de cuerpos de agua o los límites de los hábitats también influyen en el uso del espacio.
+
+Aplicación del Análisis de Home Range
+
+En muchos casos, los ecologistas y biólogos de la conservación utilizan el análisis de Home Range para comprender la dinámica de especies migratorias, estudiar cómo los cambios en el paisaje afectan a las especies locales y para guiar las estrategias de conservación. Por ejemplo, el uso de técnicas como Kernel Density Estimation (KDE) puede ayudar a determinar el área mínima que un animal necesita para sobrevivir y reproducirse, lo que es clave para la protección del hábitat.
+
+::: panel-tabset
+
+## adehabitatHR
+
+El paquete "adehabitat" para R es una herramienta diseñada para el análisis del uso del espacio y del hábitat por animales. Este paquete permite realizar diversos análisis espaciales, como la estimación del rango de hogar (home range) de una especie a partir de sus ubicaciones geográficas, utilizando métodos como la estimación por densidad de núcleo (Kernel Density Estimation) y el polígono convexo mínimo (MCP). Además, facilita la evaluación de la relación entre los animales y su hábitat, permitiendo modelar la distribución espacial de las especies y explorar patrones de movilidad. "adehabitat" es ampliamente utilizado en ecología de la conservación para estudios sobre la ecología del comportamiento, la selección de hábitat y la conectividad ecológica, ayudando a identificar áreas críticas para la conservación de especies.
+
 [The package “adehabitat” for the R software: A tool for the analysis of space and habitat use by animals](https://doi.org/10.1016/j.ecolmodel.2006.03.017)
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(adehabitatHR)
+library(sf)
+```
+
+## Cargar base de datos
+
+```{r, message=FALSE, warning=FALSE}
+Birds <- read_delim("data/HomeRange_df.txt")
+str(Birds)
+```
+
+## Objeto de trayectorias
+
+La función as.ltraj() convierte un conjunto de datos de ubicaciones geográficas (por ejemplo, coordenadas GPS) en un objeto "ltraj" (un objeto de trayectorias) que puede ser utilizado para análisis de movimiento en el paquete adehabitatLT
+
+```{r}
+bird.ltraj <- as.ltraj(Birds[,c("x","y")],
+                        id = Birds$Bird,
+                        date = Birds$DateTime,
+                        slsp = c("remove", "missing"),
+                        proj4string = CRS("+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs"))
+```
+
+El resultado de esta operación es el objeto bird.ltraj, que es un objeto de tipo "ltraj". Este objeto contiene la información de las trayectorias (movimientos) de las aves, organizada por individuo, con las coordenadas geográficas y las fechas de las observaciones. Este objeto puede ser utilizado para realizar análisis de movimiento, como la estimación del rango de hogar, la distancia recorrida, el análisis de la velocidad de movimiento, entre otros.
+
+```{r, message=FALSE, warning=FALSE}
+plot(bird.ltraj)
+```
+
+## Estimación of Kernel Home-Range
+
+La función kernelUD() pertenece al paquete adehabitatHR y se utiliza para calcular la distribución de uso del espacio de un animal en función de sus ubicaciones geográficas. Específicamente, crea una distribución de uso del espacio (UD, Utilization Distribution), que es una representación de las áreas que el animal ha utilizado durante el período de observación.
+
+KDE es una técnica que estima la densidad de puntos espaciales a lo largo del área de estudio. En el contexto de un rango de hogar, esta técnica se utiliza para identificar las áreas donde el animal pasa más tiempo, asumiendo que las ubicaciones más cercanas entre sí representan áreas de mayor uso.
+
+```{r, message=FALSE, warning=FALSE}
+
+Bird.sp <-  st_as_sf(Birds,
+                     coords = c("x", "y"),
+                     crs = "+proj=longlat +datum=WGS84 +no_defs")  
+
+Bird_sp <- as(Bird.sp, "Spatial")
+
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+Bird_ud <- kernelUD(Bird_sp[,1])
+
+image(Bird_ud)
+```
+
+## Calcular 95 % home range
+
+La función getverticeshr() calcula el polígono del rango de hogar a partir de la distribución de uso del espacio estimada, que es la salida del análisis realizado con la función kernelUD(). El polígono de rango de hogar es una representación geométrica (generalmente un polígono) que define las áreas donde un animal utiliza su espacio con una determinada probabilidad de presencia. Este polígono se calcula con base en un umbral de porcentaje de uso del espacio.
+
+```{r, message=FALSE, warning=FALSE}
+
+Bird_ver <- getverticeshr(Bird_ud, 95, unin = "m", unout = "ha")
+
+plot(Bird_ver, col=grey(seq(1,0,length=15)))
+
+image(Bird_ud, col=grey(seq(1,0,length=15)))
+```
+
+
+## Visualizar los polígonos del rango de hogar
+
+```{r, message=FALSE, warning=FALSE}
+plot(Bird_ver, col = "lightblue", border = "black")
+```
+
+## Otros análisis aparte del Home Range
+
+```{r, message=FALSE, warning=FALSE}
+HomeRange <- data.frame(Bird_ver$id, 
+                        Bird_ver$area, 
+                        manage = c("un", "ma", "un", "un", "un", 
+                                   "ma", "un", "ma", "ma", "un", "ma",
+                                   "ma", "ma", "un", "un", "ma"))
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(HomeRange, aes(Bird_ver.area, manage))+
+  geom_boxplot()
+
+```
+
+:::
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
