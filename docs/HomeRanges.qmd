@@ -96,7 +96,10 @@ Bird.sp <-  st_as_sf(Birds,
                      coords = c("x", "y"),
                      crs = "+proj=longlat +datum=WGS84 +no_defs")  
 
-Bird_sp <- as(Bird.sp, "Spatial")
+Bird.sp1 <- st_transform(Bird.sp,
+                         crs = 32618)
+
+Bird_sp <- as(Bird.sp1, "Spatial")
 
 ```
 
@@ -105,6 +108,61 @@ Bird_sp <- as(Bird.sp, "Spatial")
 Bird_ud <- kernelUD(Bird_sp[,1])
 
 image(Bird_ud)
+
+tail(kernel.area(Bird_ud,
+            unin = "m",
+            unout = "ha"))
+```
+
+## Método de triangulación de Delaunay
+
+El método de triangulación de Delaunay (Delaunay Triangulation) es una técnica utilizada en ecología espacial para estimar el home range (rango de actividad) de un animal, especialmente cuando se trabaja con datos de ubicación dispersos o irregulares. Este método es particularmente útil cuando se tiene un conjunto de puntos geoespaciales que representan las posiciones de un animal a lo largo del tiempo y se desea estimar el área que este utiliza para sus actividades.
+
+```{r, message=FALSE, warning=FALSE}
+
+Bird1_sp <- as(subset(Bird.sp1, Bird ==  "ID_1"), "Spatial") 
+  
+
+Bird_Hull <- CharHull(Bird1_sp,
+                    unin = "m",
+                    unout = "ha",
+                    duplicate = "remove")
+```
+
+La función MCHu2hrsize() del paquete adehabitatHR calcula el área acumulada del home range en función del porcentaje de localizaciones utilizadas. Es decir, estima cuánto aumenta el área del rango de hogar conforme se incluye un mayor porcentaje de los puntos de localización de un individuo.
+
+```{r, message=FALSE, warning=FALSE}
+MCHu2hrsize(Bird_Hull)
+```
+
+En este análisis, por ejemplo, se obtuvieron áreas correspondientes al 20%, 30%, 40%, y así sucesivamente hasta el 100% de los puntos. Los resultados indican áreas extremadamente pequeñas, lo cual puede deberse a que los datos están en metros y las áreas se expresan en hectáreas, o a que las localizaciones están muy concentradas espacialmente.
+
+La interpretación de estos resultados permite entender la forma en que un animal utiliza el espacio:
+
+Si el área crece rápidamente al incluir más puntos, sugiere que el individuo explora un espacio amplio de manera dispersa.
+
+Si el área crece lentamente, indica un uso más concentrado de su espacio.
+
+Este tipo de análisis resulta útil para identificar núcleos de actividad (por ejemplo, el 50% del rango de hogar) y comparar patrones de uso del espacio entre diferentes individuos o especies.
+
+## Análisis de conglomerados
+
+El método de estimación del área de campeo mediante análisis de conglomerados de enlace único utiliza técnicas de agrupamiento para definir el espacio utilizado por un animal. Basado en la distancia mínima entre puntos, este método conecta primero las localizaciones más cercanas y forma conglomerados sucesivamente, siempre uniendo los grupos más próximos entre sí. El proceso continúa hasta que todas las localizaciones están conectadas o hasta alcanzar un umbral de distancia definido. El área de campeo se delimita a partir de los conglomerados formados, generando polígonos que reflejan de manera conservadora el espacio realmente utilizado. Esta técnica es especialmente recomendada cuando se cuenta con datos de alta resolución espacial o cuando se desea evitar sobreestimar el área de campeo, lo cual es común en métodos más generalistas como el de mínimos polígonos convexos o el de densidad Kernel.
+
+```{r, message=FALSE, warning=FALSE}
+
+Bird1_sp <- as(subset(Bird.sp1, Bird ==  "ID_1"), "Spatial") 
+  
+
+Bird_clus <- clusthr(Bird1_sp,
+                    unin = "m",
+                    unout = "ha",
+                    duplicate = "remove")
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+MCHu2hrsize(Bird_clus)
 ```
 
 ## Calcular 95 % home range

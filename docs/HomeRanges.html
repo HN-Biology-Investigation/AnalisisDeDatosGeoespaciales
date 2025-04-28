@@ -129,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Aplicación del Análisis de Home Range</p>
 <p>En muchos casos, los ecologistas y biólogos de la conservación utilizan el análisis de Home Range para comprender la dinámica de especies migratorias, estudiar cómo los cambios en el paisaje afectan a las especies locales y para guiar las estrategias de conservación. Por ejemplo, el uso de técnicas como Kernel Density Estimation (KDE) puede ayudar a determinar el área mínima que un animal necesita para sobrevivir y reproducirse, lo que es clave para la protección del hábitat.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">adehabitatHR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Cargar base de datos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Objeto de trayectorias</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Estimación of Kernel Home-Range</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Calcular 95 % home range</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Visualizar los polígonos del rango de hogar</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Otros análisis aparte del Home Range</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">adehabitatHR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Cargar base de datos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Objeto de trayectorias</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Estimación of Kernel Home-Range</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Método de triangulación de Delaunay</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Análisis de conglomerados</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Calcular 95 % home range</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false" href="">Visualizar los polígonos del rango de hogar</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false" href="">Otros análisis aparte del Home Range</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>El paquete “adehabitat” para R es una herramienta diseñada para el análisis del uso del espacio y del hábitat por animales. Este paquete permite realizar diversos análisis espaciales, como la estimación del rango de hogar (home range) de una especie a partir de sus ubicaciones geográficas, utilizando métodos como la estimación por densidad de núcleo (Kernel Density Estimation) y el polígono convexo mínimo (MCP). Además, facilita la evaluación de la relación entre los animales y su hábitat, permitiendo modelar la distribución espacial de las especies y explorar patrones de movilidad. “adehabitat” es ampliamente utilizado en ecología de la conservación para estudios sobre la ecología del comportamiento, la selección de hábitat y la conectividad ecológica, ayudando a identificar áreas críticas para la conservación de especies.</p>
@@ -192,7 +192,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">crs =</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>)  </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Bird_sp <span class="ot">&lt;-</span> <span class="fu">as</span>(Bird.sp, <span class="st">"Spatial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Bird.sp1 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(Bird.sp,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">crs =</span> <span class="dv">32618</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Bird_sp <span class="ot">&lt;-</span> <span class="fu">as</span>(Bird.sp1, <span class="st">"Spatial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Bird_ud <span class="ot">&lt;-</span> <span class="fu">kernelUD</span>(Bird_sp[,<span class="dv">1</span>])</span>
@@ -205,58 +208,137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">kernel.area</span>(Bird_ud,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">unin =</span> <span class="st">"m"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">unout =</span> <span class="st">"ha"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       ID_1    ID_10     ID_11    ID_12     ID_13    ID_14     ID_15     ID_16
+70 13.86267 1.278849  5.253493 3.418823  4.216851 1.055362  4.619107  5.030046
+75 16.44177 1.504528  6.359491 4.087164  4.893138 1.209608  5.438626  5.727995
+80 19.34326 1.730207  7.465490 4.884033  5.768334 1.388207  6.407148  6.570347
+85 23.53429 1.955887  8.847988 5.835134  6.842437 1.607398  7.748179  7.581170
+90 29.65966 2.332019 11.336485 7.068995  8.473484 1.899652  9.536221  8.953000
+95 41.26561 3.084283 16.589978 8.919786 11.218415 2.362388 12.516290 11.046847
+       ID_2      ID_3     ID_4      ID_5     ID_6     ID_7     ID_8      ID_9
+70 105.3109  4.113555 15.34579  5.992732 2.321530 1.617237 3.498550  5.906709
+75 117.0122  4.674494 18.26880  6.897295 2.733414 1.897144 4.031442  6.731911
+80 140.4146  5.422413 21.67898  7.914929 3.369962 2.239252 4.633841  7.774271
+85 163.8170  6.357312 26.06349  9.271774 4.156287 2.633194 5.398425  9.033790
+90 210.6219  7.853150 31.90951 11.080900 5.242163 3.120438 6.441039 10.814489
+95 292.5304 10.283887 42.38362 14.359942 6.889701 3.866856 8.155561 13.680981</code></pre>
+</div>
 </div>
 </div>
 <div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<p>La función getverticeshr() calcula el polígono del rango de hogar a partir de la distribución de uso del espacio estimada, que es la salida del análisis realizado con la función kernelUD(). El polígono de rango de hogar es una representación geométrica (generalmente un polígono) que define las áreas donde un animal utiliza su espacio con una determinada probabilidad de presencia. Este polígono se calcula con base en un umbral de porcentaje de uso del espacio.</p>
+<p>El método de triangulación de Delaunay (Delaunay Triangulation) es una técnica utilizada en ecología espacial para estimar el home range (rango de actividad) de un animal, especialmente cuando se trabaja con datos de ubicación dispersos o irregulares. Este método es particularmente útil cuando se tiene un conjunto de puntos geoespaciales que representan las posiciones de un animal a lo largo del tiempo y se desea estimar el área que este utiliza para sus actividades.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Bird_ver <span class="ot">&lt;-</span> <span class="fu">getverticeshr</span>(Bird_ud, <span class="dv">95</span>, <span class="at">unin =</span> <span class="st">"m"</span>, <span class="at">unout =</span> <span class="st">"ha"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Bird_ver, <span class="at">col=</span><span class="fu">grey</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="at">length=</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="HomeRanges_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Bird1_sp <span class="ot">&lt;-</span> <span class="fu">as</span>(<span class="fu">subset</span>(Bird.sp1, Bird <span class="sc">==</span>  <span class="st">"ID_1"</span>), <span class="st">"Spatial"</span>) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Bird_Hull <span class="ot">&lt;-</span> <span class="fu">CharHull</span>(Bird1_sp,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">unin =</span> <span class="st">"m"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">unout =</span> <span class="st">"ha"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">duplicate =</span> <span class="st">"remove"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La función MCHu2hrsize() del paquete adehabitatHR calcula el área acumulada del home range en función del porcentaje de localizaciones utilizadas. Es decir, estima cuánto aumenta el área del rango de hogar conforme se incluye un mayor porcentaje de los puntos de localización de un individuo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MCHu2hrsize</span>(Bird_Hull)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             df
+20   0.01688347
+30   0.03250708
+40   0.05690010
+50   0.08697014
+60   0.16393235
+70   0.28748574
+80   0.45326240
+90   2.51247314
+100 24.11845215</code></pre>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(Bird_ud, <span class="at">col=</span><span class="fu">grey</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="at">length=</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="HomeRanges_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+<p>En este análisis, por ejemplo, se obtuvieron áreas correspondientes al 20%, 30%, 40%, y así sucesivamente hasta el 100% de los puntos. Los resultados indican áreas extremadamente pequeñas, lo cual puede deberse a que los datos están en metros y las áreas se expresan en hectáreas, o a que las localizaciones están muy concentradas espacialmente.</p>
+<p>La interpretación de estos resultados permite entender la forma en que un animal utiliza el espacio:</p>
+<p>Si el área crece rápidamente al incluir más puntos, sugiere que el individuo explora un espacio amplio de manera dispersa.</p>
+<p>Si el área crece lentamente, indica un uso más concentrado de su espacio.</p>
+<p>Este tipo de análisis resulta útil para identificar núcleos de actividad (por ejemplo, el 50% del rango de hogar) y comparar patrones de uso del espacio entre diferentes individuos o especies.</p>
 </div>
 <div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<p>El método de estimación del área de campeo mediante análisis de conglomerados de enlace único utiliza técnicas de agrupamiento para definir el espacio utilizado por un animal. Basado en la distancia mínima entre puntos, este método conecta primero las localizaciones más cercanas y forma conglomerados sucesivamente, siempre uniendo los grupos más próximos entre sí. El proceso continúa hasta que todas las localizaciones están conectadas o hasta alcanzar un umbral de distancia definido. El área de campeo se delimita a partir de los conglomerados formados, generando polígonos que reflejan de manera conservadora el espacio realmente utilizado. Esta técnica es especialmente recomendada cuando se cuenta con datos de alta resolución espacial o cuando se desea evitar sobreestimar el área de campeo, lo cual es común en métodos más generalistas como el de mínimos polígonos convexos o el de densidad Kernel.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Bird_ver, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="HomeRanges_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Bird1_sp <span class="ot">&lt;-</span> <span class="fu">as</span>(<span class="fu">subset</span>(Bird.sp1, Bird <span class="sc">==</span>  <span class="st">"ID_1"</span>), <span class="st">"Spatial"</span>) </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>Bird_clus <span class="ot">&lt;-</span> <span class="fu">clusthr</span>(Bird1_sp,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">unin =</span> <span class="st">"m"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">unout =</span> <span class="st">"ha"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">duplicate =</span> <span class="st">"remove"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">MCHu2hrsize</span>(Bird_clus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              df
+20   0.003434961
+30   0.012747485
+40   0.014279321
+50   0.025837524
+60   0.075667212
+70   0.079403979
+80   0.092861279
+90   0.158339990
+100 24.118452100</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<p>La función getverticeshr() calcula el polígono del rango de hogar a partir de la distribución de uso del espacio estimada, que es la salida del análisis realizado con la función kernelUD(). El polígono de rango de hogar es una representación geométrica (generalmente un polígono) que define las áreas donde un animal utiliza su espacio con una determinada probabilidad de presencia. Este polígono se calcula con base en un umbral de porcentaje de uso del espacio.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>HomeRange <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Bird_ver<span class="sc">$</span>id, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                        Bird_ver<span class="sc">$</span>area, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">manage =</span> <span class="fu">c</span>(<span class="st">"un"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"ma"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(HomeRange, <span class="fu">aes</span>(Bird_ver.area, manage))<span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Bird_ver <span class="ot">&lt;-</span> <span class="fu">getverticeshr</span>(Bird_ud, <span class="dv">95</span>, <span class="at">unin =</span> <span class="st">"m"</span>, <span class="at">unout =</span> <span class="st">"ha"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Bird_ver, <span class="at">col=</span><span class="fu">grey</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="at">length=</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="HomeRanges_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(Bird_ud, <span class="at">col=</span><span class="fu">grey</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="at">length=</span><span class="dv">15</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Bird_ver, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>HomeRange <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Bird_ver<span class="sc">$</span>id, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                        Bird_ver<span class="sc">$</span>area, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">manage =</span> <span class="fu">c</span>(<span class="st">"un"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"ma"</span>, <span class="st">"ma"</span>, <span class="st">"un"</span>, <span class="st">"un"</span>, <span class="st">"ma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(HomeRange, <span class="fu">aes</span>(Bird_ver.area, manage))<span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HomeRanges_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

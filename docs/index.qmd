@@ -35,11 +35,11 @@ format:
 
 [Clase 6: Análisis de rango de hogar (home range)](HomeRanges.html)
 
-[Clase 7: Conectividad ecológica y conectividad genética](Conectividad.html)
+[Clase 7: Vulnerabilidad del recurso hídrico](Vulnerabilidad.html)
 
-[Clase 8: Vulnerabilidad del recurso hídrico](Vulnerabilidad.html)
+[Clase 8: Análisis de integración ecológica](Integracion.html)
 
-[Clase 9: Análisis de integración ecológica](Integracion.html)
+[Clase 9: Conectividad ecológica y conectividad genética](Conectividad.html)
 
 [Clase 10: Análisis Espaciotemporal de Cambios en el Paisaje](LandscapeChanges.html)
 
