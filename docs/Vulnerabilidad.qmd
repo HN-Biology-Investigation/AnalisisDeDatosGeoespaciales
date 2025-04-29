@@ -1,7 +1,129 @@
 ---
-title: "Vulnerabilidad del recurso hídrico"
+title: "Clase 7: Vulnerabilidad del recurso hídrico"
 author: "David Murillo"
 format: html
 editor: visual
 ---
+
+## Water Vulnerability Assesment in Yoro Honduras
+
+The components of vulnerability consist of exposure (E), sensitivity (S), and adaptive capacity (AC). The function initially is a multiplication between E with S factors and divided by AC factor as the following formula:
+
+$$
+V = (E * S) / AC
+$$
+
+Where:
+
+V = vulnerability
+
+E = exposure
+
+S = sensitivity
+
+AC = adaptive capacity
+
+Vulnerability index has a value of 0-,1, with the highest index value is indicated as the highest vulnerability. The level of vulnerability is classified into five classes of vulnerabilities including very low vulnerability, low vulnerability, moderate vulnerability, high vulnerability, and very high vulnerability.
+
+
+## Analisis
+
+```{r, warning=FALSE, message=FALSE}
+library(raster)
+library(sf)
+library(tidyverse)
+```
+
+## Cargar bases de datos
+
+```{r, warning=FALSE, message=FALSE}
+
+CoffeeArea <- st_read("data/Vulnerabilidad/Layers_Cut/CoffeeHN.shp") 
+
+Yoro <- st_read("data/Vulnerabilidad/Layers_Cut/Yoro.gpkg") 
+
+Subcuencas <- st_read("data/Vulnerabilidad/Layers_Cut/SubcuencaYoro.gpkg")
+
+Precipitacion <- st_read("data/Vulnerabilidad/Layers_Cut/PrecipitacionHN.shp")
+
+Temperatura <- st_read("data/Vulnerabilidad/Layers_Cut/Temperatura.gpkg")
+
+Quebradas <- st_read("data/Vulnerabilidad/Layers_Cut/Quebradas.gpkg")
+
+Poblacion <- st_read("data/Vulnerabilidad/Layers_Cut/PoblacionAldea.gpkg")
+
+Perdidad_Forestal <- st_read("data/Vulnerabilidad/Layers_Cut/PerdidadForestal.gpkg")
+
+CurvasNivel100HN <- st_read("data/Vulnerabilidad/Layers_Cut/CurvasNivel100HN.gpkg")
+
+DeslisamientosHN <- st_read("data/Vulnerabilidad/Layers_Cut/DeslizamientosHN.gpkg")
+
+IncendiosHN <- st_read("data/Vulnerabilidad/Layers_Cut/IncendiosHN.gpkg")
+
+InundacionesHN <- st_read("data/Vulnerabilidad/Layers_Cut/InundacionesHN.gpkg")
+
+
+
+```
+
+
+## Designar proyeccion
+
+```{r}
+CoffeeArea_tra <- st_transform(CoffeeArea, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Yoro_tra <- st_transform(Yoro, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Subcuenca_tra <- st_transform(Subcuencas, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Precipitacion_tra <- st_transform(Precipitacion, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Temperatura_tra <- st_transform(Temperatura, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Quebradas_tra <- st_transform(Quebradas, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Poblacion_tra <- st_transform(Poblacion, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+Perdidad_Forestal_tra <- st_transform(Perdidad_Forestal, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+CurvasNivel100HN_tra <- st_transform(CurvasNivel100HN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+DeslisamientosHN_tra <- st_transform(DeslisamientosHN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+IncendiosHN_tra <- st_transform(IncendiosHN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+InundacionesHN_tra <- st_transform(InundacionesHN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
+
+```
+
+## Cortar capas
+
+```{r}
+subCuencaYoro <- st_intersection(Yoro_tra, Subcuenca_tra)
+
+CoffeeYoro <- st_intersection(Yoro_tra, CoffeeArea_tra)
+
+PrecipitacionYoro <- st_intersection(Yoro_tra, Precipitacion_tra)
+
+TemperaturaYoro <- st_intersection(Yoro_tra, Temperatura_tra)
+
+QuebradasYoro <- st_intersection(Yoro_tra, Quebradas_tra)
+
+PoblacionYoro <- sf::st_join(Yoro_tra, Poblacion_tra, join = st_intersects)
+
+Perdidad_ForestalYoro <- st_intersection(Yoro_tra, Perdidad_Forestal_tra)
+
+CurvasNivel100Yoro <- st_intersection(Yoro_tra, CurvasNivel100HN_tra)
+
+DeslisamientosYoro <- st_intersection(Yoro_tra, DeslisamientosHN_tra)
+
+IncendiosYoro <- st_intersection(Yoro_tra, IncendiosHN_tra)
+
+InundacionesYoro <- st_intersection(Yoro_tra, InundacionesHN_tra)
+
+
+```
+
+
+
 
