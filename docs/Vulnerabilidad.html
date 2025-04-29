@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Murillo">
 
-<title>Vulnerabilidad del recurso hídrico</title>
+<title>Clase 7: Vulnerabilidad del recurso hídrico</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -34,7 +68,78 @@ ul.task-list li input[type="checkbox"] {
 <script src="Vulnerabilidad_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Vulnerabilidad_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Vulnerabilidad_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="Vulnerabilidad_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
 
+<script src="Vulnerabilidad_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="Vulnerabilidad_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="Vulnerabilidad_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="Vulnerabilidad_files/libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="Vulnerabilidad_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="Vulnerabilidad_files/libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="Vulnerabilidad_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="Vulnerabilidad_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="Vulnerabilidad_files/libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
+<script src="Vulnerabilidad_files/libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script>
+
+<script src="Vulnerabilidad_files/libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script>
+
+<script src="Vulnerabilidad_files/libs/Vulnerability - 1_7e61ac-1/data_stars_Vulnerability14cb9a2.txt"></script>
+
+<script src="Vulnerabilidad_files/libs/joda-0.0.1/joda.js"></script>
+
+<script src="Vulnerabilidad_files/libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+
+<script src="Vulnerabilidad_files/libs/clipboard-0.0.1/setClipboardText.js"></script>
+
+<link href="Vulnerabilidad_files/libs/HomeButton-0.0.1/home-button.css" rel="stylesheet">
+
+<script src="Vulnerabilidad_files/libs/HomeButton-0.0.1/home-button.js"></script>
+
+<script src="Vulnerabilidad_files/libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+
+<link href="Vulnerabilidad_files/libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet">
+
+<link href="Vulnerabilidad_files/libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -46,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Vulnerabilidad del recurso hídrico</h1>
+<h1 class="title">Clase 7: Vulnerabilidad del recurso hídrico</h1>
 </div>
 
 
@@ -69,7 +174,309 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-
+<p>La vulnerabilidad del recurso hídrico se refiere al grado en que las fuentes de agua están expuestas y son susceptibles a sufrir impactos negativos por factores ambientales y sociales. Esta temática examina cómo el cambio climático, la deforestación, la expansión urbana y agrícola, la contaminación y la sobreexplotación afectan la disponibilidad y calidad del agua. Comprender la vulnerabilidad hídrica implica analizar la interacción entre exposición, sensibilidad y capacidad de adaptación de los sistemas naturales y humanos. Evaluar estos elementos permite identificar zonas críticas, anticipar riesgos y desarrollar estrategias para una gestión sostenible y resiliente del recurso hídrico frente a escenarios cambiantes.</p>
+<p>Los componentes de la vulnerabilidad se componen de la exposición (E), la sensibilidad (S) y la capacidad adaptativa (CA). La función utilizada consiste inicialmente en una multiplicación entre los factores de exposición y sensibilidad, dividida por el factor de capacidad adaptativa, como se muestra en la siguiente fórmula:</p>
+<p><span class="math display">\[
+V = (E * S) / AC
+\]</span></p>
+<p>Donde:</p>
+<p>V = vulnerabilidad</p>
+<p>E = exposición</p>
+<p>S = sensibilidad</p>
+<p>CA = capacidad adaptativa</p>
+<p>El índice de vulnerabilidad tiene un valor entre 0 y 1, donde los valores más altos indican una mayor vulnerabilidad. El nivel de vulnerabilidad se clasifica en cinco categorías: muy baja vulnerabilidad, baja vulnerabilidad, vulnerabilidad moderada, alta vulnerabilidad y muy alta vulnerabilidad.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Importación y preparación de datos espaciales</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Rasterizar las capas vectoriales</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Normalización o estandarización de variables</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Cargar raster listos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Asignar pesos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Cálculo del índice de vulnerabilidad</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CoffeeYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/CoffeeYoro.gpkg"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `CoffeeYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\CoffeeYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 57 features and 8 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -87.84803 ymin: 14.9832 xmax: -86.24471 ymax: 15.55813
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Yoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/Yoro.gpkg"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `Yoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\Yoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 1 feature and 2 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 399200.1 ymin: 1644568 xmax: 582954.2 ymax: 1738715
+Projected CRS: WGS 84 / UTM zone 16N</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>subCuencaYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/subCuencaYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `SubcuencaYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\SubcuencaYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 14 features and 2 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 377398.4 ymin: 1632930 xmax: 597314.3 ymax: 1761112
+Projected CRS: WGS 84 / UTM zone 16N</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>PrecipitacionYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/PrecipitacionYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `PrecipitacionYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\PrecipitacionYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 32 features and 5 fields
+Geometry type: MULTILINESTRING
+Dimension:     XY
+Bounding box:  xmin: -87.93855 ymin: 14.87645 xmax: -86.23192 ymax: 15.7253
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>TemperaturaYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/TemperaturaYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `TemperaturaYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\TemperaturaYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 58 features and 6 fields
+Geometry type: MULTILINESTRING
+Dimension:     XY
+Bounding box:  xmin: -87.92963 ymin: 14.89149 xmax: -86.26838 ymax: 15.59947
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>QuebradasYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/QuebradasYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `QuebradasYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\QuebradasYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 3276 features and 7 fields
+Geometry type: MULTILINESTRING
+Dimension:     XY
+Bounding box:  xmin: -87.93831 ymin: 14.87573 xmax: -86.22661 ymax: 15.72503
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>PoblacionYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/PoblacionYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `PoblacionYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\PoblacionYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 367 features and 271 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -87.93869 ymin: 14.87552 xmax: -86.22659 ymax: 15.72534
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Perdidad_ForestalYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/Perdidad_ForestalYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `Perdidad_ForestalYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\Perdidad_ForestalYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 3 features and 7 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -87.91204 ymin: 14.89526 xmax: -86.22675 ymax: 15.70377
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>CurvasNivel100Yoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/CurvasNivel100Yoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `CurvasNivel100Yoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\CurvasNivel100Yoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 7184 features and 14 fields
+Geometry type: MULTILINESTRING
+Dimension:     XY
+Bounding box:  xmin: -87.93603 ymin: 14.87637 xmax: -86.22692 ymax: 15.60367
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>DeslisamientosYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/DeslisamientosYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `DeslisamientosYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\DeslisamientosYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 7947 features and 19 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -87.87331 ymin: 14.87637 xmax: -86.23056 ymax: 15.60423
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>IncendiosYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/IncendiosYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `IncendiosYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\IncendiosYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 634 features and 15 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -87.93869 ymin: 14.87552 xmax: -86.22659 ymax: 15.72534
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>InundacionesYoro <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/Vulnerabilidad/Layers_Cut/InundacionesYoro.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `InundacionesYoro' from data source 
+  `C:\Users\David Murillo\Documents\GitHub\AnalisisDeDatosGeoespaciales\docs\data\Vulnerabilidad\Layers_Cut\InundacionesYoro.gpkg' 
+  using driver `GPKG'
+Simple feature collection with 8586 features and 12 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -87.93869 ymin: 14.87695 xmax: -86.22659 ymax: 15.72534
+Geodetic CRS:  +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(CoffeeYoro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Vulnerabilidad_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Rasterizar las capas vectoriales es un proceso en el que se convierten los datos vectoriales (como puntos, líneas o polígonos) en una estructura raster (una malla de celdas o píxeles) para su posterior análisis. Este proceso es esencial cuando se necesitan realizar cálculos espaciales en formato raster, que es más adecuado para operaciones de celda a celda, como en modelos de vulnerabilidad hídrica o análisis de factores ambientales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>coffee_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(CoffeeYoro)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>r_template <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">ext</span>(coffee_vect), <span class="at">resolution =</span> <span class="fl">0.001</span>, <span class="at">crs =</span> <span class="fu">crs</span>(coffee_vect))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>coffee_raster <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(coffee_vect, r_template, <span class="at">field =</span> <span class="st">"Shape_Area"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coffee_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Vulnerabilidad_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>La normalización o estandarización de variables es un paso crucial en el análisis de datos espaciales, especialmente cuando se combinan diferentes capas raster para evaluar indicadores como la vulnerabilidad hídrica. Este paso tiene como objetivo transformar las variables de entrada para que tengan un rango común, lo que facilita la comparación y la integración de diferentes fuentes de datos.</p>
+<p>En el contexto de los raster también se puede utilizar el término reescalamiento, que es un proceso equivalente a la normalización o estandarización de las variables, pero específicamente aplicado a los valores de los píxeles dentro del raster.</p>
+<p>Cuando se realiza un reescalamiento de un raster, lo que se busca es ajustar los valores de los píxeles a un rango común, generalmente entre 0 y 1. Este proceso se utiliza para que las diferentes capas raster, que pueden tener rangos de valores diferentes (por ejemplo, precipitaciones, temperatura, altitud), puedan ser comparadas y combinadas de manera adecuada en un análisis.</p>
+<p>La normalización se puede hacer de la siguiente manera:</p>
+<p><span class="math display">\[\text{Valor Normativo} = \frac{\text{Valor} - \text{Valor Mínimo}}{\text{Valor Máximo} - \text{Valor Mínimo}} \]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">minmax</span>(coffee_raster)[<span class="dv">1</span>]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">minmax</span>(coffee_raster)[<span class="dv">2</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>re_CoffeeRaster <span class="ot">&lt;-</span> (coffee_raster <span class="sc">-</span> min_val) <span class="sc">/</span> (max_val <span class="sc">-</span> min_val)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(re_CoffeeRaster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Vulnerabilidad_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>re_CoffeeRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_CoffeeRaster.tif"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>re_PrecipitacionRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_PrecipitacionRaster.tif"</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>re_TemperaturaRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_TemperaturaRaster.tif"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>re_QuebradasRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_QuebradasRaster.tif"</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>re_PoblacionRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_PoblacionRaster.tif"</span>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>re_Perdidad_ForestalRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_Perdidad_ForestalRaster.tif"</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>re_CurvasNivel100Raster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_CurvasNivel100Raster.tif"</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>re_DeslisamientosRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_DeslisamientosRaster.tif"</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>re_IncendiosRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_IncendiosRaster.tif"</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>re_InundacionesRaster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/Vulnerabilidad/Rasters/re_InundacionesRaster.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<p>Asignar pesos es un proceso crucial en el análisis multicriterio y en la evaluación de la vulnerabilidad, como en el caso de la vulnerabilidad hídrica. Este paso implica asignar una importancia relativa o un valor ponderado a cada capa o variable en función de su relevancia en el análisis general. Los pesos reflejan la importancia de cada componente (como exposición, sensibilidad, y capacidad adaptativa) en el cálculo final de la vulnerabilidad.</p>
+<p>El proceso de asignar pesos tiene como objetivo dar más importancia a ciertos factores que son considerados más críticos para el análisis y menos importancia a aquellos que tienen un impacto menor. Dependiendo de los datos disponibles y el contexto, los pesos pueden ser asignados de diferentes maneras.</p>
+<p>Métodos para asignar pesos:</p>
+<ul>
+<li><p>Método de experticia (o ponderación subjetiva)</p></li>
+<li><p>Método de encuesta o consulta a grupos de expertos</p></li>
+<li><p>Método de análisis de sensibilidad (o ponderación objetiva)</p></li>
+<li><p>Método de ponderación por consenso (grupo de trabajo)</p></li>
+</ul>
+<p>CA (Capacidad Adaptativa) = 0.12</p>
+<p>DFA (Desforestación) = 0.13</p>
+<p>PR (Precipitación) = 0.096</p>
+<p>TEM (Temperatura) = 0.060</p>
+<p>INU (Inundaciones) = 0.114</p>
+<p>FIR (Incendios) = 0.136</p>
+<p>DES (Deslizamientos) = 0.111</p>
+<p>POP (Población) = 0.139</p>
+<p>ELE (Elevación) = 0.078</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>CA <span class="ot">=</span> <span class="fl">0.12</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>DFA <span class="ot">=</span> <span class="fl">0.13</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>PR <span class="ot">=</span> <span class="fl">0.096</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>TEM <span class="ot">=</span> <span class="fl">0.060</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>INU <span class="ot">=</span> <span class="fl">0.114</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>FIR <span class="ot">=</span> <span class="fl">0.136</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>DES <span class="ot">=</span> <span class="fl">0.111</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>POP <span class="ot">=</span> <span class="fl">0.139</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>ELE <span class="ot">=</span> <span class="fl">0.078</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<p>En esta etapa, se procede a calcular el índice de vulnerabilidad combinando múltiples capas espaciales previamente normalizadas y ponderadas. Cada capa representa una variable que contribuye a la vulnerabilidad (como precipitaciones, temperatura, elevación, densidad poblacional, entre otras), y cada una es multiplicada por un peso que refleja su importancia relativa dentro del análisis.</p>
+<p>En este caso particular, no se dispone de variables relacionadas con la Capacidad Adaptativa (AC), por lo que el índice de vulnerabilidad se calcula únicamente en función de las componentes de exposición y sensibilidad, lo que constituye una aproximación parcial pero útil para identificar áreas de mayor susceptibilidad a impactos.</p>
+<p>La visualización del resultado (plot(Vulnerability)) permite interpretar espacialmente la distribución de la vulnerabilidad, donde los valores más altos indican zonas más vulnerables según las variables consideradas. Esta representación cartográfica es clave para la toma de decisiones en procesos de planificación territorial y gestión de riesgos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Vulnerability <span class="ot">&lt;-</span> <span class="fu">merge</span>(re_PrecipitacionRaster <span class="sc">*</span> PR,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                  re_TemperaturaRaster <span class="sc">*</span> TEM,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  re_CurvasNivel100Raster <span class="sc">*</span> ELE,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                  re_PoblacionRaster <span class="sc">*</span> POP,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                  re_IncendiosRaster <span class="sc">*</span> FIR,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                  re_CoffeeRaster <span class="sc">*</span> CA,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                  re_Perdidad_ForestalRaster <span class="sc">*</span> DFA,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                  re_DeslisamientosRaster <span class="sc">*</span> DES,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                  re_InundacionesRaster <span class="sc">*</span> INU) <span class="sc">*</span> <span class="dv">10</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Vulnerability)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Vulnerabilidad_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(Vulnerability,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha.regions =</span> <span class="fl">0.6</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">col.regions=</span><span class="fu">list</span>(<span class="st">"green"</span>,<span class="st">"orange"</span>, <span class="st">"red"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-e92d4491748cd94b9802" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e92d4491748cd94b9802">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addRasterImage","args":["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAASCAYAAAAzI3woAAACt0lEQVRIicWWz2sTQRTHP40xjSab6tpgsZaFNlStevCgBRUhOehJPAmCF4UexIvQf2BdPHiqePDowavnnp3Fa1vsRfwRamDBhtTgQkiFNNDWw8xmZ7Y/sKXUL4SZ2dn33vd935vZ9AkhnqNQflxxAciB/0Z4/AekjNUQUJK/8mtF7pCR1hf+S+H1iOQPLsiZ1Yp7bh5YBf6oEfCntlahzyjZ7FZVvEdw67fwyrMV13kB7+Z2LmX5fsXlhloMATlgTJGI0DDXYzPwdj72aRL6kiCkO4qyKm9PyCCTV0ROA5Z81M7K0WoCK8rfUGx/9yFMV4XXIzTakmTsrjLsaNHaCZINzemSel7SyFyHYNgk7FRh8TJcaSr7hkboh0r2gfB6TV0bEF7YD0sWhBkICjKrdhbaRZWphSyD3l+lBJk78OE8zA1KXxGCcbDXTJI04Nk9OW3elmOvqTc2Km6YgePrEPabdnZXk1zfWNHmOZlxUJD29pq0s7ux2u0sfD8J9RHhvRqvuLMz8LQKXIPPtmyFNMCJjixXmIEFG242TTI6ggLYWbAsZI9EfZaTShpkEopYHagXZeDpqvC4WHHreeHVNcXTACXVI2EmJhA5NXpJvTN3Su6VskDR3NP9AUxNwvuP0DoGnwbNA+GPbj0gaVCdj8q6AM5XCC5ob0UBrLgMYUb2SKSCswzhcJwIwEJReE9q4I8kw+6MFIA/ITx/QrK1uwkyEY7EUz2o04z3neVY1aSy/wrzph6RpKIrwMC6HJKBAq1kOmlawB6U2ZZQhGQjMxAT0t+xVpH3SRGoAaPxvn9pfx/n1HYPrQ5YK7EamynYPCrn0fEPMxDYEEyAXxIe35Ttz1jp/cD4dOyGq78qbn5NEopOk9MEb1J+6/ZLIIltFdoNC0XhOS153yyehdoB/iuAPSh0WPgLOLT4PSerKUUAAAAASUVORK5CYII=",[[15.72718424057266,-88],[14.84327928631597,-86.16734034132919]],0.6,null,"Vulnerability - 1","Vulnerability - 1"]},{"method":"removeLayersControl","args":[]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"Vulnerability - 1",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addControl","args":["","topright","imageValues-Vulnerability - 1","info legend "]},{"method":"addImageQuery","args":["Vulnerability - 1",[-88,14.82721286553746,-86.15005884020542,15.72718424057266],"mousemove",7,"Layer"]},{"method":"addLegend","args":[{"colors":["#00FF00 , #1CF500 5.53225493093587%, #54E100 16.5168764505945%, #8CCD00 27.5014979702531%, #C4BA00 38.4861194899117%, #FBA500 49.4707410095703%, #FF8200 60.455362529229%, #FF5E00 71.4399840488876%, #FF3A00 82.4246055685462%, #FF1600 93.4092270882048%, #FF0000 "],"labels":["0.1","0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9"],"na_color":"#BEBEBE","na_label":"NA","opacity":1,"position":"topright","type":"numeric","title":"Vulnerability - 1","extra":{"p_1":0.05532254930935866,"p_n":0.9340922708820484},"layerId":null,"className":"info legend","group":"Vulnerability - 1"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-88,14.87552,-86.2,15.72534,true,"Vulnerability - 1","Zoom to Vulnerability - 1","<strong> Vulnerability - 1 <\/strong>","bottomright"]}],"limits":{"lat":[14.84327928631597,15.72718424057266],"lng":[-88,-86.16734034132919]}},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg" class="img-fluid figure-img"></p>
+<figcaption>HN Biology Investigation Academy</figcaption>
+</figure>
+</div>
 
 </main>
 <!-- /main column -->

@@ -5,125 +5,209 @@ format: html
 editor: visual
 ---
 
-## Water Vulnerability Assesment in Yoro Honduras
+La vulnerabilidad del recurso hídrico se refiere al grado en que las fuentes de agua están expuestas y son susceptibles a sufrir impactos negativos por factores ambientales y sociales. Esta temática examina cómo el cambio climático, la deforestación, la expansión urbana y agrícola, la contaminación y la sobreexplotación afectan la disponibilidad y calidad del agua. Comprender la vulnerabilidad hídrica implica analizar la interacción entre exposición, sensibilidad y capacidad de adaptación de los sistemas naturales y humanos. Evaluar estos elementos permite identificar zonas críticas, anticipar riesgos y desarrollar estrategias para una gestión sostenible y resiliente del recurso hídrico frente a escenarios cambiantes.
 
-The components of vulnerability consist of exposure (E), sensitivity (S), and adaptive capacity (AC). The function initially is a multiplication between E with S factors and divided by AC factor as the following formula:
+Los componentes de la vulnerabilidad se componen de la exposición (E), la sensibilidad (S) y la capacidad adaptativa (CA). La función utilizada consiste inicialmente en una multiplicación entre los factores de exposición y sensibilidad, dividida por el factor de capacidad adaptativa, como se muestra en la siguiente fórmula:
 
 $$
 V = (E * S) / AC
 $$
 
-Where:
+Donde:
 
-V = vulnerability
+V = vulnerabilidad
 
-E = exposure
+E = exposición
 
-S = sensitivity
+S = sensibilidad
 
-AC = adaptive capacity
+CA = capacidad adaptativa
 
-Vulnerability index has a value of 0-,1, with the highest index value is indicated as the highest vulnerability. The level of vulnerability is classified into five classes of vulnerabilities including very low vulnerability, low vulnerability, moderate vulnerability, high vulnerability, and very high vulnerability.
+El índice de vulnerabilidad tiene un valor entre 0 y 1, donde los valores más altos indican una mayor vulnerabilidad. El nivel de vulnerabilidad se clasifica en cinco categorías: muy baja vulnerabilidad, baja vulnerabilidad, vulnerabilidad moderada, alta vulnerabilidad y muy alta vulnerabilidad.
 
 
-## Analisis
+:::panel-tabset
+
+## Importación y preparación de datos espaciales
 
 ```{r, warning=FALSE, message=FALSE}
-library(raster)
+library(terra)
 library(sf)
 library(tidyverse)
 ```
 
-## Cargar bases de datos
 
 ```{r, warning=FALSE, message=FALSE}
 
-CoffeeArea <- st_read("data/Vulnerabilidad/Layers_Cut/CoffeeHN.shp") 
+CoffeeYoro <- st_read("data/Vulnerabilidad/Layers_Cut/CoffeeYoro.gpkg") 
 
 Yoro <- st_read("data/Vulnerabilidad/Layers_Cut/Yoro.gpkg") 
 
-Subcuencas <- st_read("data/Vulnerabilidad/Layers_Cut/SubcuencaYoro.gpkg")
+subCuencaYoro <- st_read("data/Vulnerabilidad/Layers_Cut/subCuencaYoro.gpkg")
 
-Precipitacion <- st_read("data/Vulnerabilidad/Layers_Cut/PrecipitacionHN.shp")
+PrecipitacionYoro <- st_read("data/Vulnerabilidad/Layers_Cut/PrecipitacionYoro.gpkg")
 
-Temperatura <- st_read("data/Vulnerabilidad/Layers_Cut/Temperatura.gpkg")
+TemperaturaYoro <- st_read("data/Vulnerabilidad/Layers_Cut/TemperaturaYoro.gpkg")
 
-Quebradas <- st_read("data/Vulnerabilidad/Layers_Cut/Quebradas.gpkg")
+QuebradasYoro <- st_read("data/Vulnerabilidad/Layers_Cut/QuebradasYoro.gpkg")
 
-Poblacion <- st_read("data/Vulnerabilidad/Layers_Cut/PoblacionAldea.gpkg")
+PoblacionYoro <- st_read("data/Vulnerabilidad/Layers_Cut/PoblacionYoro.gpkg")
 
-Perdidad_Forestal <- st_read("data/Vulnerabilidad/Layers_Cut/PerdidadForestal.gpkg")
+Perdidad_ForestalYoro <- st_read("data/Vulnerabilidad/Layers_Cut/Perdidad_ForestalYoro.gpkg")
 
-CurvasNivel100HN <- st_read("data/Vulnerabilidad/Layers_Cut/CurvasNivel100HN.gpkg")
+CurvasNivel100Yoro <- st_read("data/Vulnerabilidad/Layers_Cut/CurvasNivel100Yoro.gpkg")
 
-DeslisamientosHN <- st_read("data/Vulnerabilidad/Layers_Cut/DeslizamientosHN.gpkg")
+DeslisamientosYoro <- st_read("data/Vulnerabilidad/Layers_Cut/DeslisamientosYoro.gpkg")
 
-IncendiosHN <- st_read("data/Vulnerabilidad/Layers_Cut/IncendiosHN.gpkg")
+IncendiosYoro <- st_read("data/Vulnerabilidad/Layers_Cut/IncendiosYoro.gpkg")
 
-InundacionesHN <- st_read("data/Vulnerabilidad/Layers_Cut/InundacionesHN.gpkg")
+InundacionesYoro <- st_read("data/Vulnerabilidad/Layers_Cut/InundacionesYoro.gpkg")
 
 
 
 ```
-
-
-## Designar proyeccion
 
 ```{r}
-CoffeeArea_tra <- st_transform(CoffeeArea, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Yoro_tra <- st_transform(Yoro, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Subcuenca_tra <- st_transform(Subcuencas, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Precipitacion_tra <- st_transform(Precipitacion, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Temperatura_tra <- st_transform(Temperatura, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Quebradas_tra <- st_transform(Quebradas, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Poblacion_tra <- st_transform(Poblacion, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-Perdidad_Forestal_tra <- st_transform(Perdidad_Forestal, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-CurvasNivel100HN_tra <- st_transform(CurvasNivel100HN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-DeslisamientosHN_tra <- st_transform(DeslisamientosHN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-IncendiosHN_tra <- st_transform(IncendiosHN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
-InundacionesHN_tra <- st_transform(InundacionesHN, crs = st_crs("+proj=longlat +datum=WGS84 +no_defs"))
-
+plot(CoffeeYoro)
 ```
 
-## Cortar capas
+
+## Rasterizar las capas vectoriales
+
+Rasterizar las capas vectoriales es un proceso en el que se convierten los datos vectoriales (como puntos, líneas o polígonos) en una estructura raster (una malla de celdas o píxeles) para su posterior análisis. Este proceso es esencial cuando se necesitan realizar cálculos espaciales en formato raster, que es más adecuado para operaciones de celda a celda, como en modelos de vulnerabilidad hídrica o análisis de factores ambientales.
 
 ```{r}
-subCuencaYoro <- st_intersection(Yoro_tra, Subcuenca_tra)
+coffee_vect <- vect(CoffeeYoro)
 
-CoffeeYoro <- st_intersection(Yoro_tra, CoffeeArea_tra)
+r_template <- rast(ext(coffee_vect), resolution = 0.001, crs = crs(coffee_vect))
 
-PrecipitacionYoro <- st_intersection(Yoro_tra, Precipitacion_tra)
+coffee_raster <- rasterize(coffee_vect, r_template, field = "Shape_Area")
 
-TemperaturaYoro <- st_intersection(Yoro_tra, Temperatura_tra)
-
-QuebradasYoro <- st_intersection(Yoro_tra, Quebradas_tra)
-
-PoblacionYoro <- sf::st_join(Yoro_tra, Poblacion_tra, join = st_intersects)
-
-Perdidad_ForestalYoro <- st_intersection(Yoro_tra, Perdidad_Forestal_tra)
-
-CurvasNivel100Yoro <- st_intersection(Yoro_tra, CurvasNivel100HN_tra)
-
-DeslisamientosYoro <- st_intersection(Yoro_tra, DeslisamientosHN_tra)
-
-IncendiosYoro <- st_intersection(Yoro_tra, IncendiosHN_tra)
-
-InundacionesYoro <- st_intersection(Yoro_tra, InundacionesHN_tra)
-
-
+plot(coffee_raster)
 ```
 
 
+## Normalización o estandarización de variables
+
+La normalización o estandarización de variables es un paso crucial en el análisis de datos espaciales, especialmente cuando se combinan diferentes capas raster para evaluar indicadores como la vulnerabilidad hídrica. Este paso tiene como objetivo transformar las variables de entrada para que tengan un rango común, lo que facilita la comparación y la integración de diferentes fuentes de datos.
+
+En el contexto de los raster también se puede utilizar el término reescalamiento, que es un proceso equivalente a la normalización o estandarización de las variables, pero específicamente aplicado a los valores de los píxeles dentro del raster.
+
+Cuando se realiza un reescalamiento de un raster, lo que se busca es ajustar los valores de los píxeles a un rango común, generalmente entre 0 y 1. Este proceso se utiliza para que las diferentes capas raster, que pueden tener rangos de valores diferentes (por ejemplo, precipitaciones, temperatura, altitud), puedan ser comparadas y combinadas de manera adecuada en un análisis.
+
+La normalización se puede hacer de la siguiente manera:
+
+$$\text{Valor Normativo} = \frac{\text{Valor} - \text{Valor Mínimo}}{\text{Valor Máximo} - \text{Valor Mínimo}} $$
+
+```{r}
+min_val <- minmax(coffee_raster)[1]
+max_val <- minmax(coffee_raster)[2]
+
+re_CoffeeRaster <- (coffee_raster - min_val) / (max_val - min_val)
+plot(re_CoffeeRaster)
+```
+
+## Cargar raster listos
+
+```{r}
+re_CoffeeRaster <- rast("data/Vulnerabilidad/Rasters/re_CoffeeRaster.tif")
+  
+re_PrecipitacionRaster <- rast("data/Vulnerabilidad/Rasters/re_PrecipitacionRaster.tif")
+
+re_TemperaturaRaster <- rast("data/Vulnerabilidad/Rasters/re_TemperaturaRaster.tif")
+
+re_QuebradasRaster <- rast("data/Vulnerabilidad/Rasters/re_QuebradasRaster.tif")
+
+re_PoblacionRaster <- rast("data/Vulnerabilidad/Rasters/re_PoblacionRaster.tif")
+
+re_Perdidad_ForestalRaster <- rast("data/Vulnerabilidad/Rasters/re_Perdidad_ForestalRaster.tif")
+
+re_CurvasNivel100Raster <- rast("data/Vulnerabilidad/Rasters/re_CurvasNivel100Raster.tif")
+
+re_DeslisamientosRaster <- rast("data/Vulnerabilidad/Rasters/re_DeslisamientosRaster.tif")
+
+re_IncendiosRaster <- rast("data/Vulnerabilidad/Rasters/re_IncendiosRaster.tif")
+
+re_InundacionesRaster <- rast("data/Vulnerabilidad/Rasters/re_InundacionesRaster.tif")
+```
+
+## Asignar pesos
+
+Asignar pesos es un proceso crucial en el análisis multicriterio y en la evaluación de la vulnerabilidad, como en el caso de la vulnerabilidad hídrica. Este paso implica asignar una importancia relativa o un valor ponderado a cada capa o variable en función de su relevancia en el análisis general. Los pesos reflejan la importancia de cada componente (como exposición, sensibilidad, y capacidad adaptativa) en el cálculo final de la vulnerabilidad.
+
+El proceso de asignar pesos tiene como objetivo dar más importancia a ciertos factores que son considerados más críticos para el análisis y menos importancia a aquellos que tienen un impacto menor. Dependiendo de los datos disponibles y el contexto, los pesos pueden ser asignados de diferentes maneras.
+
+Métodos para asignar pesos:
+
+- Método de experticia (o ponderación subjetiva)
+
+- Método de encuesta o consulta a grupos de expertos
+
+- Método de análisis de sensibilidad (o ponderación objetiva)
+
+- Método de ponderación por consenso (grupo de trabajo)
+
+CA (Capacidad Adaptativa) = 0.12
+
+DFA (Desforestación) = 0.13
+
+PR (Precipitación) = 0.096
+
+TEM (Temperatura) = 0.060
+
+INU (Inundaciones) = 0.114
+
+FIR (Incendios) = 0.136
+
+DES (Deslizamientos) = 0.111
+
+POP (Población) = 0.139
+
+ELE (Elevación) = 0.078
+
+```{r}
+CA = 0.12
+DFA = 0.13
+PR = 0.096
+TEM = 0.060
+INU = 0.114
+FIR = 0.136
+DES = 0.111
+POP = 0.139
+ELE = 0.078
+```
+
+## Cálculo del índice de vulnerabilidad
+
+En esta etapa, se procede a calcular el índice de vulnerabilidad combinando múltiples capas espaciales previamente normalizadas y ponderadas. Cada capa representa una variable que contribuye a la vulnerabilidad (como precipitaciones, temperatura, elevación, densidad poblacional, entre otras), y cada una es multiplicada por un peso que refleja su importancia relativa dentro del análisis.
+
+En este caso particular, no se dispone de variables relacionadas con la Capacidad Adaptativa (AC), por lo que el índice de vulnerabilidad se calcula únicamente en función de las componentes de exposición y sensibilidad, lo que constituye una aproximación parcial pero útil para identificar áreas de mayor susceptibilidad a impactos.
+
+La visualización del resultado (plot(Vulnerability)) permite interpretar espacialmente la distribución de la vulnerabilidad, donde los valores más altos indican zonas más vulnerables según las variables consideradas. Esta representación cartográfica es clave para la toma de decisiones en procesos de planificación territorial y gestión de riesgos.
+
+```{r}
+Vulnerability <- merge(re_PrecipitacionRaster * PR,
+                  re_TemperaturaRaster * TEM,
+                  re_CurvasNivel100Raster * ELE,
+                  re_PoblacionRaster * POP,
+                  re_IncendiosRaster * FIR,
+                  re_CoffeeRaster * CA,
+                  re_Perdidad_ForestalRaster * DFA,
+                  re_DeslisamientosRaster * DES,
+                  re_InundacionesRaster * INU) * 10
+
+plot(Vulnerability)
+```
 
 
+```{r}
+library(mapview)
+
+mapview(Vulnerability,
+                 alpha.regions = 0.6,
+                col.regions=list("green","orange", "red") )
+```
+
+:::
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
