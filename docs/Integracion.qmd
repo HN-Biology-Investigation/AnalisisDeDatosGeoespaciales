@@ -1,7 +1,145 @@
 ---
-title: "Análisis de integración ecológica"
+title: "Clase 8: Análisis de integración ecológica"
 author: "David Murillo"
 format: html
 editor: visual
 ---
 
+El Índice de Integridad Ecológica (IEI) es una medida del grado relativo de integridad (es decir, la ausencia de modificaciones y perturbaciones humanas adversas) y de la resiliencia al cambio ambiental (es decir, la capacidad de recuperarse o adaptarse a condiciones ambientales cambiantes provocadas por el uso humano del suelo y el cambio climático).
+
+::: panel-tabset
+
+## Definir el objetivo ecológico del análisis
+
+## Delimitación del sistema ecológico
+
+## Recolección y organización de datos
+
+::: panel-tabset
+
+### Desarrollo y carreteras
+
+```{r, message=FALSE, warning=FALSE}
+
+library(terra)
+
+habloss <- rast("data/Hamphires/habloss_ham.tif")
+Watershedloss <- rast("data/Hamphires/whabloss_Ham.tif")
+Roadtraffic <- rast("data/Hamphires/Traffic_Ham.tif")
+mowplow <- rast("data/Hamphires/mowplow_Ham.tif")
+Microalt <- rast("data/Hamphires/edges_Ham.tif")
+
+
+
+
+```
+
+Descripción de las métricas a utilizar.
+
+- habloss: Pérdida de hábitat. Evalúa la intensidad de la pérdida histórica de hábitat causada por todo tipo de desarrollos. La pérdida directa de hábitat es la principal causa de disminución y extinción de especies; esta métrica es un índice de la pérdida indirecta de hábitat: la disminución de la integridad en las áreas naturales remanentes debido a la pérdida de hábitat en áreas vecinas por desarrollos pasados.
+
+- mowplow: Corte y arado. Evalúa la intensidad de la actividad agrícola en el entorno como un sustituto de las tasas de corte y arado, que representan fuentes directas de mortalidad para la fauna. La maquinaria agrícola es una causa bien documentada de mortalidad en polluelos de aves de pastizales y en tortugas terrestres y semiacuáticas.
+
+- Microalt: Alteraciones del microclima. Evalúa las alteraciones microclimáticas causadas por efectos de borde, como la disminución de humedad, aumento del viento y temperaturas más extremas. Esta métrica incluye los efectos tanto de bordes antropogénicos como naturales (por ejemplo, los efectos de un pantano abierto sobre el bosque circundante).
+
+- edgedpredator: Depredadores de borde. Evalúa el efecto de mesodepredadores comensales del ser humano, como los mapaches y zorrillos. Estos mesodepredadores suelen alcanzar densidades inusualmente altas cerca de asentamientos humanos, tanto por subsidios alimenticios (basura, comederos para aves y granos para ganado) como por la liberación de presión de depredadores mayores.
+
+- domesticPredator: Depredadores domésticos. Evalúa el efecto de los depredadores domésticos (principalmente gatos domésticos) debido al desarrollo humano. Tanto los gatos domésticos como los ferales matan grandes cantidades de aves y pequeños mamíferos.
+
+- invplants: Plantas invasoras. Evalúa el efecto de las plantas invasoras no nativas. Estas plantas a menudo se propagan desde zonas residenciales y agrícolas, áreas perturbadas por humanos y a lo largo de carreteras.
+
+- worms: Lombrices invasoras. Evalúa el efecto de las lombrices de tierra invasoras no nativas. En el noreste glaciado, todas las lombrices terrestres son no nativas. Estas se expanden desde áreas agrícolas, jardines domésticos y zonas de pesca, acelerando el ciclo de nutrientes en los bosques cercanos, lo que a menudo afecta significativamente las plantas del sotobosque y la regeneración de plántulas.
+
+### Contaminación
+
+
+```{r, message=FALSE, warning=FALSE}
+
+library(terra)
+
+
+
+Watershedroadsalt <- rast("data/Hamphires/salt_Ham.tif")
+
+Watershedroadsediment <- rast("data/Hamphires/sediment_Ham.tif") 
+
+Watershednutrient <- rast("data/Hamphires/nutrients_Ham.tif") 
+
+ 
+
+```
+
+### Alteraciones bióticas
+
+
+```{r, message=FALSE, warning=FALSE}
+
+library(terra)
+
+Edgepredators <- rast("data/Hamphires/edgespred_ham.tif")
+Domesticpredators <- rast("data/Hamphires/cats_Ham.tif")
+invasiveplants <- rast("data/Hamphires/badplants.tif")
+earthworms <- rast("data/Hamphires/worms_Ham.tif")
+
+```
+
+### Clima
+
+
+```{r, message=FALSE, warning=FALSE}
+
+library(terra)
+
+Climatestress <- rast("data/Hamphires/climate_Ham.tif")
+
+
+```
+
+### Alteraciones hidrológicas
+
+
+```{r, message=FALSE, warning=FALSE}
+
+library(terra)
+
+Watershedimperviousness <- rast("data/Hamphires/imperv_Ham.tif")
+Damintensity <- rast("data/Hamphires/damint_Ham.tif")
+
+```
+
+### Resiliencia
+
+
+```{r, message=FALSE, warning=FALSE}
+
+library(terra)
+
+Similarity <- rast("data/Hamphires/sim_ham.tif")
+Connectedness <- rast("data/Hamphires/connect_Ham.tif")
+Aquatic_connectedness <- rast("data/Hamphires/aqconnect_ham.tif") 
+
+
+```
+
+::: 
+
+## Reescalado de cuantiles
+
+Cada una de las métricas brutas de integridad y resiliencia se escala de manera diferente. Algunas están acotadas entre 0 y 1 (por ejemplo, la similitud), mientras que otras no tienen un límite superior. Además, cada una de las métricas tendrá una distribución empírica única para cada paisaje en particular. Para combinar las métricas en un índice compuesto, es necesario, por lo tanto, reescalar las métricas brutas para ponerlas en igualdad de condiciones. Para ello, utilizamos un método llamado reescalado de cuantiles, que consiste en transformar las métricas brutas en cuantiles, de manera que la celda peor clasificada obtenga un 0 y la mejor celda obtenga un 1. El reescalado de cuantiles facilita la interpretación y la composición de las métricas al ponerlas todas en la misma escala con la misma distribución uniforme, independientemente de las diferencias en las unidades brutas o la distribución. Además, los cuantiles tienen una interpretación intuitiva, ya que el cuantile de una celda expresa la proporción de celdas con un valor bruto menor o igual al valor de la celda focal. Así, un cuantile de 0.9 corresponde a una celda cuyo valor de la métrica es mayor que el 90% de todas las celdas, y todas las celdas con valores de cuantile >0.9 comprenden el 10% mejor dentro del área de análisis. Finalmente, para nuestros fines, realizamos el reescalado de cuantiles de cada métrica por separado dentro de cada sistema ecológico, de modo que los bosques se comparen con los bosques y los pantanos emergentes se comparen con los pantanos emergentes, y así sucesivamente. El reescalado por sistema ecológico significa que todas las celdas dentro de un sistema ecológico se clasifican entre sí para determinar las celdas con la mayor integridad relativa dentro de cada sistema ecológico.
+
+## Modelos de integridad ecológica
+
+Después del reescalado de cuantiles por sistema ecológico, todas las métricas están en la misma escala (0-1) y tienen distribuciones uniformes idénticas dentro de cada ecosistema. El siguiente paso es combinar las métricas reescaladas en un índice compuesto. Sin embargo, dado el rango de métricas (Tabla 1), es razonable suponer que algunas métricas son más importantes que otras para la integridad ecológica general de la celda y, por lo tanto, deben asignarse más peso. De hecho, las métricas basadas en factores de estrés en la cuenca y la conectividad acuática fueron diseñadas específicamente para su aplicación a ecosistemas acuáticos y/o de humedales, y por lo tanto, no se aplican de manera significativa a los ecosistemas terrestres. Además, es razonable suponer que los pesos aplicados a las métricas pueden variar entre tipos de comunidades. Por ejemplo, los factores de estrés con mayor impacto en un pantano emergente pueden no ser los mismos que los de mayor impacto en un bosque boreal de tierras altas. En consecuencia, empleamos modelos de integridad ecológica específicos para ecosistemas para ponderar las métricas componentes en el índice compuesto. Un modelo de integridad ecológica es simplemente una combinación lineal ponderada de las métricas designadas (por equipos de expertos) para cada sistema ecológico. Por razones de simplicidad, designamos un modelo único de integridad ecológica para cada formación ecológica, que es un grupo de sistemas ecológicos similares. En consecuencia, todos los sistemas ecológicos dentro de la misma formación reciben el mismo modelo de integridad ecológica. La lista de sistemas ecológicos y su agrupación en formaciones, junto con los modelos de integridad ecológica correspondientes, se incluye en el documento técnico sobre integridad [(McGarigal et al. 2017)](https://hdl.handle.net/20.500.14394/54528).
+
+## Reescalado del índice final
+
+Después de combinar las métricas reescaladas en una combinación lineal ponderada, para mantener el reescalado por cuantiles por ecosistema, es necesario volver a reescalar el índice compuesto por cuantiles por ecosistema para asegurar la interpretación adecuada de los cuantiles. Es importante reconocer que, como consecuencia del reescalado por cuantiles, los resultados dependen de la extensión del área de análisis, porque los cuantiles clasifican las celdas en relación con otras celdas dentro del área de análisis. Por lo tanto, el reescalado por cuantiles debe realizarse por separado para cada área de análisis. Lo mejor del Noreste no es lo mismo que lo mejor de la cuenca del río Connecticut o el estado de Maryland. Por lo tanto, el área de análisis utilizada para el reescalado por cuantiles debe ser explícita.
+
+Cabe señalar que el área de análisis utilizada para el reescalado por cuantiles puede ser más grande que el área focal de interés. Por ejemplo, supongamos que queremos evaluar la integridad de las celdas dentro de la cuenca del río Connecticut. Sin embargo, podríamos reescalar las celdas basándonos en todo el Noreste y luego recortar los resultados para la cuenca del río Connecticut. En este caso, el rango de valores dentro de la cuenca del río Connecticut puede no ser de 0 a 1 porque las ubicaciones relativamente mejores o peores pueden caer fuera de la cuenca. Por lo tanto, en este último paso, también especificamos una extensión geográfica para el reescalado por cuantiles por ecosistema.
+
+Para facilitar el uso del Índice de Integridad Ecológica (IEI) por parte de una variedad de practicantes de la conservación, reescalamos el IEI por sistema ecológico dentro de todo el Noreste, pero también por estado, ecorregión y cuenca HUC6, aunque se podría utilizar cualquier unidad geográfica.
+
+
+:::
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
