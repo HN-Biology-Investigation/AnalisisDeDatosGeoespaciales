@@ -268,14 +268,6 @@ Por supuesto, esta dependencia de la extensión del paisaje es cierta para cualq
 grassland_index_re <- raster_quantiles(grassland_index)
 ```
 
-```{r}
-library(mapview)
-
-mapview(grassland_index_re)
-```
-
-
-
 :::
 
 ![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
