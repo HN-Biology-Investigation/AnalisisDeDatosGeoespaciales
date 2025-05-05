@@ -43,7 +43,6 @@ format:
 
 [Clase 10: Análisis Espaciotemporal de Cambios en el Paisaje](LandscapeChanges.html)
 
-
 *No dude en consultarnos ante cualquier inconveniente que surja durante el curso. Puede contactarnos a través de admi@hnbiology.org.*
 
 
