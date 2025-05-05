@@ -9,9 +9,7 @@ La vulnerabilidad del recurso hídrico se refiere al grado en que las fuentes de
 
 Los componentes de la vulnerabilidad se componen de la exposición (E), la sensibilidad (S) y la capacidad adaptativa (CA). La función utilizada consiste inicialmente en una multiplicación entre los factores de exposición y sensibilidad, dividida por el factor de capacidad adaptativa, como se muestra en la siguiente fórmula:
 
-$$
-V = (E * S) / AC
-$$
+$$V = (E * S) / AC$$
 
 Donde:
 
@@ -97,7 +95,7 @@ Cuando se realiza un reescalamiento de un raster, lo que se busca es ajustar los
 
 La normalización se puede hacer de la siguiente manera:
 
-$$\text{Valor Normativo} = \frac{\text{Valor} - \text{Valor Mínimo}}{\text{Valor Máximo} - \text{Valor Mínimo}} $$
+$$\text{Valor Normativo} = \frac{\text{Valor} - \text{Valor Mínimo}}{\text{Valor Máximo} - \text{Valor Mínimo}}$$
 
 ```{r}
 min_val <- minmax(coffee_raster)[1]
