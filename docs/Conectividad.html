@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Murillo">
 
-<title>Conectividad</title>
+<title>Conectividad ecológica y conectividad genética</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Conectividad</h1>
+<h1 class="title">Conectividad ecológica y conectividad genética</h1>
 </div>
 
 
@@ -103,121 +103,286 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="cargar-paquetes" class="level1">
-<h1>Cargar paquetes</h1>
+<p>La conectividad es un concepto central en ecología y conservación. Se refiere a cómo el paisaje facilita o impide el movimiento de organismos, genes, agua, nutrientes y energía entre diferentes hábitats.</p>
+<ul>
+<li><p>Conectividad ecológica describe la capacidad de los organismos para moverse libremente por el paisaje. Esta puede ser estructural (basada en la continuidad física de los hábitats, como corredores o parches conectados) o funcional (basada en el comportamiento de las especies, su capacidad de atravesar diferentes tipos de hábitat).</p></li>
+<li><p>Conectividad genética, por otro lado, se refiere al intercambio de genes entre poblaciones a través del movimiento de individuos reproductores. La conectividad genética es vital para mantener la diversidad genética, evitar la endogamia y permitir la adaptación evolutiva a largo plazo.</p></li>
+</ul>
+<p>Aunque relacionadas, conectividad ecológica y genética no siempre son equivalentes: un paisaje puede parecer conectado físicamente, pero no garantizar suficiente flujo genético si las especies no logran reproducirse tras moverse.</p>
+<p>Entender y gestionar ambos tipos de conectividad es crucial para diseñar estrategias efectivas de conservación, especialmente en paisajes fragmentados por actividades humanas.</p>
+<div class="panel.tabset">
+<section id="conectividad-ecológica---makurhini" class="level2">
+<h2 class="anchored" data-anchor-id="conectividad-ecológica---makurhini">Conectividad ecológica - Makurhini</h2>
+<p><a href="https://connectscape.github.io/Makurhini/">Makurhini</a> es un paquete de R diseñado para facilitar el análisis detallado de fragmentación y conectividad del paisaje, dos procesos clave en la conservación de la biodiversidad. El nombre Makurhini proviene de una palabra indígena purépecha que significa “camino” o “conexión”, reflejando el enfoque del paquete en los flujos ecológicos entre fragmentos de hábitat.</p>
+<p>Makurhini permite:</p>
+<ul>
+<li><p>Calcular métricas de conectividad tanto estructural (basada en la disposición física del paisaje) como funcional (considerando el movimiento de especies según distancias o resistencias).</p></li>
+<li><p>Estimar índices como el Probability of Connectivity (PC), Integral Index of Connectivity (IIC), flux y otros indicadores que miden la importancia de fragmentos, la cantidad de hábitat disponible y los cambios en conectividad a través del tiempo.</p></li>
+<li><p>Trabajar con análisis de escenarios, optimización de redes de conservación y comparaciones entre múltiples paisajes.</p></li>
+</ul>
+<p>El paquete integra capacidades de procesamiento espacial avanzadas usando terra y sf, y está diseñado para trabajar de forma flexible con grandes conjuntos de datos.</p>
+<p>¿Para qué sirve?</p>
+<ul>
+<li><p>Evaluar el impacto de la fragmentación sobre especies.</p></li>
+<li><p>Priorizar áreas para restauración o conservación basadas en su contribución a la conectividad.</p></li>
+<li><p>Comparar escenarios de cambio de paisaje (por ejemplo, deforestación, expansión urbana).</p></li>
+</ul>
 <p><a href="https://doi.org/10.21203/rs.3.rs-6398746/v1">Makurhini: An R package for comprehensive analysis of landscape fragmentation and connectivity</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(devtools)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#library(remotes)</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install_github("connectscape/Makurhini", dependencies = TRUE)</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Makurhini)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: igraph</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'igraph'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    decompose, spectrum</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:base':
-
-    union</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: cppRouting</code></pre>
-</div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Makurhini)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geodata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>terra 1.7.71</code></pre>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Midata <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"data/Cobertura boscosa/n2402vA001995_HN.shp"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>BosqueMixto <span class="ot">&lt;-</span> Midata <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEFINICION <span class="sc">==</span> <span class="st">"Bosque mixto"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ID =</span> <span class="fu">row_number</span>(), </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Area =</span> <span class="fu">st_area</span>(geometry)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID, Area)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>nodes_ready <span class="ot">&lt;-</span> <span class="fu">nodesfile</span>(BosqueMixto, <span class="at">area_unit =</span> <span class="st">"m2"</span>, <span class="at">id =</span> <span class="st">"ID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'terra'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:igraph':
-
-    blocks, compare</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gdistance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: raster</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: sp</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: Matrix</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'gdistance'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:igraph':
-
-    normalize</code></pre>
-</div>
-</div>
-<p><a href="https://www.jstatsoft.org/article/view/v076i13">R Package gdistance: Distances and Routes on Geographical Grids</a></p>
-</section>
-<section id="iconnect" class="level1">
-<h1>Iconnect</h1>
+<p><code>MK_dPCIIC</code> calcula el índice dPC (delta Probability of Connectivity) o sus componentes (intra, flux, connector) para múltiples umbrales de distancia.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(devtools)</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install_github("FMestre1/lconnect")</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lconnect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PC_BM <span class="ot">&lt;-</span> <span class="fu">MK_dPCIIC</span>(<span class="at">nodes =</span> BosqueMixto, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">attribute =</span> <span class="cn">NULL</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">distance =</span><span class="fu">list</span>(<span class="at">type =</span> <span class="st">"centroid"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">parallel =</span> <span class="cn">NULL</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">metric =</span> <span class="st">"PC"</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">probability =</span> <span class="fl">0.5</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">area_unit =</span> <span class="st">"m2"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">distance_thresholds =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">1500</span>, <span class="dv">5000</span>, <span class="dv">20000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Estimating PC index. This may take several minutes depending on the number of nodes</code></pre>
 </div>
-<p><a href="https://doi.org/10.1016/j.ecolmodel.2023.110489">Iconnect</a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load data</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>vec_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata/vec_projected.shp"</span>, <span class="at">package =</span> <span class="st">"lconnect"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#upload landscape</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>land <span class="ot">&lt;-</span> <span class="fu">upload_land</span>(vec_path, <span class="at">habitat =</span> <span class="dv">1</span>, <span class="at">max_dist =</span> <span class="dv">500</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(land)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "lconnect"</code></pre>
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■                  51% |  ETA:  3s</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(land, <span class="at">main=</span><span class="st">"Landscape clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     95% |  ETA:  0s</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |==================                                                    |  25%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■                          24% |  ETA:  5s</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■            70% |  ETA:  2s</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |===================================                                   |  50%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■                55% |  ETA:  2s</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |====================================================                  |  75%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■                     41% |  ETA:  4s</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■       88% |  ETA:  1s</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PC_BM<span class="sc">$</span>d20000[<span class="st">"dPC"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Conectividad_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>land1 <span class="ot">&lt;-</span> <span class="fu">patch_imp</span>(land, <span class="at">metric=</span><span class="st">"IIC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PC_BM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 6.813017e-04 1.411045e-03 2.346336e-03 0.000000e+00 8.985938e-04
- [6] 2.185222e+01 7.538679e+00 2.680224e-01 7.097993e-01 4.766515e-01
-[11] 7.021550e+01 0.000000e+00 0.000000e+00 1.015311e-02 2.602522e+00
-[16] 3.274158e-02 2.899414e-01 0.000000e+00 1.550874e+01 1.952726e-01
-[21] 2.812501e+00 1.299815e+01 8.579757e-01 1.422738e+01 0.000000e+00
-[26] 1.086860e-02 4.649738e-03 2.735448e-03 3.128328e-02 0.000000e+00
-[31] 2.618870e-02 0.000000e+00 0.000000e+00 1.420967e-01 0.000000e+00
-[36] 0.000000e+00</code></pre>
+<pre><code>$d250
+Simple feature collection with 253 features and 6 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 261736.6 ymin: 1466378 xmax: 800995.8 ymax: 1826365
+Projected CRS: WGS 84 / UTM zone 16N
+First 10 features:
+   ID               Area       dPC  dPCintra  dPCflux dPCconnector
+1   1   173709.713 [m^2] 0.0000064 0.0000064 0.00e+00  0.00000e+00
+2   2  1665924.073 [m^2] 0.0005941 0.0005921 1.90e-06  0.00000e+00
+3   3  1031587.411 [m^2] 0.0002272 0.0002270 2.00e-07  0.00000e+00
+4   4   261747.202 [m^2] 0.0000193 0.0000146 4.70e-06  1.47802e-15
+5   5 12462507.334 [m^2] 0.0331374 0.0331374 0.00e+00  0.00000e+00
+6   6   401677.773 [m^2] 0.0000378 0.0000344 3.40e-06  0.00000e+00
+7   7  1390255.378 [m^2] 0.0004324 0.0004124 2.00e-05  0.00000e+00
+8   8    60142.550 [m^2] 0.0000029 0.0000008 2.20e-06  0.00000e+00
+9   9  1419086.185 [m^2] 0.0004513 0.0004297 2.16e-05  2.32334e-15
+10 10     2818.298 [m^2] 0.0000002 0.0000000 2.00e-07  0.00000e+00
+                         geometry
+1  POLYGON ((623563.5 1825642,...
+2  POLYGON ((613771.4 1818067,...
+3  POLYGON ((617573.4 1818086,...
+4  POLYGON ((615348.9 1816681,...
+5  POLYGON ((576213 1816670, 5...
+6  POLYGON ((614726.5 1815664,...
+7  POLYGON ((567698.8 1812707,...
+8  POLYGON ((567113.7 1811709,...
+9  POLYGON ((566277.8 1812459,...
+10 POLYGON ((566420.1 1812065,...
+
+$d1500
+Simple feature collection with 253 features and 6 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 261736.6 ymin: 1466378 xmax: 800995.8 ymax: 1826365
+Projected CRS: WGS 84 / UTM zone 16N
+First 10 features:
+   ID               Area       dPC  dPCintra   dPCflux dPCconnector
+1   1   173709.713 [m^2] 0.0000079 0.0000064 0.0000015 4.530500e-15
+2   2  1665924.073 [m^2] 0.0009273 0.0005880 0.0003393 3.260200e-16
+3   3  1031587.411 [m^2] 0.0004629 0.0002255 0.0002374 8.286720e-15
+4   4   261747.202 [m^2] 0.0001604 0.0000145 0.0001458 4.600760e-15
+5   5 12462507.334 [m^2] 0.0341744 0.0329064 0.0012679 4.690300e-16
+6   6   401677.773 [m^2] 0.0001905 0.0000342 0.0001563 1.005600e-16
+7   7  1390255.378 [m^2] 0.0016727 0.0004095 0.0012632 3.195580e-15
+8   8    60142.550 [m^2] 0.0000563 0.0000008 0.0000555 5.448900e-16
+9   9  1419086.185 [m^2] 0.0013481 0.0004267 0.0009214 8.119920e-15
+10 10     2818.298 [m^2] 0.0000026 0.0000000 0.0000026 1.021174e-14
+                         geometry
+1  POLYGON ((623563.5 1825642,...
+2  POLYGON ((613771.4 1818067,...
+3  POLYGON ((617573.4 1818086,...
+4  POLYGON ((615348.9 1816681,...
+5  POLYGON ((576213 1816670, 5...
+6  POLYGON ((614726.5 1815664,...
+7  POLYGON ((567698.8 1812707,...
+8  POLYGON ((567113.7 1811709,...
+9  POLYGON ((566277.8 1812459,...
+10 POLYGON ((566420.1 1812065,...
+
+$d5000
+Simple feature collection with 253 features and 6 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 261736.6 ymin: 1466378 xmax: 800995.8 ymax: 1826365
+Projected CRS: WGS 84 / UTM zone 16N
+First 10 features:
+   ID               Area       dPC  dPCintra   dPCflux dPCconnector
+1   1   173709.713 [m^2] 0.0000481 0.0000053 0.0000429   1.7929e-16
+2   2  1665924.073 [m^2] 0.0011975 0.0004839 0.0007136   0.0000e+00
+3   3  1031587.411 [m^2] 0.0007524 0.0001855 0.0005669   0.0000e+00
+4   4   261747.202 [m^2] 0.0002356 0.0000119 0.0002237   0.0000e+00
+5   5 12462507.334 [m^2] 0.0329954 0.0270796 0.0059159   0.0000e+00
+6   6   401677.773 [m^2] 0.0003261 0.0000281 0.0002979   0.0000e+00
+7   7  1390255.378 [m^2] 0.0040398 0.0003370 0.0037028   0.0000e+00
+8   8    60142.550 [m^2] 0.0001580 0.0000006 0.0001574   0.0000e+00
+9   9  1419086.185 [m^2] 0.0036052 0.0003511 0.0032541   0.0000e+00
+10 10     2818.298 [m^2] 0.0000071 0.0000000 0.0000071   0.0000e+00
+                         geometry
+1  POLYGON ((623563.5 1825642,...
+2  POLYGON ((613771.4 1818067,...
+3  POLYGON ((617573.4 1818086,...
+4  POLYGON ((615348.9 1816681,...
+5  POLYGON ((576213 1816670, 5...
+6  POLYGON ((614726.5 1815664,...
+7  POLYGON ((567698.8 1812707,...
+8  POLYGON ((567113.7 1811709,...
+9  POLYGON ((566277.8 1812459,...
+10 POLYGON ((566420.1 1812065,...
+
+$d20000
+Simple feature collection with 253 features and 6 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 261736.6 ymin: 1466378 xmax: 800995.8 ymax: 1826365
+Projected CRS: WGS 84 / UTM zone 16N
+First 10 features:
+   ID               Area       dPC  dPCintra   dPCflux dPCconnector
+1   1   173709.713 [m^2] 0.0002683 0.0000014 0.0002669  4.12761e-15
+2   2  1665924.073 [m^2] 0.0033740 0.0001276 0.0032464  5.24750e-16
+3   3  1031587.411 [m^2] 0.0020408 0.0000489 0.0019919  0.00000e+00
+4   4   261747.202 [m^2] 0.0005575 0.0000032 0.0005543  2.66182e-15
+5   5 12462507.334 [m^2] 0.0328655 0.0071430 0.0257225  8.39610e-16
+6   6   401677.773 [m^2] 0.0008711 0.0000074 0.0008637  0.00000e+00
+7   7  1390255.378 [m^2] 0.0043224 0.0000889 0.0042335  0.00000e+00
+8   8    60142.550 [m^2] 0.0001911 0.0000002 0.0001910  1.33435e-15
+9   9  1419086.185 [m^2] 0.0043491 0.0000926 0.0042565  0.00000e+00
+10 10     2818.298 [m^2] 0.0000088 0.0000000 0.0000088  2.54845e-15
+                         geometry
+1  POLYGON ((623563.5 1825642,...
+2  POLYGON ((613771.4 1818067,...
+3  POLYGON ((617573.4 1818086,...
+4  POLYGON ((615348.9 1816681,...
+5  POLYGON ((576213 1816670, 5...
+6  POLYGON ((614726.5 1815664,...
+7  POLYGON ((567698.8 1812707,...
+8  POLYGON ((567113.7 1811709,...
+9  POLYGON ((566277.8 1812459,...
+10 POLYGON ((566420.1 1812065,...</code></pre>
 </div>
+</div>
+<ul>
+<li><p>dPC: Valor total de conectividad asociado a ese parche. Este valor representa cuánto contribuye el parche a la conectividad total del paisaje. Parches con valores altos son más importantes para mantener la conectividad general.</p></li>
+<li><p>dPCintra: Esta parte representa la conectividad interna, que depende del tamaño del parche. Si es igual al dPC, significa que el parche no está conectado a otros (o que la especie no puede moverse a otros parches dentro del umbral de distancia).</p></li>
+<li><p>dPCflux: Representa el flujo de conectividad directa con otros parches. Si este valor es 0, el parche no tiene conexiones directas dentro del umbral de dispersión.</p></li>
+<li><p>dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.</p></li>
+</ul>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>SETCHR <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>SETCHR1 <span class="ot">&lt;-</span> SETCHR <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Observaciones"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION COUNT</span><span class="st">`</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fecha"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION DATE</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Observaciones =</span> <span class="fu">as.numeric</span>(Observaciones)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Observaciones <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Fecha)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="st">"2018"</span> <span class="sc">|</span> Year <span class="sc">==</span> <span class="st">"2019"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>puntos_sf <span class="ot">&lt;-</span> SETCHR1 <span class="sc">%&gt;%</span> </span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"LONGITUDE"</span>, <span class="st">"LATITUDE"</span>),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>puntos_sf_wgs84 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(puntos_sf, <span class="at">crs =</span> <span class="fu">st_crs</span>(BosqueMixto))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(land1, <span class="at">main=</span><span class="st">"Patch prioritization (%)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> BosqueMixto) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> puntos_sf_wgs84)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Conectividad_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -227,51 +392,91 @@ Attaching package: 'gdistance'</code></pre>
 <h1>Grainscape</h1>
 <p><a href="https://doi.org/10.1111/2041-210X.13350">The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grainscape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grainscape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'grainscape'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:raster':
-
-    distance</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>The following object is masked from 'package:terra':
 
     distance</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tiny <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">raster</span>(<span class="fu">system.file</span>(<span class="st">"extdata/tiny.asc"</span>, <span class="at">package =</span> <span class="st">"grainscape"</span>))</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a resistance surface from a raster using an is-becomes reclassification</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>tinyCost <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">reclassify</span>(tiny, <span class="at">rcl =</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">12</span>)))</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Produce a patch-based MPG where patches are resistance features=1</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>tinyPatchMPG <span class="ot">&lt;-</span> <span class="fu">MPG</span>(<span class="at">cost =</span> tinyCost, <span class="at">patch =</span> tinyCost <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract a representative subset of 5 grains of connectivity</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>tinyPatchGOC <span class="ot">&lt;-</span> <span class="fu">GOC</span>(tinyPatchMPG, <span class="at">nThresh =</span> <span class="dv">5</span>)</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Quick visualization of a corridor</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>corridorStartEnd <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>), <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">90</span>))</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>tinyPatchCorridor <span class="ot">&lt;-</span> <span class="fu">corridor</span>(tinyPatchGOC, <span class="at">whichThresh =</span> <span class="dv">3</span>, <span class="at">coords =</span> corridorStartEnd)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>())</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor)</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="do">## More control over a corridor visualization</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>voronoi, <span class="at">col =</span> <span class="st">"lightgrey"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>linksSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lty =</span> <span class="st">"dashed"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>nodesSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>shortestLinksSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">lty =</span> <span class="st">"solid"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tinyPatchCorridor<span class="sc">@</span>shortestNodesSP, <span class="at">col =</span> <span class="st">"darkred"</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">"darkred"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"Corridor shortest path length:"</span>,</span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>              <span class="fu">round</span>(tinyPatchCorridor<span class="sc">@</span>corridorLength, <span class="dv">2</span>),</span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>              <span class="st">"resistance units"</span>), <span class="at">side =</span> <span class="dv">1</span>)</span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>FM <span class="ot">&lt;-</span> <span class="fu">gadm</span>(<span class="st">"Honduras"</span>, <span class="at">level=</span> <span class="dv">1</span>, <span class="at">path =</span> <span class="fu">tempdir</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(BosqueMixto)) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NAME_1 <span class="sc">==</span> <span class="st">"Francisco Morazán"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(FM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_FM <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(BosqueMixto, FM)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>BosqueMixto_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(BosqueMixto_FM)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>r_template <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">ext</span>(BosqueMixto_vect), <span class="at">resolution =</span> <span class="dv">30</span>, <span class="at">crs =</span> <span class="fu">crs</span>(BosqueMixto_vect))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(BosqueMixto_vect, </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                                r_template, </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                                <span class="at">field =</span> <span class="dv">1</span>, </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">background =</span> <span class="dv">1000</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(BosqueMixto_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[BosqueMixto_raster <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>   </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[BosqueMixto_raster <span class="sc">==</span> <span class="dv">1000</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>  </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[<span class="fu">is.na</span>(BosqueMixto_raster)] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia <span class="ot">=</span> BosqueMixto_raster</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>mascara_bosque <span class="ot">&lt;-</span> BosqueMixto_raster_resistencia <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia[mascara_bosque] <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">sum</span>(mascara_bosque[], <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia <span class="ot">&lt;-</span> <span class="fu">as</span>(BosqueMixto_raster_resistencia, <span class="st">"Raster"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(BosqueMixto_raster, <span class="st">"Raster"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute MPG (Minimum Planar Graph)</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>mpg <span class="ot">&lt;-</span> <span class="fu">MPG</span>(<span class="at">cost =</span> BosqueMixto_raster_resistencia, <span class="at">patch =</span> BosqueMixto_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpg<span class="sc">@</span>mpgPlot, <span class="at">col =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 <section id="conectividad-genetica" class="level1">
 <h1>Conectividad genetica</h1>
+<p>Proximamente</p>
 </section>
+</div>
+<p><a href="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg">HN Biology Investigation Academy</a></p>
 
 </main>
 <!-- /main column -->

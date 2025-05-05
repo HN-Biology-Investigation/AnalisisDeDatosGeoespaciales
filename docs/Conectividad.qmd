@@ -7,9 +7,9 @@ editor: visual
 
 La conectividad es un concepto central en ecología y conservación. Se refiere a cómo el paisaje facilita o impide el movimiento de organismos, genes, agua, nutrientes y energía entre diferentes hábitats.
 
-- Conectividad ecológica describe la capacidad de los organismos para moverse libremente por el paisaje. Esta puede ser estructural (basada en la continuidad física de los hábitats, como corredores o parches conectados) o funcional (basada en el comportamiento de las especies, su capacidad de atravesar diferentes tipos de hábitat).
+-   Conectividad ecológica describe la capacidad de los organismos para moverse libremente por el paisaje. Esta puede ser estructural (basada en la continuidad física de los hábitats, como corredores o parches conectados) o funcional (basada en el comportamiento de las especies, su capacidad de atravesar diferentes tipos de hábitat).
 
-- Conectividad genética, por otro lado, se refiere al intercambio de genes entre poblaciones a través del movimiento de individuos reproductores. La conectividad genética es vital para mantener la diversidad genética, evitar la endogamia y permitir la adaptación evolutiva a largo plazo.
+-   Conectividad genética, por otro lado, se refiere al intercambio de genes entre poblaciones a través del movimiento de individuos reproductores. La conectividad genética es vital para mantener la diversidad genética, evitar la endogamia y permitir la adaptación evolutiva a largo plazo.
 
 Aunque relacionadas, conectividad ecológica y genética no siempre son equivalentes: un paisaje puede parecer conectado físicamente, pero no garantizar suficiente flujo genético si las especies no logran reproducirse tras moverse.
 
@@ -23,25 +23,25 @@ Entender y gestionar ambos tipos de conectividad es crucial para diseñar estrat
 
 Makurhini permite:
 
-- Calcular métricas de conectividad tanto estructural (basada en la disposición física del paisaje) como funcional (considerando el movimiento de especies según distancias o resistencias).
+-   Calcular métricas de conectividad tanto estructural (basada en la disposición física del paisaje) como funcional (considerando el movimiento de especies según distancias o resistencias).
 
-- Estimar índices como el Probability of Connectivity (PC), Integral Index of Connectivity (IIC), flux y otros indicadores que miden la importancia de fragmentos, la cantidad de hábitat disponible y los cambios en conectividad a través del tiempo.
+-   Estimar índices como el Probability of Connectivity (PC), Integral Index of Connectivity (IIC), flux y otros indicadores que miden la importancia de fragmentos, la cantidad de hábitat disponible y los cambios en conectividad a través del tiempo.
 
-- Trabajar con análisis de escenarios, optimización de redes de conservación y comparaciones entre múltiples paisajes.
+-   Trabajar con análisis de escenarios, optimización de redes de conservación y comparaciones entre múltiples paisajes.
 
 El paquete integra capacidades de procesamiento espacial avanzadas usando terra y sf, y está diseñado para trabajar de forma flexible con grandes conjuntos de datos.
 
 ¿Para qué sirve?
 
-- Evaluar el impacto de la fragmentación sobre especies.
+-   Evaluar el impacto de la fragmentación sobre especies.
 
-- Priorizar áreas para restauración o conservación basadas en su contribución a la conectividad.
+-   Priorizar áreas para restauración o conservación basadas en su contribución a la conectividad.
 
-- Comparar escenarios de cambio de paisaje (por ejemplo, deforestación, expansión urbana).
+-   Comparar escenarios de cambio de paisaje (por ejemplo, deforestación, expansión urbana).
 
 [Makurhini: An R package for comprehensive analysis of landscape fragmentation and connectivity](https://doi.org/10.21203/rs.3.rs-6398746/v1)
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 #library(devtools)
 #library(remotes)
 # install_github("connectscape/Makurhini", dependencies = TRUE)
@@ -49,73 +49,152 @@ El paquete integra capacidades de procesamiento espacial avanzadas usando terra 
 library(Makurhini)
 library(terra)
 library(sf)
+library(tidyverse)
+library(geodata)
 
 ```
 
 ```{r}
-data("habitat_nodes", package = "Makurhini")
+Midata <- read_sf("data/Cobertura boscosa/n2402vA001995_HN.shp")
+
+BosqueMixto <- Midata %>% 
+  filter(DEFINICION == "Bosque mixto") %>%
+  mutate(ID = row_number(), 
+         Area = st_area(geometry)) %>% 
+  select(ID, Area)
+
+nodes_ready <- nodesfile(BosqueMixto, area_unit = "m2", id = "ID")
 ```
 
 `MK_dPCIIC` calcula el índice dPC (delta Probability of Connectivity) o sus componentes (intra, flux, connector) para múltiples umbrales de distancia.
 
 ```{r}
-PC_example <- MK_dPCIIC(nodes = habitat_nodes, 
-                        attribute = NULL, 
-                        distance =list(type = "centroid"),
-                        parallel = NULL, 
-                        metric = "PC", 
-                        probability = 0.5, 
-                        distance_thresholds = c(250, 1500, 3000, 10000))
 
-plot(PC_example$d250["dPC"])
+PC_BM <- MK_dPCIIC(nodes = BosqueMixto, 
+                   attribute = NULL, 
+                   distance =list(type = "centroid"),
+                   parallel = NULL, 
+                   metric = "PC", 
+                   probability = 0.5, 
+                   area_unit = "m2",
+                   distance_thresholds = c(250, 1500, 5000, 20000))
+
+plot(PC_BM$d20000["dPC"])
 ```
 
-- dPC: Valor total de conectividad asociado a ese parche. Este valor representa cuánto contribuye el parche a la conectividad total del paisaje. Parches con valores altos son más importantes para mantener la conectividad general.
+```{r}
+head(PC_BM)
+```
 
-- dPCintra: Esta parte representa la conectividad interna, que depende del tamaño del parche. Si es igual al dPC, significa que el parche no está conectado a otros (o que la especie no puede moverse a otros parches dentro del umbral de distancia).
+-   dPC: Valor total de conectividad asociado a ese parche. Este valor representa cuánto contribuye el parche a la conectividad total del paisaje. Parches con valores altos son más importantes para mantener la conectividad general.
 
-- dPCflux: Representa el flujo de conectividad directa con otros parches. Si este valor es 0, el parche no tiene conexiones directas dentro del umbral de dispersión.
+-   dPCintra: Esta parte representa la conectividad interna, que depende del tamaño del parche. Si es igual al dPC, significa que el parche no está conectado a otros (o que la especie no puede moverse a otros parches dentro del umbral de distancia).
 
-- dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.
+-   dPCflux: Representa el flujo de conectividad directa con otros parches. Si este valor es 0, el parche no tiene conexiones directas dentro del umbral de dispersión.
+
+-   dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.
+
+##
+
+```{r, warning=FALSE, message=FALSE}
+SETCHR <- read_delim("data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt")
+
+SETCHR1 <- SETCHR %>%
+  rename("Observaciones" = `OBSERVATION COUNT`,
+         "Fecha" = `OBSERVATION DATE`) %>% 
+  mutate(Observaciones = as.numeric(Observaciones)) %>% 
+  filter(Observaciones < 5) %>%
+  mutate(Year = year(Fecha)) %>% 
+  filter(Year == "2018" | Year == "2019") %>% 
+  dplyr::select(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)
+
+puntos_sf <- SETCHR1 %>% 
+  st_as_sf(coords = c("LONGITUDE", "LATITUDE"),
+           crs = 4326)
+
+puntos_sf_wgs84 <- st_transform(puntos_sf, crs = st_crs(BosqueMixto))
+```
 
 
-## 
+```{r}
+ggplot()+
+  geom_sf(data= BosqueMixto) +
+  geom_sf(data = puntos_sf_wgs84)
+```
+
+
 # Grainscape
 
 [The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks](https://doi.org/10.1111/2041-210X.13350)
 
 ```{r}
 library(grainscape)
-
-tiny <- raster::raster(system.file("extdata/tiny.asc", package = "grainscape"))
-
-## Create a resistance surface from a raster using an is-becomes reclassification
-tinyCost <- raster::reclassify(tiny, rcl = cbind(c(1, 2, 3, 4), c(1, 5, 10, 12)))
-## Produce a patch-based MPG where patches are resistance features=1
-tinyPatchMPG <- MPG(cost = tinyCost, patch = tinyCost == 1)
-## Extract a representative subset of 5 grains of connectivity
-tinyPatchGOC <- GOC(tinyPatchMPG, nThresh = 5)
-## Quick visualization of a corridor
-corridorStartEnd <- rbind(c(10, 10), c(90, 90))
-tinyPatchCorridor <- corridor(tinyPatchGOC, whichThresh = 3, coords = corridorStartEnd)
-if (interactive())
-  plot(tinyPatchCorridor)
-
-## More control over a corridor visualization
-if (interactive()) {
-  plot(tinyPatchCorridor@voronoi, col = "lightgrey", lwd = 2)
-  plot(tinyPatchCorridor@linksSP, col = "darkred", lty = "dashed", add = TRUE)
-  plot(tinyPatchCorridor@nodesSP, col = "darkred", pch = 21, bg = "white", add = TRUE)
-  plot(tinyPatchCorridor@shortestLinksSP, col = "darkred", lty = "solid", lwd = 2, add = TRUE)
-  plot(tinyPatchCorridor@shortestNodesSP, col = "darkred", pch = 21, bg = "darkred", add = TRUE)
-  mtext(paste("Corridor shortest path length:",
-              round(tinyPatchCorridor@corridorLength, 2),
-              "resistance units"), side = 1)
-}
 ```
+
+
+```{r}
+FM <- gadm("Honduras", level= 1, path = tempdir()) %>% 
+  st_as_sf() %>% 
+  st_transform(crs = st_crs(BosqueMixto)) %>% 
+  filter(NAME_1 == "Francisco Morazán")
+
+
+
+plot(FM)
+
+BosqueMixto_FM <- st_crop(BosqueMixto, FM)
+
+BosqueMixto_vect <- vect(BosqueMixto_FM)
+
+r_template <- rast(ext(BosqueMixto_vect), resolution = 30, crs = crs(BosqueMixto_vect))
+
+BosqueMixto_raster <- rasterize(BosqueMixto_vect, 
+                                r_template, 
+                                field = 1, 
+                                background = 1000)
+
+plot(BosqueMixto_raster)
+
+```
+
+```{r}
+
+BosqueMixto_raster[BosqueMixto_raster == 1] <- 1   
+BosqueMixto_raster[BosqueMixto_raster == 1000] <- 0  
+
+BosqueMixto_raster[is.na(BosqueMixto_raster)] <- 0
+```
+
+```{r}
+BosqueMixto_raster_resistencia = BosqueMixto_raster
+
+mascara_bosque <- BosqueMixto_raster_resistencia == 1
+
+BosqueMixto_raster_resistencia[mascara_bosque] <- runif(sum(mascara_bosque[], na.rm = TRUE), min = 0.5, max = 1.5)
+```
+
+
+```{r}
+
+BosqueMixto_raster_resistencia <- as(BosqueMixto_raster_resistencia, "Raster")
+
+BosqueMixto_raster <- as(BosqueMixto_raster, "Raster")
+
+# Compute MPG (Minimum Planar Graph)
+mpg <- MPG(cost = BosqueMixto_raster_resistencia, patch = BosqueMixto_raster)
+
+```
+
+```{r}
+plot(mpg@mpgPlot, col = "black")
+```
+
+
 
 # Conectividad genetica
 
+Proximamente
+
 :::
 
-[HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
+[HN Biology Investigation Academy](HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg)
