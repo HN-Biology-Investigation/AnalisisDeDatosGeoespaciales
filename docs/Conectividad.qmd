@@ -1,5 +1,5 @@
 ---
-title: "Conectividad ecológica y conectividad genética"
+title: "Conectividad ecológica"
 author: "David Murillo"
 format: html
 editor: visual
@@ -15,7 +15,7 @@ Aunque relacionadas, conectividad ecológica y genética no siempre son equivale
 
 Entender y gestionar ambos tipos de conectividad es crucial para diseñar estrategias efectivas de conservación, especialmente en paisajes fragmentados por actividades humanas.
 
-::: panel.tabset
+::: panel-tabset
 
 ## Conectividad del paisaje - landscapemetrics
 
@@ -37,7 +37,7 @@ Yoro <- rast("data/ClasificacionYoro.tif")
 check_landscape(Yoro)
 ```
 
-::: panel.tabset
+::: panel-tabset
 
 ### Conectividad de parche
 
@@ -251,36 +251,15 @@ head(PC_BM)
 
 -   dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.
 
-##
+## Grainscape
 
-```{r, warning=FALSE, message=FALSE}
-SETCHR <- read_delim("data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt")
+El paquete grainscape permite modelar y visualizar la conectividad del paisaje mediante redes espaciales explícitas, basadas en grafos. Esta herramienta resulta útil para analizar la fragmentación del hábitat, el movimiento de especies, la identificación de corredores ecológicos y el diseño de estrategias de conservación.
 
-SETCHR1 <- SETCHR %>%
-  rename("Observaciones" = `OBSERVATION COUNT`,
-         "Fecha" = `OBSERVATION DATE`) %>% 
-  mutate(Observaciones = as.numeric(Observaciones)) %>% 
-  filter(Observaciones < 5) %>%
-  mutate(Year = year(Fecha)) %>% 
-  filter(Year == "2018" | Year == "2019") %>% 
-  dplyr::select(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)
+Un grafo es una estructura matemática que se utiliza para modelar relaciones o conexiones entre objetos. En términos simples, un grafo está compuesto por:
 
-puntos_sf <- SETCHR1 %>% 
-  st_as_sf(coords = c("LONGITUDE", "LATITUDE"),
-           crs = 4326)
+- Nodos (o vértices): representan los objetos o entidades (por ejemplo, parches de hábitat, ciudades, personas, etc.).
 
-puntos_sf_wgs84 <- st_transform(puntos_sf, crs = st_crs(BosqueMixto))
-```
-
-
-```{r}
-ggplot()+
-  geom_sf(data= BosqueMixto) +
-  geom_sf(data = puntos_sf_wgs84)
-```
-
-
-# Grainscape
+- Aristas (o enlaces): representan las conexiones o relaciones entre los nodos (por ejemplo, caminos, ríos, rutas de dispersión, etc.).
 
 [The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks](https://doi.org/10.1111/2041-210X.13350)
 
@@ -288,6 +267,7 @@ ggplot()+
 library(grainscape)
 ```
 
+Se utilizaran los límites administrativos de Honduras mediante la función gadm(), seleccionando el departamento de Francisco Morazán. Luego, esta capa se transforma al mismo sistema de coordenadas que la capa de bosque (BosqueMixto) y se recorta el área de estudio.
 
 ```{r}
 FM <- gadm("Honduras", level= 1, path = tempdir()) %>% 
@@ -300,7 +280,11 @@ FM <- gadm("Honduras", level= 1, path = tempdir()) %>%
 plot(FM)
 
 BosqueMixto_FM <- st_crop(BosqueMixto, FM)
+```
 
+La capa vectorial del bosque recortada se convierte en un objeto SpatVector. A continuación, se genera una plantilla raster con una resolución espacial de 30 metros y se rasteriza la capa de bosque. En este proceso, las celdas correspondientes al bosque reciben el valor 1, mientras que las áreas no boscosas se asignan con el valor 1000.
+
+```{r}
 BosqueMixto_vect <- vect(BosqueMixto_FM)
 
 r_template <- rast(ext(BosqueMixto_vect), resolution = 30, crs = crs(BosqueMixto_vect))
@@ -314,6 +298,8 @@ plot(BosqueMixto_raster)
 
 ```
 
+El raster se reclasifica para representar únicamente la presencia (1) y ausencia de bosque (0). Las celdas con valores NA se asignan como 0.
+
 ```{r}
 
 BosqueMixto_raster[BosqueMixto_raster == 1] <- 1   
@@ -321,6 +307,8 @@ BosqueMixto_raster[BosqueMixto_raster == 1000] <- 0
 
 BosqueMixto_raster[is.na(BosqueMixto_raster)] <- 0
 ```
+
+Para simular variabilidad en la resistencia al movimiento dentro del hábitat boscoso, se generan valores aleatorios entre 0.5 y 1.5 para las celdas de bosque, representando diferentes niveles de facilidad de desplazamiento.
 
 ```{r}
 BosqueMixto_raster_resistencia = BosqueMixto_raster
@@ -330,24 +318,26 @@ mascara_bosque <- BosqueMixto_raster_resistencia == 1
 BosqueMixto_raster_resistencia[mascara_bosque] <- runif(sum(mascara_bosque[], na.rm = TRUE), min = 0.5, max = 1.5)
 ```
 
+Tanto el raster de resistencia como el raster de hábitat se convierten a objetos del paquete raster, compatibles con las funciones del paquete grainscape.
 
 ```{r}
-
 BosqueMixto_raster_resistencia <- as(BosqueMixto_raster_resistencia, "Raster")
 
 BosqueMixto_raster <- as(BosqueMixto_raster, "Raster")
+```
 
-# Compute MPG (Minimum Planar Graph)
+Se calcula el Minimum Planar Graph (MPG) utilizando los rasters de resistencia y de parches (bosques). Este grafo representa la conectividad estructural del paisaje, donde los nodos corresponden a parches de hábitat y los enlaces a las rutas de menor costo entre ellos.
+
+```{r}
 mpg <- MPG(cost = BosqueMixto_raster_resistencia, patch = BosqueMixto_raster)
 
 ```
 
+Finalmente, se grafica el MPG utilizando la función plot() para visualizar la estructura de conectividad del paisaje en el área de estudio.
+
 ```{r}
 plot(mpg@mpgPlot, col = "black")
 ```
-
-
-
 
 :::
 

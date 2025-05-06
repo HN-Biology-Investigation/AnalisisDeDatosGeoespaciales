@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Murillo">
 
-<title>Conectividad ecológica y conectividad genética</title>
+<title>Conectividad ecológica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Conectividad ecológica y conectividad genética</h1>
+<h1 class="title">Conectividad ecológica</h1>
 </div>
 
 
@@ -110,9 +110,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Aunque relacionadas, conectividad ecológica y genética no siempre son equivalentes: un paisaje puede parecer conectado físicamente, pero no garantizar suficiente flujo genético si las especies no logran reproducirse tras moverse.</p>
 <p>Entender y gestionar ambos tipos de conectividad es crucial para diseñar estrategias efectivas de conservación, especialmente en paisajes fragmentados por actividades humanas.</p>
-<div class="panel.tabset">
-<section id="conectividad-del-paisaje---landscapemetrics" class="level2">
-<h2 class="anchored" data-anchor-id="conectividad-del-paisaje---landscapemetrics">Conectividad del paisaje - landscapemetrics</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Conectividad del paisaje - landscapemetrics</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Conectividad ecológica - Makurhini</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Grainscape</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>La conectividad del paisaje es un concepto fundamental en ecología del paisaje y conservación biológica, ya que describe cómo las características espaciales del entorno facilitan o restringen el movimiento de organismos entre hábitats adecuados. Una alta conectividad puede mejorar la dispersión, la colonización, la reproducción y la persistencia de las poblaciones, mientras que una baja conectividad puede aumentar el aislamiento y el riesgo de extinción local.</p>
 <p>En R, el paquete <code>landscapemetrics</code> proporciona una serie de herramientas para cuantificar métricas espaciales a partir de mapas raster categóricos (por ejemplo, uso del suelo o cobertura vegetal). Estas métricas permiten evaluar la estructura y conectividad del paisaje desde una perspectiva cuantitativa.</p>
 <div class="cell">
@@ -129,9 +130,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 1     1 projected     m integer         6  ✔</code></pre>
 </div>
 </div>
-<div class="panel.tabset">
-<section id="conectividad-de-parche" class="level3">
-<h3 class="anchored" data-anchor-id="conectividad-de-parche">Conectividad de parche</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Conectividad de parche</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Distancia Euclidiana al Parche Más Cercano</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Agregación a nivel de clase</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Índice de Aglomeración</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Índice de Cohesión del Parche</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Índice de Agregación</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>La métrica lsm_p_contig() (Índice de contigüidad, o contiguity index) del paquete landscapemetrics es una métrica de forma a nivel de parche, y su propósito principal es cuantificar qué tan compacto o conectado internamente está un parche de hábitat.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_lsm</span>(Yoro, <span class="at">what =</span> <span class="st">"lsm_p_contig"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -164,9 +166,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Medir susceptibilidad a fragmentación: Parches con baja contigüidad podrían fragmentarse más fácilmente con pequeñas perturbaciones.</p></li>
 <li><p>Comparar estructura interna del hábitat en diferentes paisajes o a lo largo del tiempo.</p></li>
 </ul>
-</section>
-<section id="distancia-euclidiana-al-parche-más-cercano" class="level3">
-<h3 class="anchored" data-anchor-id="distancia-euclidiana-al-parche-más-cercano">Distancia Euclidiana al Parche Más Cercano</h3>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>La métrica lsm_p_enn() (Euclidean Nearest-Neighbor Distance, o Distancia Euclidiana al Parche Más Cercano) es una métrica de agregación a nivel de parche, y se utiliza para cuantificar el aislamiento espacial de cada parche con respecto a otros parches de la misma clase de cobertura (por ejemplo, bosque con respecto a otros parches de bosque).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_lsm</span>(Yoro, <span class="at">what =</span> <span class="st">"lsm_p_enn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -197,9 +198,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Identificar parches críticos o vulnerables por aislamiento.</p>
 <p>Diseño de corredores para facilitar la dispersión entre parches.</p>
 <p>Seguimiento del efecto de la fragmentación del hábitat a lo largo del tiempo.</p>
-</section>
-<section id="agregación-a-nivel-de-clase" class="level3">
-<h3 class="anchored" data-anchor-id="agregación-a-nivel-de-clase">Agregación a nivel de clase</h3>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <p>La métrica lsm_c_ai() corresponde al Índice de Agregación (Aggregation Index, AI) a nivel de clase, y es una métrica muy útil para cuantificar qué tan agrupados (o dispersos) están los parches de una clase de cobertura específica (por ejemplo, bosque, pastizal, cultivo) en un paisaje.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_lsm</span>(Yoro, <span class="at">what =</span> <span class="st">"lsm_c_ai"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -222,9 +222,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>¿Cómo se interpreta?</p>
 <p>El resultado se expresa en porcentaje (0 a 100).</p>
 <p>≈ 0 La clase está totalmente fragmentada o dispersa ≈ 100 La clase está totalmente agregada o continua</p>
-</section>
-<section id="índice-de-aglomeración" class="level3">
-<h3 class="anchored" data-anchor-id="índice-de-aglomeración">Índice de Aglomeración</h3>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <p>La métrica lsm_c_clumpy() corresponde al Índice de Aglomeración (Clumpiness Index, CLUMPY) a nivel de clase, y es una de las métricas más robustas para evaluar la estructura espacial de la agregación de una clase de cobertura en el paisaje.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_lsm</span>(Yoro, <span class="at">what =</span> <span class="st">"lsm_c_clumpy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -268,9 +267,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</section>
-<section id="índice-de-cohesión-del-parche" class="level3">
-<h3 class="anchored" data-anchor-id="índice-de-cohesión-del-parche">Índice de Cohesión del Parche</h3>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
 <p>La métrica lsm_c_cohesion() mide el Índice de Cohesión del Parche (Patch Cohesion Index, COHESION) a nivel de clase y se utiliza para cuantificar la conectividad física de los parches de una clase en el paisaje.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_lsm</span>(Yoro, <span class="at">what =</span> <span class="st">"lsm_c_cohesion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -311,9 +309,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</section>
-<section id="índice-de-agregación" class="level3">
-<h3 class="anchored" data-anchor-id="índice-de-agregación">Índice de Agregación</h3>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
 <p>La métrica lsm_l_ai() calcula el Índice de Agregación (Aggregation Index, AI) a nivel de paisaje completo (landscape level) y es otra métrica que describe la configuración espacial de las clases en el paisaje, específicamente cuán agrupadas o dispersas están las celdas de cada clase.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_lsm</span>(Yoro, <span class="at">what =</span> <span class="st">"lsm_l_ai"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -349,11 +346,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</section>
 </div>
-</section>
-<section id="conectividad-ecológica---makurhini" class="level2">
-<h2 class="anchored" data-anchor-id="conectividad-ecológica---makurhini">Conectividad ecológica - Makurhini</h2>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <p><a href="https://connectscape.github.io/Makurhini/">Makurhini</a> es un paquete de R diseñado para facilitar el análisis detallado de fragmentación y conectividad del paisaje, dos procesos clave en la conservación de la biodiversidad. El nombre Makurhini proviene de una palabra indígena purépecha que significa “camino” o “conexión”, reflejando el enfoque del paquete en los flujos ecológicos entre fragmentos de hábitat.</p>
 <p>Makurhini permite:</p>
 <ul>
@@ -410,7 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   |                                                                      |   0%</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■■■■■             67% |  ETA:  2s</code></pre>
+<pre><code> ■■■■■■■■■■■■■■■■■■■■              62% |  ETA:  2s</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -418,7 +415,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   |==================                                                    |  25%</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% |  ETA:  1s</code></pre>
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■           72% |  ETA:  1s</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -426,7 +423,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   |===================================                                   |  50%</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■                   45% |  ETA:  2s</code></pre>
+<pre><code> ■■■■■■■■■■                        29% |  ETA:  3s</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■         79% |  ETA:  1s</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -434,7 +434,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   |====================================================                  |  75%</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■■■■              65% |  ETA:  2s</code></pre>
+<pre><code> ■■■■■■■■■■■                       32% |  ETA:  3s</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■      90% |  ETA:  0s</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -447,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>Done!</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PC_BM<span class="sc">$</span>d20000[<span class="st">"dPC"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PC_BM<span class="sc">$</span>d20000[<span class="st">"dPC"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -457,7 +460,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PC_BM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(PC_BM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$d250
 Simple feature collection with 253 features and 6 fields
@@ -586,42 +589,14 @@ First 10 features:
 <li><p>dPCflux: Representa el flujo de conectividad directa con otros parches. Si este valor es 0, el parche no tiene conexiones directas dentro del umbral de dispersión.</p></li>
 <li><p>dPCconnector: Mide el valor del parche como puente entre otros. Un valor alto indica que el parche sirve como paso intermedio para conectar otros parches que de otra forma estarían aislados.</p></li>
 </ul>
-</section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>SETCHR <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/ebd_HN_gchwar_201701_201912_smp_relAug-2023.txt"</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>SETCHR1 <span class="ot">&lt;-</span> SETCHR <span class="sc">%&gt;%</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Observaciones"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION COUNT</span><span class="st">`</span>,</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Fecha"</span> <span class="ot">=</span> <span class="st">`</span><span class="at">OBSERVATION DATE</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Observaciones =</span> <span class="fu">as.numeric</span>(Observaciones)) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Observaciones <span class="sc">&lt;</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">year</span>(Fecha)) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="st">"2018"</span> <span class="sc">|</span> Year <span class="sc">==</span> <span class="st">"2019"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Year, Fecha, Observaciones, LONGITUDE, LATITUDE)</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>puntos_sf <span class="ot">&lt;-</span> SETCHR1 <span class="sc">%&gt;%</span> </span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"LONGITUDE"</span>, <span class="st">"LATITUDE"</span>),</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>puntos_sf_wgs84 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(puntos_sf, <span class="at">crs =</span> <span class="fu">st_crs</span>(BosqueMixto))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span> BosqueMixto) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> puntos_sf_wgs84)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Conectividad_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="grainscape" class="level1">
-<h1>Grainscape</h1>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>El paquete grainscape permite modelar y visualizar la conectividad del paisaje mediante redes espaciales explícitas, basadas en grafos. Esta herramienta resulta útil para analizar la fragmentación del hábitat, el movimiento de especies, la identificación de corredores ecológicos y el diseño de estrategias de conservación.</p>
+<p>Un grafo es una estructura matemática que se utiliza para modelar relaciones o conexiones entre objetos. En términos simples, un grafo está compuesto por:</p>
+<ul>
+<li><p>Nodos (o vértices): representan los objetos o entidades (por ejemplo, parches de hábitat, ciudades, personas, etc.).</p></li>
+<li><p>Aristas (o enlaces): representan las conexiones o relaciones entre los nodos (por ejemplo, caminos, ríos, rutas de dispersión, etc.).</p></li>
+</ul>
 <p><a href="https://doi.org/10.1111/2041-210X.13350">The r toolbox grainscape for modelling and visualizing landscape connectivity using spatially explicit networks</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grainscape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -635,6 +610,7 @@ Attaching package: 'grainscape'</code></pre>
     distance</code></pre>
 </div>
 </div>
+<p>Se utilizaran los límites administrativos de Honduras mediante la función gadm(), seleccionando el departamento de Francisco Morazán. Luego, esta capa se transforma al mismo sistema de coordenadas que la capa de bosque (BosqueMixto) y se recorta el área de estudio.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>FM <span class="ot">&lt;-</span> <span class="fu">gadm</span>(<span class="st">"Honduras"</span>, <span class="at">level=</span> <span class="dv">1</span>, <span class="at">path =</span> <span class="fu">tempdir</span>()) <span class="sc">%&gt;%</span> </span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>() <span class="sc">%&gt;%</span> </span>
@@ -647,53 +623,60 @@ Attaching package: 'grainscape'</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Conectividad_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_FM <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(BosqueMixto, FM)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>BosqueMixto_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(BosqueMixto_FM)</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>r_template <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">ext</span>(BosqueMixto_vect), <span class="at">resolution =</span> <span class="dv">30</span>, <span class="at">crs =</span> <span class="fu">crs</span>(BosqueMixto_vect))</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(BosqueMixto_vect, </span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                                r_template, </span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>                                <span class="at">field =</span> <span class="dv">1</span>, </span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">background =</span> <span class="dv">1000</span>)</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(BosqueMixto_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_FM <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(BosqueMixto, FM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La capa vectorial del bosque recortada se convierte en un objeto SpatVector. A continuación, se genera una plantilla raster con una resolución espacial de 30 metros y se rasteriza la capa de bosque. En este proceso, las celdas correspondientes al bosque reciben el valor 1, mientras que las áreas no boscosas se asignan con el valor 1000.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(BosqueMixto_FM)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>r_template <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">ext</span>(BosqueMixto_vect), <span class="at">resolution =</span> <span class="dv">30</span>, <span class="at">crs =</span> <span class="fu">crs</span>(BosqueMixto_vect))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(BosqueMixto_vect, </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                                r_template, </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                                <span class="at">field =</span> <span class="dv">1</span>, </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                                <span class="at">background =</span> <span class="dv">1000</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(BosqueMixto_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Conectividad_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Conectividad_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>El raster se reclasifica para representar únicamente la presencia (1) y ausencia de bosque (0). Las celdas con valores NA se asignan como 0.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[BosqueMixto_raster <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>   </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[BosqueMixto_raster <span class="sc">==</span> <span class="dv">1000</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>  </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[<span class="fu">is.na</span>(BosqueMixto_raster)] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[BosqueMixto_raster <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>   </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[BosqueMixto_raster <span class="sc">==</span> <span class="dv">1000</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>  </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster[<span class="fu">is.na</span>(BosqueMixto_raster)] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Para simular variabilidad en la resistencia al movimiento dentro del hábitat boscoso, se generan valores aleatorios entre 0.5 y 1.5 para las celdas de bosque, representando diferentes niveles de facilidad de desplazamiento.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia <span class="ot">=</span> BosqueMixto_raster</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>mascara_bosque <span class="ot">&lt;-</span> BosqueMixto_raster_resistencia <span class="sc">==</span> <span class="dv">1</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia[mascara_bosque] <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">sum</span>(mascara_bosque[], <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia <span class="ot">&lt;-</span> <span class="fu">as</span>(BosqueMixto_raster_resistencia, <span class="st">"Raster"</span>)</span>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia <span class="ot">=</span> BosqueMixto_raster</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(BosqueMixto_raster, <span class="st">"Raster"</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>mascara_bosque <span class="ot">&lt;-</span> BosqueMixto_raster_resistencia <span class="sc">==</span> <span class="dv">1</span></span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute MPG (Minimum Planar Graph)</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>mpg <span class="ot">&lt;-</span> <span class="fu">MPG</span>(<span class="at">cost =</span> BosqueMixto_raster_resistencia, <span class="at">patch =</span> BosqueMixto_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia[mascara_bosque] <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">sum</span>(mascara_bosque[], <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">min =</span> <span class="fl">0.5</span>, <span class="at">max =</span> <span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Tanto el raster de resistencia como el raster de hábitat se convierten a objetos del paquete raster, compatibles con las funciones del paquete grainscape.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpg<span class="sc">@</span>mpgPlot, <span class="at">col =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster_resistencia <span class="ot">&lt;-</span> <span class="fu">as</span>(BosqueMixto_raster_resistencia, <span class="st">"Raster"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>BosqueMixto_raster <span class="ot">&lt;-</span> <span class="fu">as</span>(BosqueMixto_raster, <span class="st">"Raster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Se calcula el Minimum Planar Graph (MPG) utilizando los rasters de resistencia y de parches (bosques). Este grafo representa la conectividad estructural del paisaje, donde los nodos corresponden a parches de hábitat y los enlaces a las rutas de menor costo entre ellos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>mpg <span class="ot">&lt;-</span> <span class="fu">MPG</span>(<span class="at">cost =</span> BosqueMixto_raster_resistencia, <span class="at">patch =</span> BosqueMixto_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finalmente, se grafica el MPG utilizando la función plot() para visualizar la estructura de conectividad del paisaje en el área de estudio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpg<span class="sc">@</span>mpgPlot, <span class="at">col =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -702,7 +685,8 @@ Attaching package: 'grainscape'</code></pre>
 </div>
 </div>
 </div>
-</section>
+</div>
+</div>
 </div>
 <p><a href="HN%20Cursos%20publicidad/HN%20Biology%20Inv%20large.jpg">HN Biology Investigation Academy</a></p>
 
