@@ -17,6 +17,163 @@ Entender y gestionar ambos tipos de conectividad es crucial para diseñar estrat
 
 ::: panel.tabset
 
+## Conectividad del paisaje - landscapemetrics
+
+La conectividad del paisaje es un concepto fundamental en ecología del paisaje y conservación biológica, ya que describe cómo las características espaciales del entorno facilitan o restringen el movimiento de organismos entre hábitats adecuados. Una alta conectividad puede mejorar la dispersión, la colonización, la reproducción y la persistencia de las poblaciones, mientras que una baja conectividad puede aumentar el aislamiento y el riesgo de extinción local.
+
+En R, el paquete `landscapemetrics` proporciona una serie de herramientas para cuantificar métricas espaciales a partir de mapas raster categóricos (por ejemplo, uso del suelo o cobertura vegetal). Estas métricas permiten evaluar la estructura y conectividad del paisaje desde una perspectiva cuantitativa.
+
+```{r, message=FALSE, warning=FALSE}
+
+library(landscapemetrics)
+library(terra)
+```
+
+```{r}
+Yoro <- rast("data/ClasificacionYoro.tif")
+```
+
+```{r}
+check_landscape(Yoro)
+```
+
+::: panel.tabset
+
+### Conectividad de parche
+
+La métrica lsm_p_contig() (Índice de contigüidad, o contiguity index) del paquete landscapemetrics es una métrica de forma a nivel de parche, y su propósito principal es cuantificar qué tan compacto o conectado internamente está un parche de hábitat.
+
+```{r}
+calculate_lsm(Yoro, what = "lsm_p_contig")
+```
+
+Evaluar la forma interna de los parches: Indica cuán contiguas (es decir, agrupadas y sin perforaciones o ramificaciones) están las celdas dentro de un parche.
+
+Identificar parches bien conectados internamente:
+
+- Valores altos de CONTIG indican que las celdas de un parche están fuertemente conectadas, formando formas más compactas o cuadradas.
+
+- Valores bajos indican formas más alargadas, fragmentadas o ramificadas internamente.
+
+Aplicaciones ecológicas:
+
+- Evaluar calidad del hábitat: Parches con mayor contigüidad pueden ofrecer condiciones más estables y seguras para ciertas especies (p. ej., menos borde).
+
+- Medir susceptibilidad a fragmentación: Parches con baja contigüidad podrían fragmentarse más fácilmente con pequeñas perturbaciones.
+
+- Comparar estructura interna del hábitat en diferentes paisajes o a lo largo del tiempo.
+
+### Distancia Euclidiana al Parche Más Cercano
+
+La métrica lsm_p_enn() (Euclidean Nearest-Neighbor Distance, o Distancia Euclidiana al Parche Más Cercano) es una métrica de agregación a nivel de parche, y se utiliza para cuantificar el aislamiento espacial de cada parche con respecto a otros parches de la misma clase de cobertura (por ejemplo, bosque con respecto a otros parches de bosque).
+
+```{r}
+calculate_lsm(Yoro, what = "lsm_p_enn")
+```
+
+¿Para qué es útil la métrica ENN?
+
+Medir el aislamiento de los parches:
+
+Calcula la distancia más corta (borde a borde) desde un parche hasta el parche más cercano de la misma clase.
+
+ENN bajo: el parche está cerca de otros parches similares (alta agregación).
+
+ENN alto: el parche está aislado (baja conectividad estructural).
+
+Aplicaciones ecológicas:
+
+Evaluar conectividad estructural entre hábitats similares.
+
+Identificar parches críticos o vulnerables por aislamiento.
+
+Diseño de corredores para facilitar la dispersión entre parches.
+
+Seguimiento del efecto de la fragmentación del hábitat a lo largo del tiempo.
+
+### Agregación a nivel de clase
+
+La métrica lsm_c_ai() corresponde al Índice de Agregación (Aggregation Index, AI) a nivel de clase, y es una métrica muy útil para cuantificar qué tan agrupados (o dispersos) están los parches de una clase de cobertura específica (por ejemplo, bosque, pastizal, cultivo) en un paisaje.
+
+```{r}
+calculate_lsm(Yoro, what = "lsm_c_ai")
+```
+¿Para qué es útil el Aggregation Index (AI)?
+
+Evalúa la proximidad y contigüidad de celdas que pertenecen a una misma clase.
+
+Permite comparar cómo de agregados están los parches de una categoría en diferentes paisajes o escenarios (e.g., antes y después de la deforestación).
+
+Es útil para estudios de fragmentación, planificación de conectividad ecológica y gestión del uso del suelo.
+
+¿Cómo se interpreta?
+
+El resultado se expresa en porcentaje (0 a 100).
+
+≈ 0	La clase está totalmente fragmentada o dispersa
+≈ 100	La clase está totalmente agregada o continua
+
+### Índice de Aglomeración
+
+La métrica lsm_c_clumpy() corresponde al Índice de Aglomeración (Clumpiness Index, CLUMPY) a nivel de clase, y es una de las métricas más robustas para evaluar la estructura espacial de la agregación de una clase de cobertura en el paisaje.
+
+```{r}
+calculate_lsm(Yoro, what = "lsm_c_clumpy")
+```
+¿Qué mide CLUMPY?
+
+CLUMPY mide qué tan agrupadas están las celdas de una clase (por ejemplo, bosque, cultivo, pastizal) comparado con una distribución aleatoria. A diferencia del AI, CLUMPY toma en cuenta el área total ocupada por la clase, lo que permite comparaciones más estandarizadas entre clases.
+
+| Valor CLUMPY | Interpretación                                             |
+| ------------ | ---------------------------------------------------------- |
+| **= 1**      | Máxima agregación posible (todas las celdas están juntas)  |
+| **≈ 0**      | Distribución aleatoria                                     |
+| **= -1**     | Máxima disgregación (la clase está completamente dispersa) |
+
+
+### Índice de Cohesión del Parche
+
+La métrica lsm_c_cohesion() mide el Índice de Cohesión del Parche (Patch Cohesion Index, COHESION) a nivel de clase y se utiliza para cuantificar la conectividad física de los parches de una clase en el paisaje.
+
+```{r}
+calculate_lsm(Yoro, what = "lsm_c_cohesion")
+```
+
+
+¿Qué mide COHESION?
+
+COHESION evalúa qué tan físicamente conectados están los parches de una clase. No mide solamente cuán cercanos o adyacentes están, sino cuánto contribuye su forma y tamaño a mantener la clase conectada. Es sensible a la configuración espacial y a la fragmentación del paisaje.
+
+Rango e interpretación
+
+| Valor de COHESION | Interpretación                                         |
+| ----------------- | ------------------------------------------------------ |
+| Cercano a **0**   | Los parches están altamente fragmentados y aislados    |
+| Cercano a **100** | Los parches están altamente conectados (más cohesivos) |
+
+
+### Índice de Agregación
+
+La métrica lsm_l_ai() calcula el Índice de Agregación (Aggregation Index, AI) a nivel de paisaje completo (landscape level) y es otra métrica que describe la configuración espacial de las clases en el paisaje, específicamente cuán agrupadas o dispersas están las celdas de cada clase.
+
+```{r}
+calculate_lsm(Yoro, what = "lsm_l_ai")
+```
+¿Qué mide AI?
+
+El Índice de Agregación (AI) mide la frecuencia con que las celdas de la misma clase están adyacentes entre sí, en relación con el número máximo teórico de adyacencias posibles para esa clase. Es un indicador general del grado de agrupamiento de las clases en el paisaje.
+
+
+Rango e interpretación
+
+| Valor de AI | Interpretación                                          |
+| ----------- | ------------------------------------------------------- |
+| **0**       | Máxima desagregación (celdas de la clase muy dispersas) |
+| **100**     | Máxima agregación (celdas de la clase muy agrupadas)    |
+
+
+:::
+
 ## Conectividad ecológica - Makurhini
 
 [Makurhini](https://connectscape.github.io/Makurhini/) es un paquete de R diseñado para facilitar el análisis detallado de fragmentación y conectividad del paisaje, dos procesos clave en la conservación de la biodiversidad. El nombre Makurhini proviene de una palabra indígena purépecha que significa "camino" o "conexión", reflejando el enfoque del paquete en los flujos ecológicos entre fragmentos de hábitat.
@@ -191,9 +348,6 @@ plot(mpg@mpgPlot, col = "black")
 
 
 
-# Conectividad genetica
-
-Proximamente
 
 :::
 
