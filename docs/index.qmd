@@ -39,7 +39,7 @@ format:
 
 [Clase 8: Análisis de integración ecológica](Integracion.html)
 
-[Clase 9: Conectividad ecológica y conectividad genética](Conectividad.html)
+[Clase 9: Conectividad ecológica](Conectividad.html)
 
 [Clase 10: Análisis Espaciotemporal de Cambios en el Paisaje](LandscapeChanges.html)
 
