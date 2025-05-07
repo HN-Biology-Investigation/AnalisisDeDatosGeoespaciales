@@ -5,3 +5,162 @@ format: html
 editor: visual
 ---
 
+El análisis espaciotemporal de cambios en el paisaje es una herramienta fundamental en estudios ambientales, ecológicos y de planificación territorial. Este enfoque permite identificar, cuantificar y entender cómo varían las coberturas y usos del suelo a lo largo del tiempo y el espacio, lo cual es clave para evaluar los impactos de actividades humanas, el avance de la frontera agrícola, la deforestación, la fragmentación del hábitat, o los procesos de restauración ecológica.
+
+Una de las herramientas más utilizadas para este tipo de análisis es el Índice de Vegetación de Diferencia Normalizada (NDVI, por sus siglas en inglés). El NDVI es un indicador basado en datos satelitales que mide la "verdor" o actividad fotosintética de la vegetación, a partir de la reflectancia en las bandas del infrarrojo cercano (NIR) y el rojo (RED) del espectro electromagnético. Valores altos de NDVI indican vegetación densa y saludable, mientras que valores bajos pueden reflejar áreas urbanizadas, cuerpos de agua o suelos desnudos.
+
+::: panel-tabset
+
+## Carga de capas satelitales
+
+Se utilizarán imágenes satelitales Landsat 8 correspondientes a los años 2014 a 2024. Específicamente, se seleccionarán las bandas 4 (rojo) y 5 (infrarrojo cercano, NIR) de cada año, que son esenciales para el cálculo del NDVI (Índice de Vegetación de Diferencia Normalizada). Las imágenes serán importadas como objetos raster utilizando el paquete terra.
+
+
+```{r}
+library(terra)
+
+b4_2014 <- rast("data/Landscape/2014_land/LC08_L1TP_018050_20140123_20200912_02_T1_B4.TIF")
+b5_2014 <- rast("data/Landscape/2014_land/LC08_L1TP_018050_20140123_20200912_02_T1_B5.TIF")
+
+b4_2015 <- rast("data/Landscape/2015_land/LC08_L1TP_018050_20151228_20200908_02_T1_B4.TIF")
+b5_2015 <- rast("data/Landscape/2015_land/LC08_L1TP_018050_20151228_20200908_02_T1_B5.TIF")
+
+b4_2016 <- rast("data/Landscape/2016_land/LC08_L1TP_018050_20161011_20200905_02_T1_B4.TIF")
+b5_2016 <- rast("data/Landscape/2016_land/LC08_L1TP_018050_20161011_20200905_02_T1_B5.TIF")
+
+b4_2017 <- rast("data/Landscape/2017_land/LC08_L1TP_018050_20170827_20200903_02_T1_B4.TIF")
+b5_2017 <- rast("data/Landscape/2017_land/LC08_L1TP_018050_20170827_20200903_02_T1_B5.TIF")
+
+b4_2018 <- rast("data/Landscape/2018_land/LC08_L1TP_018050_20180219_20200902_02_T1_B4.TIF")
+b5_2018 <- rast("data/Landscape/2018_land/LC08_L1TP_018050_20180219_20200902_02_T1_B5.TIF")
+
+b4_2019 <- rast("data/Landscape/2019_land/LC08_L1TP_018050_20190310_20200829_02_T1_B4.TIF")
+b5_2019 <- rast("data/Landscape/2019_land/LC08_L1TP_018050_20190310_20200829_02_T1_B5.TIF")
+
+b4_2020 <- rast("data/Landscape/2020_land/LC08_L1TP_018050_20200209_20200823_02_T1_B4.TIF")
+b5_2020 <- rast("data/Landscape/2020_land/LC08_L1TP_018050_20200209_20200823_02_T1_B5.TIF")
+
+b4_2021 <- rast("data/Landscape/2021_land/LC08_L1TP_018050_20210227_20210227_02_T1_B4.TIF")
+b5_2021 <- rast("data/Landscape/2021_land/LC08_L1TP_018050_20210227_20210227_02_T1_B5.TIF")
+
+b4_2022 <- rast("data/Landscape/2022_land/LC09_L1TP_018050_20220105_20230502_02_T1_B4.TIF")
+b5_2022 <- rast("data/Landscape/2022_land/LC09_L1TP_018050_20220105_20230502_02_T1_B5.TIF")
+
+b4_2023 <- rast("data/Landscape/2023_land/LC08_L1TP_018050_20231202_20231209_02_T1_B4.TIF")
+b5_2023 <- rast("data/Landscape/2023_land/LC08_L1TP_018050_20231202_20231209_02_T1_B5.TIF")
+
+b4_2024 <- rast("data/Landscape/2024_land/LC08_L1TP_018050_20240830_20240906_02_T1_B4.TIF")
+b5_2024 <- rast("data/Landscape/2024_land/LC08_L1TP_018050_20240830_20240906_02_T1_B5.TIF")
+```
+
+## Cálculo del NDVI
+
+Para cada año, se calcula el NDVI con la fórmula estándar:
+
+$$NDVI = (b5 - b4) / (b5 + b4)$$
+
+Este índice permite estimar la densidad y la salud de la vegetación. Los valores altos indican vegetación densa (como los bosques), mientras que los valores bajos o negativos indican poca o ninguna vegetación.
+
+```{r}
+ndvi2014 <- (b5_2014 - b4_2014) / (b5_2014 + b4_2014)
+ndvi2015 <- (b5_2015 - b4_2015) / (b5_2015 + b4_2015)
+ndvi2016 <- (b5_2016 - b4_2016) / (b5_2016 + b4_2016)
+ndvi2017 <- (b5_2017 - b4_2017) / (b5_2017 + b4_2017)
+ndvi2018 <- (b5_2018 - b4_2018) / (b5_2018 + b4_2018)
+ndvi2019 <- (b5_2019 - b4_2019) / (b5_2019 + b4_2019)
+ndvi2020 <- (b5_2020 - b4_2020) / (b5_2020 + b4_2020)
+ndvi2021 <- (b5_2021 - b4_2021) / (b5_2021 + b4_2021)
+ndvi2022 <- (b5_2022 - b4_2022) / (b5_2022 + b4_2022)
+ndvi2023 <- (b5_2023 - b4_2023) / (b5_2023 + b4_2023)
+ndvi2024 <- (b5_2024 - b4_2024) / (b5_2024 + b4_2024)
+```
+
+## Reclasificación del NDVI
+
+Los mapas de NDVI generados serán reclasificados en tres categorías mediante una matriz de reclasificación:
+
+- Valores menores a 0.2 se consideran como "Sin vegetación" (clase 1).
+
+- Valores entre 0.2 y 0.5 serán clasificados como "Vegetación rala" (clase 2).
+
+- Valores mayores a 0.5 se consideran como "Bosque o zona boscosa" (clase 3).
+
+Esta reclasificación permite distinguir claramente las áreas con cobertura boscosa de otros tipos de cobertura.
+
+
+
+```{r}
+reclass_matrix <- matrix(c(
+  -Inf, 0.2, 1,  # 1 = No vegetación
+   0.2, 0.5, 2,  # 2 = Vegetación rala
+   0.5, Inf, 3   # 3 = Bosque o zona boscosa
+), ncol = 3, byrow = TRUE)
+
+
+ndvi_2014 <- classify(ndvi2014, reclass_matrix)
+ndvi_2015 <- classify(ndvi2015, reclass_matrix)
+ndvi_2016 <- classify(ndvi2016, reclass_matrix)
+ndvi_2017 <- classify(ndvi2017, reclass_matrix)
+ndvi_2018 <- classify(ndvi2018, reclass_matrix)
+ndvi_2019 <- classify(ndvi2019, reclass_matrix)
+ndvi_2020 <- classify(ndvi2020, reclass_matrix)
+ndvi_2021 <- classify(ndvi2021, reclass_matrix)
+ndvi_2022 <- classify(ndvi2022, reclass_matrix)
+ndvi_2023 <- classify(ndvi2023, reclass_matrix)
+ndvi_2024 <- classify(ndvi2024, reclass_matrix)
+```
+
+## Cuantificación de la cobertura boscosa
+
+Se utiliza la métrica lsm_c_pland del paquete landscapemetrics, la cual calcula el porcentaje del paisaje ocupado por cada clase de cobertura. Esta métrica se aplicó a cada raster reclasificado, enfocándose especialmente en la clase 3 (bosque). El resultado fue una tabla por año con el porcentaje del paisaje cubierto por bosque.
+
+```{r}
+library(landscapemetrics)
+
+Bosque_2014 <- calculate_lsm(ndvi_2014, what = "lsm_c_pland")
+Bosque_2015 <- calculate_lsm(ndvi_2015, what = "lsm_c_pland")
+Bosque_2016 <- calculate_lsm(ndvi_2016, what = "lsm_c_pland")
+Bosque_2017 <- calculate_lsm(ndvi_2017, what = "lsm_c_pland")
+Bosque_2018 <- calculate_lsm(ndvi_2018, what = "lsm_c_pland")
+Bosque_2019 <- calculate_lsm(ndvi_2019, what = "lsm_c_pland")
+Bosque_2020 <- calculate_lsm(ndvi_2020, what = "lsm_c_pland")
+Bosque_2021 <- calculate_lsm(ndvi_2021, what = "lsm_c_pland")
+Bosque_2022 <- calculate_lsm(ndvi_2022, what = "lsm_c_pland")
+Bosque_2023 <- calculate_lsm(ndvi_2023, what = "lsm_c_pland")
+Bosque_2024 <- calculate_lsm(ndvi_2024, what = "lsm_c_pland")
+
+```
+
+## Modelado del cambio temporal en la cobertura
+
+Se extraen los valores anuales de cobertura boscosa (clase 3) y se unifican en una sola base de datos. Luego, se agrega una columna que representa el año correspondiente a cada medición. Finalmente, se ajusta un modelo lineal para evaluar la tendencia de cambio en la cobertura boscosa a lo largo del tiempo.
+
+Este modelo permite determinar si hubo una tendencia significativa de pérdida o ganancia de bosque entre 2014 y 2024.
+
+```{r}
+Bosque <- rbind(subset(Bosque_2014, class == "3"),
+                subset(Bosque_2015, class == "3"),
+                subset(Bosque_2016, class == "3"),
+                subset(Bosque_2017, class == "3"),
+                subset(Bosque_2018, class == "3"),
+                subset(Bosque_2019, class == "3"),
+                subset(Bosque_2020, class == "3"),
+                subset(Bosque_2021, class == "3"),
+                subset(Bosque_2022, class == "3"),
+                subset(Bosque_2023, class == "3"),
+                subset(Bosque_2024, class == "3"))
+```
+
+
+```{r}
+Bosque$year <- 2014:2024
+
+Modelo <- lm(value ~ year, data= Bosque)
+summary(Modelo)
+```
+
+
+:::
+
+
+![HN Biology Investigation Academy](HN Cursos publicidad/HN Biology Inv large.jpg)
